@@ -1,0 +1,32 @@
+use crate::ast::Operand;
+
+
+grammar;
+
+
+pub Recipe: Operand = {
+    "<" <Operand> ">" => <>,
+}
+
+Operand: Operand = {
+    <Ingredient> => Operand::Ingredient(<>),
+    <o:Operand> <s:UnaryOperator> => Operand::UnaryOp(Box::new(o), s),
+    <l:Operand> <r:Operand> <s:BinaryOperator> => Operand::BinaryOp(Box::new(l), Box::new(r), s),
+}
+
+UnaryOperator: String = {
+    "=" <Sentence> => <>
+}
+
+BinaryOperator: String = {
+    "#" <Sentence> => <>
+}
+
+Ingredient: String = {
+    "*" <Sentence> => <>
+}
+
+
+Sentence: String = {
+    r"[\w\./ ]+" => <>.trim().to_string()
+}
