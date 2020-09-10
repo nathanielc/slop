@@ -1,4 +1,3 @@
-
 extern crate lalrpop;
 
 fn main() {

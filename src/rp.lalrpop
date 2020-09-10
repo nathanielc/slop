@@ -28,5 +28,5 @@ Ingredient: String = {
 
 
 Sentence: String = {
-    r"[\w\./ ]+" => <>.trim().to_string()
+    r"[^*#=<>]+" => <>.trim().to_string()
 }
