@@ -11,11 +11,14 @@ const char_width: i32 = 12;
 const x_margin: i32 = 20;
 const y_margin: i32 = 20;
 
-pub fn to_svg(op: semantic::Operand) {
+pub fn to_svg(op: semantic::Operand) ->Vec<u8> {
     let max_ing_width = compute_max_ing_width(&op);
     let doc = build_doc(op, max_ing_width);
 
-    svg::save("image.svg", &doc).unwrap();
+    let mut out :Vec<u8>= Vec::new();
+
+    svg::write(&mut out, &doc).unwrap();
+    out
 }
 
 fn compute_max_ing_width(op: &semantic::Operand) -> i32 {

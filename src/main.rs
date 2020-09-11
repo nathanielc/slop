@@ -1,47 +1,35 @@
+// Initialize rocket crate
+#![feature(proc_macro_hygiene, decl_macro)]
+#[macro_use] extern crate rocket;
+
+// Bring in generated parser for rp
 #[macro_use]
 extern crate lalrpop_util;
 lalrpop_mod!(rp);
 
+use std::fs;
+use std::path::{Path,PathBuf};
+use rocket::response::content::Content;
+use rocket::http::ContentType;
+
+// Local modules
 mod ast;
-#[cfg(test)]
-mod rp_test;
 mod semantic;
 mod svg;
+#[cfg(test)]
+mod rp_test;
+
+
+#[get("/recipe/card/<name..>")]
+fn recipe_card(name: PathBuf) -> Content<Vec<u8>> {
+    let mut filepath = Path::new("recipes/").join(name);
+        filepath.set_extension("rp");
+    let contents = fs::read_to_string(filepath).expect("Something went wrong reading the file");
+    let ast = rp::RecipeParser::new().parse(&contents).unwrap();
+    let sem = semantic::convert_graph(ast);
+    Content(ContentType::SVG,svg::to_svg(sem))
+}
 
 fn main() {
-    let recipe = "<
-*10L milk =heat to 32C/90F
-*nonchlorinated cool water
-*1/8 (0.6ml) tspn calcium chloride #dilute #stir in
-*1/8 tspn MA40001 mesophillic #sprinkle on top
-*1/8 tspn M030 mesophillic #sprinkle on top =rehydrate for 5m =stir top to bottom =cover allow to ripen for 30m
-*nonchlorinated cool water
-*1 tspn single strength rennet #dilute #stir for no more than 1m =cover and set for 40m wait longer if needed to get clean break
-    =cut curds into 1cm(1/2in) cubes =cover allow to heal for 5m =gently stir, cut any large curds that you see =stir for 40m increasing to 33C/91.4F
-    =allow curds to settle for 5m =drain curds through cheese cloth lined collander for 5m keep the whey =remove from cheese cloth keep in collander for 5m
-*whey =heat to 33C/91F #place colander over whey =cut curd into 5m/2in slabs and stack on top of each other =drain 10m =restack and drain for 10m
-    =break into thumbnail sized pieces into pot
-*2 tablespoons cheese salt #mill gently with clean hands =place into cheese mould =press at 5kg/11lbs for 10m =remove from press gently
-*~2 tablespoons cheese salt #sprinkle on top and bottom =press at 5kg/11lbs for 10m
-*~2 tablespoons cheese salt #sprinkle on top and bottom =press at 10kg/22lbs for 20m
-*~2 tablespoons cheese salt #sprinkle on top and bottom =press at 10kg/22lbs for 16h
-    =remove and trim off any excess
-    =air dry for about 3d turning every ~6h or until touch dry
-    =ripen at 13C/55F for 3w turning twice a week =brine wash once a week to prevent extra mold growth
->";
-//        let recipe = "<
-//*butter =soften
-//*sugar
-//*brown sugar #+
-//*vanilla #+ #beat
-//*eggs # beat one at a time
-//*flour
-//*soda #+
-//*salt #mix #beat slowly
-//*chocolate chips
-//*chopped nuts #+ #stir =form into balls =bake 375F 10m
-//>";
-    let ast = rp::RecipeParser::new().parse(recipe).unwrap();
-    let sem = semantic::convert_graph(ast);
-    svg::to_svg(sem);
+    rocket::ignite().mount("/", routes![recipe_card]).launch();
 }
