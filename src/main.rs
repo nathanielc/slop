@@ -5,6 +5,7 @@ lalrpop_mod!(rp);
 mod ast;
 #[cfg(test)]
 mod rp_test;
+mod semantic;
 mod svg;
 
 fn main() {
@@ -28,6 +29,19 @@ fn main() {
     =air dry for about 3d turning every ~6h or until touch dry
     =ripen at 13C/55F for 3w turning twice a week =brine wash once a week to prevent extra mold growth
 >";
+//        let recipe = "<
+//*butter =soften
+//*sugar
+//*brown sugar #+
+//*vanilla #+ #beat
+//*eggs # beat one at a time
+//*flour
+//*soda #+
+//*salt #mix #beat slowly
+//*chocolate chips
+//*chopped nuts #+ #stir =form into balls =bake 375F 10m
+//>";
     let ast = rp::RecipeParser::new().parse(recipe).unwrap();
-    svg::to_svg(ast);
+    let sem = semantic::convert_graph(ast);
+    svg::to_svg(sem);
 }

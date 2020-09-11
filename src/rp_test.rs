@@ -67,6 +67,69 @@ fn simple_recipe() {
         ),
     );
 }
+#[test]
+fn cookies() {
+    test_parse(
+        "<
+*butter =soften
+*sugar
+*brown sugar #+
+*vanilla #+ #beat
+*eggs # beat one at a time
+*flour
+*soda #+
+*salt #mix #beat slowly
+*chocolate chips
+*chopped nuts #+ #stir =form into balls =bake 375F 10m
+>",
+        Operand::UnaryOp(
+            Box::new(Operand::UnaryOp(
+                Box::new(Operand::BinaryOp(
+                    Box::new(Operand::BinaryOp(
+                        Box::new(Operand::BinaryOp(
+                            Box::new(Operand::BinaryOp(
+                                Box::new(Operand::UnaryOp(
+                                    Box::new(Operand::Ingredient("butter".to_string())),
+                                    "soften".to_string(),
+                                )),
+                                Box::new(Operand::BinaryOp(
+                                    Box::new(Operand::BinaryOp(
+                                        Box::new(Operand::Ingredient("sugar".to_string())),
+                                        Box::new(Operand::Ingredient("brown sugar".to_string())),
+                                        "+".to_string(),
+                                    )),
+                                    Box::new(Operand::Ingredient("vanilla".to_string())),
+                                    "+".to_string(),
+                                )),
+                                "beat".to_string(),
+                            )),
+                            Box::new(Operand::Ingredient("eggs".to_string())),
+                            "beat one at a time".to_string(),
+                        )),
+                        Box::new(Operand::BinaryOp(
+                            Box::new(Operand::BinaryOp(
+                                Box::new(Operand::Ingredient("flour".to_string())),
+                                Box::new(Operand::Ingredient("soda".to_string())),
+                                "+".to_string(),
+                            )),
+                            Box::new(Operand::Ingredient("salt".to_string())),
+                            "mix".to_string(),
+                        )),
+                        "beat slowly".to_string(),
+                    )),
+                    Box::new(Operand::BinaryOp(
+                        Box::new(Operand::Ingredient("chocolate chips".to_string())),
+                        Box::new(Operand::Ingredient("chopped nuts".to_string())),
+                        "+".to_string(),
+                    )),
+                    "stir".to_string(),
+                )),
+                "form into balls".to_string(),
+            )),
+            "bake 375F 10m".to_string(),
+        ),
+    );
+}
 
 #[test]
 fn full_recipe() {
