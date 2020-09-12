@@ -1,4 +1,3 @@
-use std::char;
 use std::cmp::{max, min};
 
 use crate::semantic;
@@ -6,14 +5,14 @@ use svg::node::element::{Group, Polygon, Rectangle, Text};
 use svg::node::Text as RawText;
 use svg::Document;
 
-const rect_height: i32 = 25;
-const char_width: i32 = 8;
-const x_margin: i32 = 5;
-const y_margin: i32 = 20;
+const RECT_HEIGHT: i32 = 25;
+const CHAR_WIDTH: i32 = 8;
+const X_MARGIN: i32 = 5;
+const Y_MARGIN: i32 = 20;
 
-pub fn to_svg(op: semantic::Operand) -> Vec<u8> {
-    let max_ing_width = compute_max_ing_width(&op);
-    let doc = build_doc(op, max_ing_width);
+pub fn to_svg(r: semantic::Recipe) -> Vec<u8> {
+    let max_ing_width = compute_max_ing_width(&r.root);
+    let doc = build_doc(r, max_ing_width);
 
     let mut out: Vec<u8> = Vec::new();
 
@@ -24,23 +23,49 @@ pub fn to_svg(op: semantic::Operand) -> Vec<u8> {
 fn compute_max_ing_width(op: &semantic::Operand) -> i32 {
     match op {
         semantic::Operand::Ingredient { text } => compute_width(text),
-        semantic::Operand::Operator { text, operands } => operands
+        semantic::Operand::Operator { text:_, operands } => operands
             .iter()
             .fold(0, |acc, op| max(acc, compute_max_ing_width(op))),
     }
 }
 
-fn build_doc(op: semantic::Operand, max_ing_width: i32) -> Document {
-    let doc = Document::new();
+fn build_doc(r: semantic::Recipe, max_ing_width: i32) -> Document {
     let mut state = BuildState {
         max_ing_width: max_ing_width,
         ing_count: 0,
     };
-    let rstate = add_operand(doc, op, &mut state);
+    let mut doc = Document::new();
+    if let Some(ref title) = r.title {
+        doc = doc.add(
+            Text::new()
+                .add(RawText::new(title))
+                .set("font-family", "monospace")
+                .set("font-style", "bold")
+                .set("font-size", "14")
+                .set("x", X_MARGIN)
+                .set("y", Y_MARGIN),
+        );
+        state.ing_count = state.ing_count + 1
+    }
+    let mut preamble_y = 0;
+    match &r.preamble {
+        Some(_) => {
+            preamble_y = state.ing_count * RECT_HEIGHT;
+            state.ing_count = state.ing_count + 1;
+        }
+        None => {}
+    };
+
+    let mut rstate = add_operand(doc, r.root, &mut state);
+    if let Some(ref preamble) = r.preamble {
+        rstate.doc = rstate
+            .doc
+            .add(text_group(preamble, 0, preamble_y, rstate.x, RECT_HEIGHT));
+    }
     rstate
         .doc
-        .set("width", rstate.x + x_margin * 2)
-        .set("height", state.ing_count * rect_height + y_margin * 2)
+        .set("width", rstate.x + X_MARGIN * 2)
+        .set("height", state.ing_count * RECT_HEIGHT + Y_MARGIN * 2)
 }
 
 struct BuildState {
@@ -67,15 +92,15 @@ fn add_operand(doc: Document, op: semantic::Operand, state: &mut BuildState) -> 
             state.ing_count = state.ing_count + 1;
             let ing_idx = state.ing_count - 1;
             let x = 0;
-            let y = ing_idx * rect_height;
+            let y = ing_idx * RECT_HEIGHT;
             let w = state.max_ing_width;
-            let h = rect_height;
+            let h = RECT_HEIGHT;
             let doc = doc.add(text_group(&text, x, y, w, h));
             return ReturnState {
                 doc: doc,
                 min_y: y,
                 x: w,
-                y: y + rect_height,
+                y: y + RECT_HEIGHT,
             };
         }
         semantic::Operand::Operator { text, mut operands } => {
@@ -139,8 +164,8 @@ fn text_group(s: &String, x: i32, y: i32, width: i32, height: i32) -> Group {
             Text::new()
                 .set("font-family", "monospace")
                 .set("font-size", "12")
-                .set("x", x + x_margin)
-                .set("y", y + y_margin)
+                .set("x", x + X_MARGIN)
+                .set("y", y + Y_MARGIN)
                 .add(RawText::new(s)),
         )
 }
@@ -151,7 +176,6 @@ fn text_group_with_points(
     min_y: i32,
     max_y: i32,
 ) -> Group {
-    let w = compute_width(s);
     let mut points_str = String::new();
     for (x, y) in points {
         points_str.push_str(&format!("{},{} ", x, y).to_string());
@@ -170,14 +194,14 @@ fn text_group_with_points(
             Text::new()
                 .set("font-family", "monospace")
                 .set("font-size", "12")
-                .set("x", min_x + x_margin)
-                .set("y", (min_y + (max_y - min_y) / 2 + 5))
+                .set("x", min_x + X_MARGIN)
+                .set("y", min_y + (max_y - min_y) / 2 + 5)
                 .add(RawText::new(s)),
         )
 }
 
 fn compute_width(s: &String) -> i32 {
-    s.len() as i32 * char_width + x_margin + x_margin
+    s.len() as i32 * CHAR_WIDTH + X_MARGIN + X_MARGIN
 }
 
 const ON_CLICK:&str =  "function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(this);";

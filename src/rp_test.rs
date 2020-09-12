@@ -1,35 +1,80 @@
 use super::*;
-use ast::Operand;
+use ast::{Operand, Recipe};
 
-fn test_parse(src: &str, ast: ast::Operand) {
-    assert_eq!(ast, rp::RecipeParser::new().parse(src).unwrap(),)
+fn test_parse(src: &str, r: ast::Recipe) {
+    assert_eq!(r, rp::RecipeParser::new().parse(src).unwrap())
 }
 #[test]
 fn ingredient() {
     test_parse(
         "<*sugar 1 cup>",
-        Operand::Ingredient("sugar 1 cup".to_owned()),
+        Recipe {
+            title: None,
+            preamble: None,
+            root: Operand::Ingredient("sugar 1 cup".to_string()),
+        },
     );
 }
 #[test]
 fn unary() {
     test_parse(
         "<*sugar 1 cup =pulverize>",
-        Operand::UnaryOp(
-            Box::new(Operand::Ingredient("sugar 1 cup".to_owned())),
-            "pulverize".to_string(),
-        ),
+        Recipe {
+            title: None,
+            preamble: None,
+            root: Operand::UnaryOp(
+                Box::new(Operand::Ingredient("sugar 1 cup".to_string())),
+                "pulverize".to_string(),
+            ),
+        },
     );
 }
 #[test]
 fn binary() {
     test_parse(
         "<*sugar 1 cup *milk 3 cups #boil and stir>",
-        Operand::BinaryOp(
-            Box::new(Operand::Ingredient("sugar 1 cup".to_owned())),
-            Box::new(Operand::Ingredient("milk 3 cups".to_owned())),
-            "boil and stir".to_string(),
-        ),
+        Recipe {
+            title: None,
+            preamble: None,
+            root: Operand::BinaryOp(
+                Box::new(Operand::Ingredient("sugar 1 cup".to_string())),
+                Box::new(Operand::Ingredient("milk 3 cups".to_string())),
+                "boil and stir".to_string(),
+            ),
+        },
+    );
+}
+#[test]
+fn title() {
+    test_parse(
+        "<**Sugar *sugar 1 cup>",
+        Recipe {
+            title: Some("Sugar".to_string()),
+            preamble: None,
+            root: Operand::Ingredient("sugar 1 cup".to_string()),
+        },
+    );
+}
+#[test]
+fn preamble() {
+    test_parse(
+        "< ##preheat oven *sugar 1 cup>",
+        Recipe {
+            title: None,
+            preamble: Some("preheat oven".to_string()),
+            root: Operand::Ingredient("sugar 1 cup".to_string()),
+        },
+    );
+}
+#[test]
+fn title_preamble() {
+    test_parse(
+        "<**Sugar ##preheat oven *sugar 1 cup>",
+        Recipe {
+            title: Some("Sugar".to_string()),
+            preamble: Some("preheat oven".to_string()),
+            root: Operand::Ingredient("sugar 1 cup".to_string()),
+        },
     );
 }
 #[test]
@@ -42,29 +87,35 @@ fn simple_recipe() {
 *milk 1/3 cup #stir
 *dried cheese one pouch #stir until well mixed
 >",
-        Operand::BinaryOp(
-            Box::new(Operand::BinaryOp(
+        Recipe {
+            title: None,
+            preamble: None,
+            root: Operand::BinaryOp(
                 Box::new(Operand::BinaryOp(
-                    Box::new(Operand::UnaryOp(
-                        Box::new(Operand::BinaryOp(
-                            Box::new(Operand::UnaryOp(
-                                Box::new(Operand::Ingredient("water 6 cups".to_string())),
-                                "boil".to_string(),
+                    Box::new(Operand::BinaryOp(
+                        Box::new(Operand::UnaryOp(
+                            Box::new(Operand::BinaryOp(
+                                Box::new(Operand::UnaryOp(
+                                    Box::new(Operand::Ingredient("water 6 cups".to_string())),
+                                    "boil".to_string(),
+                                )),
+                                Box::new(Operand::Ingredient(
+                                    "macarroni noodles 2 cups".to_string(),
+                                )),
+                                "boil till soft".to_string(),
                             )),
-                            Box::new(Operand::Ingredient("macarroni noodles 2 cups".to_string())),
-                            "boil till soft".to_string(),
+                            "drain".to_string(),
                         )),
-                        "drain".to_string(),
+                        Box::new(Operand::Ingredient("butter 1/4 cup".to_string())),
+                        "stir until melted".to_string(),
                     )),
-                    Box::new(Operand::Ingredient("butter 1/4 cup".to_string())),
-                    "stir until melted".to_string(),
+                    Box::new(Operand::Ingredient("milk 1/3 cup".to_string())),
+                    "stir".to_string(),
                 )),
-                Box::new(Operand::Ingredient("milk 1/3 cup".to_string())),
-                "stir".to_string(),
-            )),
-            Box::new(Operand::Ingredient("dried cheese one pouch".to_string())),
-            "stir until well mixed".to_string(),
-        ),
+                Box::new(Operand::Ingredient("dried cheese one pouch".to_string())),
+                "stir until well mixed".to_string(),
+            ),
+        },
     );
 }
 #[test]
@@ -82,78 +133,57 @@ fn cookies() {
 *chocolate chips
 *chopped nuts #+ #stir =form into balls =bake 375F 10m
 >",
-        Operand::UnaryOp(
-            Box::new(Operand::UnaryOp(
-                Box::new(Operand::BinaryOp(
+        Recipe {
+            title: None,
+            preamble: None,
+            root: Operand::UnaryOp(
+                Box::new(Operand::UnaryOp(
                     Box::new(Operand::BinaryOp(
                         Box::new(Operand::BinaryOp(
                             Box::new(Operand::BinaryOp(
-                                Box::new(Operand::UnaryOp(
-                                    Box::new(Operand::Ingredient("butter".to_string())),
-                                    "soften".to_string(),
-                                )),
                                 Box::new(Operand::BinaryOp(
+                                    Box::new(Operand::UnaryOp(
+                                        Box::new(Operand::Ingredient("butter".to_string())),
+                                        "soften".to_string(),
+                                    )),
                                     Box::new(Operand::BinaryOp(
-                                        Box::new(Operand::Ingredient("sugar".to_string())),
-                                        Box::new(Operand::Ingredient("brown sugar".to_string())),
+                                        Box::new(Operand::BinaryOp(
+                                            Box::new(Operand::Ingredient("sugar".to_string())),
+                                            Box::new(Operand::Ingredient(
+                                                "brown sugar".to_string(),
+                                            )),
+                                            "+".to_string(),
+                                        )),
+                                        Box::new(Operand::Ingredient("vanilla".to_string())),
                                         "+".to_string(),
                                     )),
-                                    Box::new(Operand::Ingredient("vanilla".to_string())),
+                                    "beat".to_string(),
+                                )),
+                                Box::new(Operand::Ingredient("eggs".to_string())),
+                                "beat one at a time".to_string(),
+                            )),
+                            Box::new(Operand::BinaryOp(
+                                Box::new(Operand::BinaryOp(
+                                    Box::new(Operand::Ingredient("flour".to_string())),
+                                    Box::new(Operand::Ingredient("soda".to_string())),
                                     "+".to_string(),
                                 )),
-                                "beat".to_string(),
+                                Box::new(Operand::Ingredient("salt".to_string())),
+                                "mix".to_string(),
                             )),
-                            Box::new(Operand::Ingredient("eggs".to_string())),
-                            "beat one at a time".to_string(),
+                            "beat slowly".to_string(),
                         )),
                         Box::new(Operand::BinaryOp(
-                            Box::new(Operand::BinaryOp(
-                                Box::new(Operand::Ingredient("flour".to_string())),
-                                Box::new(Operand::Ingredient("soda".to_string())),
-                                "+".to_string(),
-                            )),
-                            Box::new(Operand::Ingredient("salt".to_string())),
-                            "mix".to_string(),
+                            Box::new(Operand::Ingredient("chocolate chips".to_string())),
+                            Box::new(Operand::Ingredient("chopped nuts".to_string())),
+                            "+".to_string(),
                         )),
-                        "beat slowly".to_string(),
+                        "stir".to_string(),
                     )),
-                    Box::new(Operand::BinaryOp(
-                        Box::new(Operand::Ingredient("chocolate chips".to_string())),
-                        Box::new(Operand::Ingredient("chopped nuts".to_string())),
-                        "+".to_string(),
-                    )),
-                    "stir".to_string(),
+                    "form into balls".to_string(),
                 )),
-                "form into balls".to_string(),
-            )),
-            "bake 375F 10m".to_string(),
-        ),
-    );
-}
-
-#[test]
-fn full_recipe() {
-    test_parse(
-        "<
-*10L milk =heat to 32C/90F
-*nonchlorinated cool water
-*1/8 (0.6ml) tspn calcium chloride #dilute #stir in
-*1/8 tspn MA40001 mesophillic #sprinkle on top
-*1/8 tspn M030 mesophillic #sprinkle on top =rehydrate for 5m =stir top to bottom =cover allow to ripen for 30m
-*nonchlorinated cool water
-*1 tspn single strength rennet #dilute #stir for no more than 1m =cover and set for 40m wait longer if needed to get clean break
-    =cut curds into 1cm(1/2in) cubes =cover allow to heal for 5m =gently stir, cut any large curds that you see =stir for 40m increasing to 33C/91.4F
-    =allow curds to settle for 5m =drain curds through cheese cloth lined collander for 5m keep the whey =remove from cheese cloth keep in collander for 5m
-*whey =heat to 33C/91F #place colander over whey =cut curd into 5m/2in slabs and stack on top of each other =drain 10m =restack and drain for 10m
-    =break into thumbnail sized pieces into pot
-*2 tablespoons cheese salt #mill gently with clean hands =place into cheese mould =press at 5kg/11lbs for 10m =remove from press gently
-*~2 tablespoons cheese salt #sprinkle on top and bottom =press at 5kg/11lbs for 10m
-*~2 tablespoons cheese salt #sprinkle on top and bottom =press at 10kg/22lbs for 20m
-*~2 tablespoons cheese salt #sprinkle on top and bottom =press at 10kg/22lbs for 16h
-    =remove and trim off any excess
-    =air dry for about 3d turning every ~6h or until touch dry
-    =ripen at 13C/55F for 3w turning twice a week =brine wash once a week to prevent extra mold growth
->",
-        Operand::Ingredient("asdf".to_string()),
+                "bake 375F 10m".to_string(),
+            ),
+        },
     );
 }

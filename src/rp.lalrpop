@@ -1,12 +1,24 @@
-use crate::ast::Operand;
+use crate::ast::{Operand,Recipe};
 
 
 grammar;
 
 
-pub Recipe: Operand = {
-    "<" <Operand> ">" => <>,
+pub Recipe: Recipe = {
+    "<" <t:Title?> <p:Preamble?> <r:Operand> ">" => Recipe{
+        title: t,
+        preamble: p,
+        root: r,
+    },
 }
+
+Title: String = {
+    "**" <Sentence> => <>
+}
+Preamble: String = {
+    "##" <Sentence> => <>
+}
+
 
 Operand: Operand = {
     <Ingredient> => Operand::Ingredient(<>),

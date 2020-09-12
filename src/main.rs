@@ -26,14 +26,14 @@ fn recipe_card(name: PathBuf) -> Content<Vec<u8>> {
     let mut filepath = Path::new("recipes/").join(name);
     filepath.set_extension("rp");
     let contents = fs::read_to_string(filepath).expect("Something went wrong reading the file");
-    let ast = rp::RecipeParser::new().parse(&contents).unwrap();
-    let sem = semantic::convert_graph(ast);
-    Content(ContentType::SVG, svg::to_svg(sem))
+    let recipe_ast = rp::RecipeParser::new().parse(&contents).unwrap();
+    let recipe_sem = semantic::convert_recipe(recipe_ast);
+    Content(ContentType::SVG, svg::to_svg(recipe_sem))
 }
 
 #[derive(serde::Serialize)]
 struct IndexTemplateContext {
-    items: Vec<(String,String)>,
+    items: Vec<(String, String)>,
 }
 #[get("/recipes/<name..>")]
 fn recipes_index(name: PathBuf) -> Template {
@@ -44,19 +44,26 @@ fn recipes_root_index() -> Template {
     _recipes_index(PathBuf::new())
 }
 fn _recipes_index(name: PathBuf) -> Template {
-    let mut items: Vec<(String,String)> = Vec::new();
-    items.push(("..".to_string(),"./..".to_string()));
+    let mut items: Vec<(String, String)> = Vec::new();
     let dir = Path::new("recipes/").join(name);
     for entry in fs::read_dir(&dir).expect("failed to read recipe directory") {
         let entry = entry.expect("valid entry");
         let pb = entry.path();
         let path = pb.strip_prefix(&dir).unwrap();
         if pb.is_dir() {
-                items.push((path.file_name().unwrap().to_str().unwrap().to_string(), path.to_str().unwrap().to_string()));
-        } else if pb.extension().unwrap() == "rp"{
+            let name = path.file_name().unwrap().to_str().unwrap().to_string();
+            if name.starts_with(".") {
+                continue;
+            }
+            items.push((name, path.to_str().unwrap().to_string()));
+        } else if pb.extension().unwrap() == "rp" {
             let mut l = PathBuf::from("../recipe/card").join(pb.strip_prefix("recipes/").unwrap());
             l.set_extension("");
-                items.push((l.file_name().unwrap().to_str().unwrap().to_string(), l.to_str().unwrap().to_string()));
+            let name = l.file_name().unwrap().to_str().unwrap().to_string();
+            if name.starts_with(".") {
+                continue;
+            }
+            items.push((name, l.to_str().unwrap().to_string()));
         }
     }
     let context = IndexTemplateContext { items: items };
