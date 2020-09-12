@@ -7,15 +7,15 @@ use svg::node::Text as RawText;
 use svg::Document;
 
 const rect_height: i32 = 25;
-const char_width: i32 = 12;
-const x_margin: i32 = 20;
+const char_width: i32 = 8;
+const x_margin: i32 = 5;
 const y_margin: i32 = 20;
 
-pub fn to_svg(op: semantic::Operand) ->Vec<u8> {
+pub fn to_svg(op: semantic::Operand) -> Vec<u8> {
     let max_ing_width = compute_max_ing_width(&op);
     let doc = build_doc(op, max_ing_width);
 
-    let mut out :Vec<u8>= Vec::new();
+    let mut out: Vec<u8> = Vec::new();
 
     svg::write(&mut out, &doc).unwrap();
     out
@@ -75,7 +75,7 @@ fn add_operand(doc: Document, op: semantic::Operand, state: &mut BuildState) -> 
                 doc: doc,
                 min_y: y,
                 x: w,
-                y: y+rect_height,
+                y: y + rect_height,
             };
         }
         semantic::Operand::Operator { text, mut operands } => {
@@ -105,7 +105,6 @@ fn add_operand(doc: Document, op: semantic::Operand, state: &mut BuildState) -> 
             points.push((rstate.x + w, rstate.y));
             points.push((rstate.x + w, rstate.min_y));
 
-
             ReturnState {
                 doc: rstate.doc.add(text_group_with_points(
                     &text,
@@ -126,7 +125,7 @@ fn text_group(s: &String, x: i32, y: i32, width: i32, height: i32) -> Group {
     Group::new()
         .add(
             Rectangle::new()
-                .set("onclick",ON_CLICK)
+                .set("onclick", ON_CLICK)
                 .set("x", x)
                 .set("y", y)
                 .set("height", height)
@@ -138,6 +137,8 @@ fn text_group(s: &String, x: i32, y: i32, width: i32, height: i32) -> Group {
         )
         .add(
             Text::new()
+                .set("font-family", "monospace")
+                .set("font-size", "12")
                 .set("x", x + x_margin)
                 .set("y", y + y_margin)
                 .add(RawText::new(s)),
@@ -158,7 +159,7 @@ fn text_group_with_points(
     Group::new()
         .add(
             Polygon::new()
-                .set("onclick",ON_CLICK)
+                .set("onclick", ON_CLICK)
                 .set("points", points_str)
                 .set(
                     "style",
@@ -167,8 +168,10 @@ fn text_group_with_points(
         )
         .add(
             Text::new()
+                .set("font-family", "monospace")
+                .set("font-size", "12")
                 .set("x", min_x + x_margin)
-                .set("y", (min_y  + (max_y  - min_y ) / 2 + 5))
+                .set("y", (min_y + (max_y - min_y) / 2 + 5))
                 .add(RawText::new(s)),
         )
 }

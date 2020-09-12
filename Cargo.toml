@@ -13,3 +13,10 @@ lalrpop-util = "0.19.0"
 regex = "1"
 svg = "0.8.0"
 rocket = "0.4.5"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+[dependencies.rocket_contrib]
+version = "0.4.5"
+default-features = false
+features = ["tera_templates"]

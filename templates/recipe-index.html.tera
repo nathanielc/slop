@@ -1,0 +1,10 @@
+{% extends "base" %}
+
+{% block content %}
+    <h1>Recipe List</h1>
+    <ul>
+        {% for l in items %}
+            <li><a href="{{ l.1 }}">{{ l.0 }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock content %}
