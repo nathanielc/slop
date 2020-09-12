@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Recipe</title>
+    <title>Plate</title>
   </head>
   <body>
     {% block content %}{% endblock content %}
