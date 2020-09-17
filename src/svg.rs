@@ -23,7 +23,7 @@ pub fn to_svg(r: semantic::Recipe) -> Vec<u8> {
 fn compute_max_ing_width(op: &semantic::Operand) -> i32 {
     match op {
         semantic::Operand::Ingredient { text } => compute_width(text),
-        semantic::Operand::Operator { text:_, operands } => operands
+        semantic::Operand::Operator { text: _, operands } => operands
             .iter()
             .fold(0, |acc, op| max(acc, compute_max_ing_width(op))),
     }
@@ -61,6 +61,17 @@ fn build_doc(r: semantic::Recipe, max_ing_width: i32) -> Document {
         rstate.doc = rstate
             .doc
             .add(text_group(preamble, 0, preamble_y, rstate.x, RECT_HEIGHT));
+    }
+    if let Some(ref comment) = r.comment {
+        rstate.doc = rstate.doc.add(
+            Text::new()
+                .add(RawText::new(comment))
+                .set("font-family", "monospace")
+                .set("font-size", "14")
+                .set("x", X_MARGIN)
+                .set("y", state.ing_count * RECT_HEIGHT + Y_MARGIN * 2),
+        );
+        state.ing_count = state.ing_count + 1;
     }
     rstate
         .doc

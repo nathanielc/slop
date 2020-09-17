@@ -2,6 +2,7 @@
 pub struct Recipe {
     pub title: Option<String>,
     pub preamble: Option<String>,
+    pub comment: Option<String>,
     pub root: Operand,
 }
 #[derive(Debug, PartialEq)]

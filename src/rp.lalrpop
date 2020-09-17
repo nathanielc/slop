@@ -5,10 +5,11 @@ grammar;
 
 
 pub Recipe: Recipe = {
-    "<" <t:Title?> <p:Preamble?> <r:Operand> ">" => Recipe{
+    "<" <t:Title?> <p:Preamble?> <r:Operand> <c:Comment?> ">" => Recipe{
         title: t,
         preamble: p,
         root: r,
+        comment: c,
     },
 }
 
@@ -17,6 +18,9 @@ Title: String = {
 }
 Preamble: String = {
     "##" <Sentence> => <>
+}
+Comment: String = {
+    "#*" <Sentence> => <>
 }
 
 

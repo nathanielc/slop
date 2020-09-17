@@ -11,6 +11,7 @@ fn ingredient() {
         Recipe {
             title: None,
             preamble: None,
+            comment: None,
             root: Operand::Ingredient("sugar 1 cup".to_string()),
         },
     );
@@ -22,6 +23,7 @@ fn unary() {
         Recipe {
             title: None,
             preamble: None,
+            comment: None,
             root: Operand::UnaryOp(
                 Box::new(Operand::Ingredient("sugar 1 cup".to_string())),
                 "pulverize".to_string(),
@@ -36,6 +38,7 @@ fn binary() {
         Recipe {
             title: None,
             preamble: None,
+            comment: None,
             root: Operand::BinaryOp(
                 Box::new(Operand::Ingredient("sugar 1 cup".to_string())),
                 Box::new(Operand::Ingredient("milk 3 cups".to_string())),
@@ -51,6 +54,7 @@ fn title() {
         Recipe {
             title: Some("Sugar".to_string()),
             preamble: None,
+            comment: None,
             root: Operand::Ingredient("sugar 1 cup".to_string()),
         },
     );
@@ -62,6 +66,7 @@ fn preamble() {
         Recipe {
             title: None,
             preamble: Some("preheat oven".to_string()),
+            comment: None,
             root: Operand::Ingredient("sugar 1 cup".to_string()),
         },
     );
@@ -73,6 +78,7 @@ fn title_preamble() {
         Recipe {
             title: Some("Sugar".to_string()),
             preamble: Some("preheat oven".to_string()),
+            comment: None,
             root: Operand::Ingredient("sugar 1 cup".to_string()),
         },
     );
@@ -90,6 +96,7 @@ fn simple_recipe() {
         Recipe {
             title: None,
             preamble: None,
+            comment: None,
             root: Operand::BinaryOp(
                 Box::new(Operand::BinaryOp(
                     Box::new(Operand::BinaryOp(
@@ -132,10 +139,12 @@ fn cookies() {
 *salt #mix #beat slowly
 *chocolate chips
 *chopped nuts #+ #stir =form into balls =bake 375F 10m
+#* Yield 1 dozen cookies
 >",
         Recipe {
             title: None,
             preamble: None,
+            comment: Some("Yield 1 dozen cookies".to_string()),
             root: Operand::UnaryOp(
                 Box::new(Operand::UnaryOp(
                     Box::new(Operand::BinaryOp(
