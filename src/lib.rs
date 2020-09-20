@@ -1,8 +1,11 @@
+use lalrpop_util::lexer::Token;
+use lalrpop_util::ParseError;
+
 // Local modules
 pub mod ast;
+pub mod semantic;
 #[cfg(test)]
 mod slop_test;
-pub mod semantic;
 pub mod svg;
 
 // Bring in generated parser for slop
@@ -10,7 +13,9 @@ pub mod svg;
 extern crate lalrpop_util;
 lalrpop_mod!(parser);
 
-pub fn parse(src :&str) -> ast::Recipe{
-    parser::RecipeParser::new().parse(&src).unwrap()
+pub type Error<'a> = ParseError<usize, Token<'a>, &'static str>;
+
+pub fn parse(src: &str) -> Result<ast::SourceFile, Error> {
+    parser::SourceFileParser::new().parse(&src)
 }
 

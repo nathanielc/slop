@@ -9,14 +9,17 @@ name = "trough"
 path = "src/trough/main.rs"
 
 [[bin]]
-name = "slop-lsp"
-path = "src/trough/main.rs"
+name = "slop-language-server"
+path = "src/lsp/main.rs"
 
 
 [build-dependencies]
 lalrpop = { version = "0.19.0", features = ["lexer"] }
 
 [dependencies]
+codespan = "0.9.5"
+codespan-lsp = "0.10.1"
+lsp-types = "0.79.0"
 lalrpop-util = "0.19.0"
 regex = "1"
 svg = "0.8.0"
@@ -24,6 +27,7 @@ rocket = "0.4.5"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 tower-lsp = "0.13.3"
+tokio = { version = "0.2", features = ["full"] }
 
 [dependencies.rocket_contrib]
 version = "0.4.5"

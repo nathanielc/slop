@@ -1,4 +1,9 @@
 #[derive(Debug, PartialEq)]
+pub struct SourceFile {
+    pub recipes: Vec<Recipe>,
+}
+
+#[derive(Debug, PartialEq)]
 pub struct Recipe {
     pub title: Option<String>,
     pub preamble: Option<String>,

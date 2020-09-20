@@ -10,7 +10,12 @@ const CHAR_WIDTH: i32 = 8;
 const X_MARGIN: i32 = 5;
 const Y_MARGIN: i32 = 20;
 
-pub fn to_svg(r: semantic::Recipe) -> Vec<u8> {
+pub fn to_svg(mut src: semantic::SourceFile) -> Vec<u8> {
+    let recipe = src.recipes.pop().unwrap();
+    recipe_to_svg(recipe)
+}
+
+fn recipe_to_svg(r: semantic::Recipe) -> Vec<u8> {
     let max_ing_width = compute_max_ing_width(&r.root);
     let doc = build_doc(r, max_ing_width);
 

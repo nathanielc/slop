@@ -4,7 +4,6 @@
 extern crate rocket;
 use rocket_contrib::templates::Template;
 
-
 use rocket::http::ContentType;
 use rocket::response::content::Content;
 use std::fs;
@@ -14,15 +13,14 @@ use slop;
 use slop::semantic;
 use slop::svg;
 
-
 #[get("/recipe/card/<name..>")]
 fn recipe_card(name: PathBuf) -> Content<Vec<u8>> {
     let mut filepath = Path::new("recipes/").join(name);
     filepath.set_extension("slop");
     let contents = fs::read_to_string(filepath).expect("Something went wrong reading the file");
-    let recipe_ast = slop::parse(&contents);
-    let recipe_sem = semantic::convert_recipe(recipe_ast);
-    Content(ContentType::SVG, svg::to_svg(recipe_sem))
+    let src_ast = slop::parse(&contents).expect("parsing failed");
+    let src_sem = semantic::convert_source_file(src_ast);
+    Content(ContentType::SVG, svg::to_svg(src_sem))
 }
 
 #[derive(serde::Serialize)]

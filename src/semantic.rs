@@ -1,6 +1,11 @@
 use crate::ast;
 
 #[derive(Debug, PartialEq)]
+pub struct SourceFile {
+    pub recipes: Vec<Recipe>,
+}
+
+#[derive(Debug, PartialEq)]
 pub struct Recipe {
     pub title: Option<String>,
     pub preamble: Option<String>,
@@ -19,6 +24,11 @@ pub enum Operand {
     },
 }
 
+pub fn convert_source_file(mut f: ast::SourceFile) -> SourceFile {
+    SourceFile {
+        recipes: f.recipes.drain(..).map(|r| convert_recipe(r)).collect(),
+    }
+}
 pub fn convert_recipe(r: ast::Recipe) -> Recipe {
     Recipe {
         title: r.title,

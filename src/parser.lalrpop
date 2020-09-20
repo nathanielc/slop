@@ -1,10 +1,14 @@
-use crate::ast::{Operand,Recipe};
+use crate::ast::{Operand,Recipe,SourceFile};
 
 
 grammar;
 
-
-pub Recipe: Recipe = {
+pub SourceFile: SourceFile = {
+    <Recipe+> => SourceFile{
+        recipes: <>,
+    }
+}
+Recipe: Recipe = {
     "<" <t:Title?> <p:Preamble?> <r:Operand> <c:Comment?> ">" => Recipe{
         title: t,
         preamble: p,
