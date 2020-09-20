@@ -2,7 +2,7 @@ use super::*;
 use ast::{Operand, Recipe};
 
 fn test_parse(src: &str, r: ast::Recipe) {
-    assert_eq!(r, rp::RecipeParser::new().parse(src).unwrap())
+    assert_eq!(r, parse(src))
 }
 #[test]
 fn ingredient() {

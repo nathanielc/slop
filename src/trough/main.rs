@@ -4,29 +4,23 @@
 extern crate rocket;
 use rocket_contrib::templates::Template;
 
-// Bring in generated parser for rp
-#[macro_use]
-extern crate lalrpop_util;
-lalrpop_mod!(rp);
 
 use rocket::http::ContentType;
 use rocket::response::content::Content;
 use std::fs;
 use std::path::{Path, PathBuf};
 
-// Local modules
-mod ast;
-#[cfg(test)]
-mod rp_test;
-mod semantic;
-mod svg;
+use slop;
+use slop::semantic;
+use slop::svg;
+
 
 #[get("/recipe/card/<name..>")]
 fn recipe_card(name: PathBuf) -> Content<Vec<u8>> {
     let mut filepath = Path::new("recipes/").join(name);
-    filepath.set_extension("rp");
+    filepath.set_extension("slop");
     let contents = fs::read_to_string(filepath).expect("Something went wrong reading the file");
-    let recipe_ast = rp::RecipeParser::new().parse(&contents).unwrap();
+    let recipe_ast = slop::parse(&contents);
     let recipe_sem = semantic::convert_recipe(recipe_ast);
     Content(ContentType::SVG, svg::to_svg(recipe_sem))
 }
@@ -56,7 +50,7 @@ fn _recipes_index(name: PathBuf) -> Template {
                 continue;
             }
             items.push((name, path.to_str().unwrap().to_string()));
-        } else if pb.extension().unwrap() == "rp" {
+        } else if pb.extension().unwrap() == "slop" {
             let mut l = PathBuf::from("../recipe/card").join(pb.strip_prefix("recipes/").unwrap());
             l.set_extension("");
             let name = l.file_name().unwrap().to_str().unwrap().to_string();

@@ -1,8 +1,16 @@
 [package]
-name = "plate"
+name = "slop"
 version = "0.1.0"
 authors = ["Nathaniel Cook <nvcook42@gmail.com>"]
 edition = "2018"
+
+[[bin]]
+name = "trough"
+path = "src/trough/main.rs"
+
+[[bin]]
+name = "slop-lsp"
+path = "src/trough/main.rs"
 
 
 [build-dependencies]
@@ -15,6 +23,7 @@ svg = "0.8.0"
 rocket = "0.4.5"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
+tower-lsp = "0.13.3"
 
 [dependencies.rocket_contrib]
 version = "0.4.5"
