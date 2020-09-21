@@ -4,13 +4,13 @@ use codespan::{FileId, Files};
 use codespan_lsp::{byte_span_to_range, range_to_byte_span};
 use lsp_types;
 use tokio::sync::Mutex;
-use tower_lsp::jsonrpc::Result;
+use tower_lsp::jsonrpc::{Error, Result};
 use tower_lsp::lsp_types::*;
 use tower_lsp::{Client, LanguageServer};
 
 use lalrpop_util::ParseError;
 
-use slop::{parse, Error};
+use slop::{format, parse};
 
 #[derive(Debug)]
 struct State {
@@ -56,7 +56,7 @@ impl LanguageServer for Slop {
                 //    work_done_progress_options: WorkDoneProgressOptions::default(),
                 //}),
                 //hover_provider: Some(true),
-                //document_formatting_provider: Some(true),
+                document_formatting_provider: Some(true),
                 //document_highlight_provider: Some(true),
                 //document_symbol_provider: Some(true),
                 //workspace_symbol_provider: Some(true),
@@ -86,6 +86,21 @@ impl LanguageServer for Slop {
         self.client
             .publish_diagnostics(params.text_document.uri, diags, None)
             .await;
+    }
+    async fn formatting(&self, params: DocumentFormattingParams) -> Result<Option<Vec<TextEdit>>> {
+        let state = self.state.lock().await;
+        if let Some(id) = state.sources.get(&params.text_document.uri) {
+            let src = state.files.source(*id);
+            let new_text = format(src).unwrap();
+            let span = 0..(src.len());
+            let range = byte_span_to_range(&state.files, *id, span).unwrap();
+            Ok(Some(vec![TextEdit {
+                range: convert_range(range),
+                new_text: new_text,
+            }]))
+        } else {
+            Err(Error::invalid_request())
+        }
     }
 }
 

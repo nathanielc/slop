@@ -38,6 +38,7 @@ fn build_doc(r: semantic::Recipe, max_ing_width: i32) -> Document {
     let mut state = BuildState {
         max_ing_width: max_ing_width,
         ing_count: 0,
+        id: 0,
     };
     let mut doc = Document::new();
     if let Some(ref title) = r.title {
@@ -63,9 +64,15 @@ fn build_doc(r: semantic::Recipe, max_ing_width: i32) -> Document {
 
     let mut rstate = add_operand(doc, r.root, &mut state);
     if let Some(ref preamble) = r.preamble {
-        rstate.doc = rstate
-            .doc
-            .add(text_group(preamble, 0, preamble_y, rstate.x, RECT_HEIGHT));
+        rstate.doc = rstate.doc.add(text_group(
+            state.id,
+            preamble,
+            0,
+            preamble_y,
+            rstate.x,
+            RECT_HEIGHT,
+        ));
+        state.id += 1;
     }
     if let Some(ref comment) = r.comment {
         rstate.doc = rstate.doc.add(
@@ -87,6 +94,7 @@ fn build_doc(r: semantic::Recipe, max_ing_width: i32) -> Document {
 struct BuildState {
     max_ing_width: i32,
     ing_count: i32,
+    id: i32,
 }
 
 struct ReturnState {
@@ -111,7 +119,8 @@ fn add_operand(doc: Document, op: semantic::Operand, state: &mut BuildState) -> 
             let y = ing_idx * RECT_HEIGHT;
             let w = state.max_ing_width;
             let h = RECT_HEIGHT;
-            let doc = doc.add(text_group(&text, x, y, w, h));
+            let doc = doc.add(text_group(state.id, &text, x, y, w, h));
+            state.id += 1;
             return ReturnState {
                 doc: doc,
                 min_y: y,
@@ -146,8 +155,9 @@ fn add_operand(doc: Document, op: semantic::Operand, state: &mut BuildState) -> 
             points.push((rstate.x + w, rstate.y));
             points.push((rstate.x + w, rstate.min_y));
 
-            ReturnState {
+            let s = ReturnState {
                 doc: rstate.doc.add(text_group_with_points(
+                    state.id,
                     &text,
                     points,
                     rstate.x,
@@ -157,16 +167,19 @@ fn add_operand(doc: Document, op: semantic::Operand, state: &mut BuildState) -> 
                 min_y: rstate.min_y,
                 x: rstate.x + w,
                 y: rstate.y,
-            }
+            };
+            state.id += 1;
+            return s;
         }
     }
 }
 
-fn text_group(s: &String, x: i32, y: i32, width: i32, height: i32) -> Group {
+fn text_group(id: i32, s: &String, x: i32, y: i32, width: i32, height: i32) -> Group {
     Group::new()
         .add(
             Rectangle::new()
-                .set("onclick", ON_CLICK)
+                .set("id", id)
+                .set("onclick", on_click(id))
                 .set("x", x)
                 .set("y", y)
                 .set("height", height)
@@ -178,6 +191,7 @@ fn text_group(s: &String, x: i32, y: i32, width: i32, height: i32) -> Group {
         )
         .add(
             Text::new()
+                .set("onclick", on_click(id))
                 .set("font-family", "monospace")
                 .set("font-size", "12")
                 .set("x", x + X_MARGIN)
@@ -186,6 +200,7 @@ fn text_group(s: &String, x: i32, y: i32, width: i32, height: i32) -> Group {
         )
 }
 fn text_group_with_points(
+    id: i32,
     s: &String,
     points: Vec<(i32, i32)>,
     min_x: i32,
@@ -199,7 +214,8 @@ fn text_group_with_points(
     Group::new()
         .add(
             Polygon::new()
-                .set("onclick", ON_CLICK)
+                .set("id", id)
+                .set("onclick", on_click(id))
                 .set("points", points_str)
                 .set(
                     "style",
@@ -208,6 +224,7 @@ fn text_group_with_points(
         )
         .add(
             Text::new()
+                .set("onclick", on_click(id))
                 .set("font-family", "monospace")
                 .set("font-size", "12")
                 .set("x", min_x + X_MARGIN)
@@ -220,4 +237,6 @@ fn compute_width(s: &String) -> i32 {
     s.len() as i32 * CHAR_WIDTH + X_MARGIN + X_MARGIN
 }
 
-const ON_CLICK:&str =  "function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(this);";
+fn on_click(id: i32) -> String {
+    format!("function toggle_fill(e) {{ if (e.style['fill-opacity'] == 0) {{ e.style['fill-opacity'] = 0.5 }} else {{e.style['fill-opacity'] = 0}}}}; toggle_fill(document.getElementById('{}'));", id)
+}

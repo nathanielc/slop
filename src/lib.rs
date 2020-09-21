@@ -3,6 +3,7 @@ use lalrpop_util::ParseError;
 
 // Local modules
 pub mod ast;
+pub mod format;
 pub mod semantic;
 #[cfg(test)]
 mod slop_test;
@@ -19,3 +20,7 @@ pub fn parse(src: &str) -> Result<ast::SourceFile, Error> {
     parser::SourceFileParser::new().parse(&src)
 }
 
+pub fn format(src: &str) -> Result<String, Error> {
+    let src_ast = parse(src)?;
+    Ok(format::format(&src_ast))
+}
