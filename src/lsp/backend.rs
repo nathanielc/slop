@@ -1,3 +1,4 @@
+use log::info;
 use std::collections::HashMap;
 
 use codespan::{FileId, Files};
@@ -27,7 +28,7 @@ pub struct Slop {
 impl Slop {
     pub fn new(client: Client) -> Self {
         Slop {
-            client: client,
+            client,
             state: Mutex::new(State {
                 sources: HashMap::new(),
                 files: Files::new(),
@@ -43,7 +44,7 @@ impl LanguageServer for Slop {
             server_info: None,
             capabilities: ServerCapabilities {
                 text_document_sync: Some(TextDocumentSyncCapability::Kind(
-                    TextDocumentSyncKind::Incremental,
+                    TextDocumentSyncKind::Full,
                 )),
                 //completion_provider: Some(CompletionOptions {
                 //    resolve_provider: Some(true),
@@ -71,6 +72,7 @@ impl LanguageServer for Slop {
     }
 
     async fn did_open(&self, params: DidOpenTextDocumentParams) {
+        info!("did_open {}", &params.text_document.uri);
         let mut state = self.state.lock().await;
         let id = get_or_insert_source(&mut state, &params.text_document);
         let diags = get_diagnostics(&state, &params.text_document.uri, id);
@@ -87,17 +89,30 @@ impl LanguageServer for Slop {
             .publish_diagnostics(params.text_document.uri, diags, None)
             .await;
     }
+    async fn did_save(&self, params: DidSaveTextDocumentParams) {
+        let mut state = self.state.lock().await;
+        let id = save_source(&mut state, &params.text_document, &params.text);
+        let diags = get_diagnostics(&state, &params.text_document.uri, id);
+        self.client
+            .publish_diagnostics(params.text_document.uri, diags, None)
+            .await;
+    }
     async fn formatting(&self, params: DocumentFormattingParams) -> Result<Option<Vec<TextEdit>>> {
         let state = self.state.lock().await;
         if let Some(id) = state.sources.get(&params.text_document.uri) {
             let src = state.files.source(*id);
-            let new_text = format(src).unwrap();
-            let span = 0..(src.len());
-            let range = byte_span_to_range(&state.files, *id, span).unwrap();
-            Ok(Some(vec![TextEdit {
-                range: convert_range(range),
-                new_text: new_text,
-            }]))
+            let new_text = format(src);
+            if let Ok(new_text) = new_text {
+                let span = 0..(src.len());
+                let range = byte_span_to_range(&state.files, *id, span);
+                if let Ok(range) = range {
+                    return Ok(Some(vec![TextEdit {
+                        range: convert_range(range),
+                        new_text: new_text,
+                    }]));
+                }
+            }
+            Ok(None)
         } else {
             Err(Error::invalid_request())
         }
@@ -125,8 +140,10 @@ fn reload_source(
         let mut source = state.files.source(*id).to_owned();
         for change in changes {
             if let (None, None) = (change.range, change.range_length) {
+                info!("reload: full source sync");
                 source = change.text;
             } else if let Some(range) = change.range {
+                info!("reload: partial source sync");
                 let lrange = lsp_types::Range {
                     start: lsp_types::Position {
                         line: range.start.line,
@@ -146,6 +163,23 @@ fn reload_source(
         *id
     } else {
         panic!("attempted to reload source that does not exist");
+    }
+}
+fn save_source(
+    state: &mut State,
+    document: &TextDocumentIdentifier,
+    text: &Option<String>,
+) -> FileId {
+    if let Some(id) = state.sources.get(&document.uri) {
+        let mut source = state.files.source(*id).to_owned();
+        if let Some(ref text) = text {
+            info!("save: full source sync");
+            source = text.to_owned();
+        }
+        state.files.update(*id, source);
+        *id
+    } else {
+        panic!("attempted to save source that does not exist");
     }
 }
 
@@ -172,16 +206,19 @@ fn get_diagnostics(state: &State, uri: &Url, id: FileId) -> Vec<Diagnostic> {
                 ref expected,
             } => {
                 let span = location..(location + 1);
-                let range = byte_span_to_range(&state.files, id, span).unwrap();
-                return vec![Diagnostic {
-                    range: convert_range(range),
-                    severity: Some(DiagnosticSeverity::Error),
-                    code: None,
-                    source: None,
-                    message: format!("{}", &err),
-                    related_information: None,
-                    tags: None,
-                }];
+                let range = byte_span_to_range(&state.files, id, span);
+                if let Ok(range) = range {
+                    return vec![Diagnostic {
+                        range: convert_range(range),
+                        severity: Some(DiagnosticSeverity::Error),
+                        code: None,
+                        source: None,
+                        message: format!("{}", &err),
+                        related_information: None,
+                        tags: None,
+                    }];
+                }
+                return vec![];
             }
             ParseError::UnrecognizedToken {
                 ref token,

@@ -920,6 +920,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "log-panics"
+version = "2.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ae0136257df209261daa18d6c16394757c63e032e27aafd8b07788b051082bef"
+dependencies = [
+ "log 0.4.11",
+]
+
+[[package]]
 name = "lsp-types"
 version = "0.79.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1634,6 +1643,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "simplelog"
+version = "0.7.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3cf9a002ccce717d066b3ccdb8a28829436249867229291e91b25d99bd723f0d"
+dependencies = [
+ "chrono",
+ "log 0.4.11",
+ "term",
+]
+
+[[package]]
 name = "siphasher"
 version = "0.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1653,12 +1673,15 @@ dependencies = [
  "codespan-lsp",
  "lalrpop",
  "lalrpop-util",
+ "log 0.4.11",
+ "log-panics",
  "lsp-types 0.79.0",
  "regex",
  "rocket",
  "rocket_contrib",
  "serde",
  "serde_json",
+ "simplelog",
  "svg",
  "tokio",
  "tower-lsp",
