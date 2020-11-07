@@ -58,7 +58,8 @@ fn _recipes_index(name: PathBuf) -> Template {
             items.push((name, l.to_str().unwrap().to_string()));
         }
     }
-    let context = IndexTemplateContext { items: items };
+    items.sort_by(|a, b| a.0.cmp(&b.0));
+    let context = IndexTemplateContext { items };
     Template::render("recipe-index", &context)
 }
 
