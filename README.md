@@ -28,9 +28,9 @@ Here is a simple example recipe for toast and jam.
 
 There are a few other meta data related operators:
 
-    * `**` - Marks the title of a recipe
-    * `##` - Preamble steps that don't involve ingredients
-    * `#*` - Final comments, to record a description of yield and estimated time
+* `**` - Marks the title of a recipe
+* `##` - Preamble steps that don't involve ingredients
+* `#*` - Final comments, to record a description of yield and estimated time
 
 A complete grammar can be found in the source code.
 
