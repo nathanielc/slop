@@ -94,7 +94,7 @@ The following is an example of a relatively envolved recipie that makes use of t
 
 
 
-![Alt text](Souffle Pancake Recipe Card)
+![Souffle Pancake Recipe Card](./souffle_pancake.svg)
 <img src="./souffle_pancake.svg">
 
 ## Inspiration
