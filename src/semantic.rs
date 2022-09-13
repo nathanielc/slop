@@ -39,9 +39,13 @@ pub fn convert_recipe(r: ast::Recipe) -> Recipe {
 }
 pub fn convert_operand(op: ast::Operand) -> Operand {
     match op {
-        ast::Operand::Ingredient(text) => Operand::Ingredient { text: text },
+        ast::Operand::Ingredient {
+            quantity,
+            unit,
+            name,
+        } => Operand::Ingredient { text: name },
         ast::Operand::UnaryOp(operand, text) => Operand::Operator {
-            text: text,
+            text,
             operands: vec![convert_operand(*operand)],
         },
         ast::Operand::BinaryOp(left, right, text) => {
@@ -59,7 +63,7 @@ pub fn convert_operand(op: ast::Operand) -> Operand {
             }
 
             Operand::Operator {
-                text: text,
+                text,
                 operands: ops,
             }
         }
@@ -74,10 +78,18 @@ mod test {
     fn one_to_one() {
         let sg = convert_operand(ast::Operand::BinaryOp(
             Box::new(ast::Operand::UnaryOp(
-                Box::new(ast::Operand::Ingredient("butter".to_string())),
+                Box::new(ast::Operand::Ingredient {
+                    quantity: None,
+                    unit: None,
+                    name: "butter".to_string(),
+                }),
                 "soften".to_string(),
             )),
-            Box::new(ast::Operand::Ingredient("salt".to_string())),
+            Box::new(ast::Operand::Ingredient {
+                quantity: None,
+                unit: None,
+                name: "salt".to_string(),
+            }),
             "mix".to_string(),
         ));
         assert_eq!(
@@ -102,11 +114,23 @@ mod test {
     fn merge_binary_plus() {
         let sg = convert_operand(ast::Operand::BinaryOp(
             Box::new(ast::Operand::BinaryOp(
-                Box::new(ast::Operand::Ingredient("flour".to_string())),
-                Box::new(ast::Operand::Ingredient("baking soda".to_string())),
+                Box::new(ast::Operand::Ingredient {
+                    quantity: None,
+                    unit: None,
+                    name: "flour".to_string(),
+                }),
+                Box::new(ast::Operand::Ingredient {
+                    quantity: None,
+                    unit: None,
+                    name: "baking soda".to_string(),
+                }),
                 "+".to_string(),
             )),
-            Box::new(ast::Operand::Ingredient("salt".to_string())),
+            Box::new(ast::Operand::Ingredient {
+                quantity: None,
+                unit: None,
+                name: "salt".to_string(),
+            }),
             "mix".to_string(),
         ));
         assert_eq!(
@@ -132,14 +156,30 @@ mod test {
         let sg = convert_operand(ast::Operand::BinaryOp(
             Box::new(ast::Operand::BinaryOp(
                 Box::new(ast::Operand::BinaryOp(
-                    Box::new(ast::Operand::Ingredient("flour".to_string())),
-                    Box::new(ast::Operand::Ingredient("baking soda".to_string())),
+                    Box::new(ast::Operand::Ingredient {
+                        quantity: None,
+                        unit: None,
+                        name: "flour".to_string(),
+                    }),
+                    Box::new(ast::Operand::Ingredient {
+                        quantity: None,
+                        unit: None,
+                        name: "baking soda".to_string(),
+                    }),
                     "+".to_string(),
                 )),
-                Box::new(ast::Operand::Ingredient("salt".to_string())),
+                Box::new(ast::Operand::Ingredient {
+                    quantity: None,
+                    unit: None,
+                    name: "salt".to_string(),
+                }),
                 "+".to_string(),
             )),
-            Box::new(ast::Operand::Ingredient("oats".to_string())),
+            Box::new(ast::Operand::Ingredient {
+                quantity: None,
+                unit: None,
+                name: "oats".to_string(),
+            }),
             "mix".to_string(),
         ));
         assert_eq!(

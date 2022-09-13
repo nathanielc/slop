@@ -4,8 +4,8 @@
 extern crate rocket;
 use rocket_contrib::templates::Template;
 
-use rocket::http::ContentType;
 use rocket::response::content::Content;
+use rocket::{http::ContentType, response::Redirect};
 use std::fs;
 use std::path::{Path, PathBuf};
 
@@ -35,6 +35,10 @@ fn recipes_index(name: PathBuf) -> Template {
 fn recipes_root_index() -> Template {
     _recipes_index(PathBuf::new())
 }
+#[get("/")]
+fn recipes_root_index_redirect() -> Redirect {
+    Redirect::to(uri!(recipes_root_index))
+}
 fn _recipes_index(name: PathBuf) -> Template {
     let mut items: Vec<(String, String)> = Vec::new();
     let dir = Path::new("recipes/").join(name);
@@ -47,9 +51,16 @@ fn _recipes_index(name: PathBuf) -> Template {
             if name.starts_with(".") {
                 continue;
             }
-            items.push((name, path.to_str().unwrap().to_string()));
+            items.push((
+                name,
+                Path::new("/recipes")
+                    .join(path)
+                    .to_str()
+                    .unwrap()
+                    .to_string(),
+            ));
         } else if pb.extension().unwrap() == "slop" {
-            let mut l = PathBuf::from("../recipe/card").join(pb.strip_prefix("recipes/").unwrap());
+            let mut l = PathBuf::from("/recipe/card").join(pb.strip_prefix("recipes/").unwrap());
             l.set_extension("");
             let name = l.file_name().unwrap().to_str().unwrap().to_string();
             if name.starts_with(".") {
@@ -66,6 +77,14 @@ fn _recipes_index(name: PathBuf) -> Template {
 fn main() {
     rocket::ignite()
         .attach(Template::fairing())
-        .mount("/", routes![recipes_index, recipes_root_index, recipe_card])
+        .mount(
+            "/",
+            routes![
+                recipes_index,
+                recipes_root_index,
+                recipes_root_index_redirect,
+                recipe_card
+            ],
+        )
         .launch();
 }

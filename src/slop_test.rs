@@ -8,13 +8,17 @@ fn test_parse(src: &str, f: Result<ast::SourceFile, Error>) {
 #[test]
 fn ingredient() {
     test_parse(
-        "<*sugar 1 cup>",
+        "<*1 cup: brown sugar>",
         Ok(SourceFile {
             recipes: vec![Recipe {
                 title: None,
                 preamble: None,
                 comment: None,
-                root: Operand::Ingredient("sugar 1 cup".to_string()),
+                root: Operand::Ingredient {
+                    quantity: Some("1".to_string()),
+                    unit: Some("cup".to_string()),
+                    name: "brown sugar".to_string(),
+                },
             }],
         }),
     );
@@ -22,14 +26,18 @@ fn ingredient() {
 #[test]
 fn unary() {
     test_parse(
-        "<*sugar 1 cup =pulverize>",
+        "<*1 cup: sugar =pulverize>",
         Ok(SourceFile {
             recipes: vec![Recipe {
                 title: None,
                 preamble: None,
                 comment: None,
                 root: Operand::UnaryOp(
-                    Box::new(Operand::Ingredient("sugar 1 cup".to_string())),
+                    Box::new(Operand::Ingredient {
+                        quantity: Some("1".to_string()),
+                        unit: Some("cup".to_string()),
+                        name: "sugar".to_string(),
+                    }),
                     "pulverize".to_string(),
                 ),
             }],
@@ -39,15 +47,23 @@ fn unary() {
 #[test]
 fn binary() {
     test_parse(
-        "<*sugar 1 cup *milk 3 cups #boil and stir>",
+        "<*1 cup: sugar *3 cups: milk #boil and stir>",
         Ok(SourceFile {
             recipes: vec![Recipe {
                 title: None,
                 preamble: None,
                 comment: None,
                 root: Operand::BinaryOp(
-                    Box::new(Operand::Ingredient("sugar 1 cup".to_string())),
-                    Box::new(Operand::Ingredient("milk 3 cups".to_string())),
+                    Box::new(Operand::Ingredient {
+                        quantity: Some("1".to_string()),
+                        unit: Some("cup".to_string()),
+                        name: "sugar".to_string(),
+                    }),
+                    Box::new(Operand::Ingredient {
+                        quantity: Some("3".to_string()),
+                        unit: Some("cups".to_string()),
+                        name: "milk".to_string(),
+                    }),
                     "boil and stir".to_string(),
                 ),
             }],
@@ -57,13 +73,17 @@ fn binary() {
 #[test]
 fn title() {
     test_parse(
-        "<**Sugar *sugar 1 cup>",
+        "<**Sugar *1 cup: sugar>",
         Ok(SourceFile {
             recipes: vec![Recipe {
                 title: Some("Sugar".to_string()),
                 preamble: None,
                 comment: None,
-                root: Operand::Ingredient("sugar 1 cup".to_string()),
+                root: Operand::Ingredient {
+                    quantity: Some("1".to_string()),
+                    unit: Some("cup".to_string()),
+                    name: "sugar".to_string(),
+                },
             }],
         }),
     );
@@ -71,13 +91,17 @@ fn title() {
 #[test]
 fn preamble() {
     test_parse(
-        "< ##preheat oven *sugar 1 cup>",
+        "< ##preheat oven *1 cup: sugar>",
         Ok(SourceFile {
             recipes: vec![Recipe {
                 title: None,
                 preamble: Some("preheat oven".to_string()),
                 comment: None,
-                root: Operand::Ingredient("sugar 1 cup".to_string()),
+                root: Operand::Ingredient {
+                    quantity: Some("1".to_string()),
+                    unit: Some("cup".to_string()),
+                    name: "sugar".to_string(),
+                },
             }],
         }),
     );
@@ -85,13 +109,17 @@ fn preamble() {
 #[test]
 fn title_preamble() {
     test_parse(
-        "<**Sugar ##preheat oven *sugar 1 cup>",
+        "<**Sugar ##preheat oven *1 cup: sugar>",
         Ok(SourceFile {
             recipes: vec![Recipe {
                 title: Some("Sugar".to_string()),
                 preamble: Some("preheat oven".to_string()),
                 comment: None,
-                root: Operand::Ingredient("sugar 1 cup".to_string()),
+                root: Operand::Ingredient {
+                    quantity: Some("1".to_string()),
+                    unit: Some("cup".to_string()),
+                    name: "sugar".to_string(),
+                },
             }],
         }),
     );
@@ -100,11 +128,11 @@ fn title_preamble() {
 fn simple_recipe() {
     test_parse(
         "<
-*water 6 cups =boil
-*macarroni noodles 2 cups #boil till soft =drain
-*butter 1/4 cup #stir until melted
-*milk 1/3 cup #stir
-*dried cheese one pouch #stir until well mixed
+*6 cups: water =boil
+*2 cups: macarroni noodles #boil till soft =drain
+*1/4 cup: butter #stir until melted
+*1/3 cup: milk #stir
+*1 pouch: dried cheese #stir until well mixed
 >",
         Ok(SourceFile {
             recipes: vec![Recipe {
@@ -117,23 +145,41 @@ fn simple_recipe() {
                             Box::new(Operand::UnaryOp(
                                 Box::new(Operand::BinaryOp(
                                     Box::new(Operand::UnaryOp(
-                                        Box::new(Operand::Ingredient("water 6 cups".to_string())),
+                                        Box::new(Operand::Ingredient {
+                                            quantity: Some("6".to_string()),
+                                            unit: Some("cups".to_string()),
+                                            name: "water".to_string(),
+                                        }),
                                         "boil".to_string(),
                                     )),
-                                    Box::new(Operand::Ingredient(
-                                        "macarroni noodles 2 cups".to_string(),
-                                    )),
+                                    Box::new(Operand::Ingredient {
+                                        quantity: Some("2".to_string()),
+                                        unit: Some("cups".to_string()),
+                                        name: "macarroni noodles".to_string(),
+                                    }),
                                     "boil till soft".to_string(),
                                 )),
                                 "drain".to_string(),
                             )),
-                            Box::new(Operand::Ingredient("butter 1/4 cup".to_string())),
+                            Box::new(Operand::Ingredient {
+                                quantity: Some("1/4".to_string()),
+                                unit: Some("cup".to_string()),
+                                name: "butter".to_string(),
+                            }),
                             "stir until melted".to_string(),
                         )),
-                        Box::new(Operand::Ingredient("milk 1/3 cup".to_string())),
+                        Box::new(Operand::Ingredient {
+                            quantity: Some("1/3".to_string()),
+                            unit: Some("cup".to_string()),
+                            name: "milk".to_string(),
+                        }),
                         "stir".to_string(),
                     )),
-                    Box::new(Operand::Ingredient("dried cheese one pouch".to_string())),
+                    Box::new(Operand::Ingredient {
+                        quantity: Some("1".to_string()),
+                        unit: Some("pouch".to_string()),
+                        name: "dried cheese".to_string(),
+                    }),
                     "stir until well mixed".to_string(),
                 ),
             }],
@@ -168,39 +214,77 @@ fn cookies() {
                                 Box::new(Operand::BinaryOp(
                                     Box::new(Operand::BinaryOp(
                                         Box::new(Operand::UnaryOp(
-                                            Box::new(Operand::Ingredient("butter".to_string())),
+                                            Box::new(Operand::Ingredient {
+                                                quantity: None,
+                                                unit: None,
+                                                name: "butter".to_string(),
+                                            }),
                                             "soften".to_string(),
                                         )),
                                         Box::new(Operand::BinaryOp(
                                             Box::new(Operand::BinaryOp(
-                                                Box::new(Operand::Ingredient("sugar".to_string())),
-                                                Box::new(Operand::Ingredient(
-                                                    "brown sugar".to_string(),
-                                                )),
+                                                Box::new(Operand::Ingredient {
+                                                    quantity: None,
+                                                    unit: None,
+                                                    name: "sugar".to_string(),
+                                                }),
+                                                Box::new(Operand::Ingredient {
+                                                    quantity: None,
+                                                    unit: None,
+                                                    name: "brown sugar".to_string(),
+                                                }),
                                                 "+".to_string(),
                                             )),
-                                            Box::new(Operand::Ingredient("vanilla".to_string())),
+                                            Box::new(Operand::Ingredient {
+                                                quantity: None,
+                                                unit: None,
+                                                name: "vanilla".to_string(),
+                                            }),
                                             "+".to_string(),
                                         )),
                                         "beat".to_string(),
                                     )),
-                                    Box::new(Operand::Ingredient("eggs".to_string())),
+                                    Box::new(Operand::Ingredient {
+                                        quantity: None,
+                                        unit: None,
+                                        name: "eggs".to_string(),
+                                    }),
                                     "beat one at a time".to_string(),
                                 )),
                                 Box::new(Operand::BinaryOp(
                                     Box::new(Operand::BinaryOp(
-                                        Box::new(Operand::Ingredient("flour".to_string())),
-                                        Box::new(Operand::Ingredient("soda".to_string())),
+                                        Box::new(Operand::Ingredient {
+                                            quantity: None,
+                                            unit: None,
+                                            name: "flour".to_string(),
+                                        }),
+                                        Box::new(Operand::Ingredient {
+                                            quantity: None,
+                                            unit: None,
+                                            name: "soda".to_string(),
+                                        }),
                                         "+".to_string(),
                                     )),
-                                    Box::new(Operand::Ingredient("salt".to_string())),
+                                    Box::new(Operand::Ingredient {
+                                        quantity: None,
+                                        unit: None,
+                                        name: "salt".to_string(),
+                                    }),
                                     "mix".to_string(),
                                 )),
                                 "beat slowly".to_string(),
                             )),
                             Box::new(Operand::BinaryOp(
-                                Box::new(Operand::Ingredient("chocolate chips".to_string())),
-                                Box::new(Operand::Ingredient("chopped nuts".to_string())),
+                                Box::new(Operand::Ingredient {
+                                    quantity: None,
+                                    unit: None,
+                                    name: "chocolate chips".to_string(),
+                                }),
+                                Box::new(Operand::Ingredient {
+                                    quantity: None,
+                                    unit: None,
+                                    name: "chopped nuts".to_string(),
+                                }),
                                 "+".to_string(),
                             )),
                             "stir".to_string(),
@@ -219,7 +303,7 @@ fn invalid_token_error() {
     test_parse(
         "<#>",
         Err(ParseError::UnrecognizedToken {
-            token: (1, Token(1, "#"), 2),
+            token: (1, Token(2, "#"), 2),
             expected: vec![
                 "\"##\"".to_string(),
                 "\"*\"".to_string(),

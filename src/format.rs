@@ -85,10 +85,27 @@ fn format_recipe(f: &mut Formatter, r: &Recipe) {
 
 fn format_operand(f: &mut Formatter, o: &Operand) {
     match o {
-        Operand::Ingredient(text) => {
+        Operand::Ingredient {
+            quantity,
+            unit,
+            name,
+        } => {
             f.push('\n');
             f.push('*');
-            f.push_str(text);
+            let mut has_measure = false;
+            if let Some(q) = quantity {
+                f.push_str(q);
+                f.push(' ');
+                has_measure = true;
+            }
+            if let Some(u) = unit {
+                f.push_str(u);
+                has_measure = true;
+            }
+            if has_measure {
+                f.push_str(": ");
+            }
+            f.push_str(name);
         }
         Operand::UnaryOp(op, text) => {
             format_operand(f, op);
@@ -127,10 +144,10 @@ mod test {
         test_format(
             "<** Hauloumi
 ## Sterilize all equipment, boil ~15m
-*4L (1 gal) unhomogenised milk =heat to 45C 113F
-*2ml calcium chloride #stir in
-*1/4 cup non chlorinated water
-*2 tablets of rennet #dilute #stir in for no more than 1m
+*4 L: unhomogenised milk =heat to 45C 113F
+*2 mL: calcium chloride #stir in
+*1/4 cup: non chlorinated water
+*2 tablets: rennet #dilute #stir in for no more than 1m
     =cover and rest for 45m or until the curd is set
     =cut curds into 1/2 inch cubes
     =allow to heal for 5m

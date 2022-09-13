@@ -8,8 +8,7 @@ pub SourceFile: SourceFile = {
         recipes: <>,
     }
 }
-Recipe: Recipe = {
-    "<" <t:Title?> <p:Preamble?> <r:Operand> <c:Comment?> ">" => Recipe{
+Recipe: Recipe = { "<" <t:Title?> <p:Preamble?> <r:Operand> <c:Comment?> ">" => Recipe{
         title: t,
         preamble: p,
         root: r,
@@ -29,7 +28,7 @@ Comment: String = {
 
 
 Operand: Operand = {
-    <Ingredient> => Operand::Ingredient(<>),
+    <Ingredient> => <>,
     <o:Operand> <s:UnaryOperator> => Operand::UnaryOp(Box::new(o), s),
     <l:Operand> <r:Operand> <s:BinaryOperator> => Operand::BinaryOp(Box::new(l), Box::new(r), s),
 }
@@ -42,11 +41,49 @@ BinaryOperator: String = {
     "#" <Sentence> => <>
 }
 
-Ingredient: String = {
-    "*" <Sentence> => <>
+Ingredient: Operand = {
+    "*" <m:Measure?> <n:Sentence> => {
+        if let Some(m) = m {
+            Operand::Ingredient{
+                quantity: m.0,
+                unit: m.1,
+                name: n,
+            }
+        } else {
+            Operand::Ingredient{
+                quantity: None,
+                unit: None,
+                name: n,
+            }
+        }
+    }
 }
 
+Measure: (Option<String>, Option<String>) = {
+    <q:Quantity?> <u:Sentence?> ":" => {
+        (q,u)
+    }
+}
 
+Quantity: String = {
+    quantity => <>.trim().to_string(),
+}
 Sentence: String = {
-    r"[^*#=<>]+" => <>.trim().to_string()
+    sentence => <>.trim().to_string(),
+}
+
+match {
+    "<",
+    ">",
+    "=",
+    "#",
+    ":",
+    "*",
+    "**",
+    "#*",
+    "##",
+} else {
+    r"[-~0-9\./]+" => quantity,
+} else {
+    r"[^-~0-9\./<>=#:*][^<>=#:*]*" => sentence,
 }

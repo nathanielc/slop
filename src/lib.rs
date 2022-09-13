@@ -14,10 +14,15 @@ pub mod svg;
 extern crate lalrpop_util;
 lalrpop_mod!(parser);
 
-pub type Error<'a> = ParseError<usize, Token<'a>, &'static str>;
+pub type Error<'a> = ParseError<usize, String, &'static str>;
 
 pub fn parse(src: &str) -> Result<ast::SourceFile, Error> {
-    parser::SourceFileParser::new().parse(&src)
+    let sf = parser::SourceFileParser::new()
+        .parse(&src)
+        // Map the err tokens to an owned value since otherwise the
+        // input would have to live as long as the error which has a static lifetime.
+        .map_err(|err| err.map_token(|tok| tok.to_string()))?;
+    Ok(sf)
 }
 
 pub fn format(src: &str) -> Result<String, Error> {

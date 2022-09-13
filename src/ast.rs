@@ -12,7 +12,11 @@ pub struct Recipe {
 }
 #[derive(Debug, PartialEq)]
 pub enum Operand {
-    Ingredient(String),
+    Ingredient {
+        quantity: Option<String>,
+        unit: Option<String>,
+        name: String,
+    },
     UnaryOp(Box<Operand>, String),
     BinaryOp(Box<Operand>, Box<Operand>, String),
 }
