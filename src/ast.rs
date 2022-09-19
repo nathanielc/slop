@@ -13,6 +13,7 @@ pub struct Recipe {
 #[derive(Debug, PartialEq)]
 pub enum Operand {
     Ingredient {
+        derived: bool,
         quantity: Option<String>,
         unit: Option<String>,
         name: String,

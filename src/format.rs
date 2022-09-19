@@ -86,12 +86,16 @@ fn format_recipe(f: &mut Formatter, r: &Recipe) {
 fn format_operand(f: &mut Formatter, o: &Operand) {
     match o {
         Operand::Ingredient {
+            derived,
             quantity,
             unit,
             name,
         } => {
             f.push('\n');
             f.push('*');
+            if *derived {
+                f.push('^');
+            }
             let mut has_measure = false;
             if let Some(q) = quantity {
                 f.push_str(q);

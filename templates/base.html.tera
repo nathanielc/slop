@@ -5,6 +5,13 @@
     <title>Trough</title>
   </head>
   <body>
+      <h1>Navigation</h1>
+      <ul>
+          <li><a href="/recipes">Recipes</a></li>
+          <li><a href="/menu">Current Menu</a></li>
+          <li><a href="/create_menu">Create Menu</a></li>
+          <li><a href="/ingredients">All Ingredients</a></li>
+      </ul>
     {% block content %}{% endblock content %}
   </body>
 </html>

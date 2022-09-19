@@ -1,6 +1,6 @@
 use std::cmp::{max, min};
 
-use crate::semantic;
+use crate::semantic::{self, Ingredient};
 use svg::node::element::{Group, Polygon, Rectangle, Text};
 use svg::node::Text as RawText;
 use svg::Document;
@@ -27,7 +27,7 @@ fn recipe_to_svg(r: semantic::Recipe) -> Vec<u8> {
 
 fn compute_max_ing_width(op: &semantic::Operand) -> i32 {
     match op {
-        semantic::Operand::Ingredient { text } => compute_width(text),
+        semantic::Operand::Ingredient(ing) => compute_width(ingredient_text(&ing).as_str()),
         semantic::Operand::Operator { text: _, operands } => operands
             .iter()
             .fold(0, |acc, op| max(acc, compute_max_ing_width(op))),
@@ -36,7 +36,7 @@ fn compute_max_ing_width(op: &semantic::Operand) -> i32 {
 
 fn build_doc(r: semantic::Recipe, max_ing_width: i32) -> Document {
     let mut state = BuildState {
-        max_ing_width: max_ing_width,
+        max_ing_width,
         ing_count: 0,
         id: 0,
     };
@@ -108,21 +108,31 @@ struct ReturnState {
     y: i32,
 }
 
+// render the complete text for an ingredient
+fn ingredient_text(i: &Ingredient) -> String {
+    match (i.quantity.as_ref(), i.unit.as_ref()) {
+        (Some(q), Some(u)) => format!("{} {} {}", q, u, i.name),
+        (Some(q), None) => format!("{} {}", q, i.name),
+        _ => i.name.to_string(),
+    }
+}
+
 // add the operand to the document, return the tuple of
 // (new doc, minumum y value of all parent operands, x position of op, y, position of op)
 fn add_operand(doc: Document, op: semantic::Operand, state: &mut BuildState) -> ReturnState {
     match op {
-        semantic::Operand::Ingredient { text } => {
+        semantic::Operand::Ingredient(ing) => {
             state.ing_count = state.ing_count + 1;
             let ing_idx = state.ing_count - 1;
             let x = 0;
             let y = ing_idx * RECT_HEIGHT;
             let w = state.max_ing_width;
             let h = RECT_HEIGHT;
-            let doc = doc.add(text_group(state.id, &text, x, y, w, h));
+            let ing_text = ingredient_text(&ing);
+            let doc = doc.add(text_group(state.id, ing_text.as_str(), x, y, w, h));
             state.id += 1;
             return ReturnState {
-                doc: doc,
+                doc,
                 min_y: y,
                 x: w,
                 y: y + RECT_HEIGHT,
@@ -174,7 +184,7 @@ fn add_operand(doc: Document, op: semantic::Operand, state: &mut BuildState) -> 
     }
 }
 
-fn text_group(id: i32, s: &String, x: i32, y: i32, width: i32, height: i32) -> Group {
+fn text_group(id: i32, s: &str, x: i32, y: i32, width: i32, height: i32) -> Group {
     Group::new()
         .add(
             Rectangle::new()
@@ -233,7 +243,7 @@ fn text_group_with_points(
         )
 }
 
-fn compute_width(s: &String) -> i32 {
+fn compute_width(s: &str) -> i32 {
     s.len() as i32 * CHAR_WIDTH + X_MARGIN + X_MARGIN
 }
 

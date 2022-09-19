@@ -24,7 +24,7 @@ lsp-types = "0.79.0"
 lalrpop-util = "0.19"
 regex = "1"
 svg = "0.8.0"
-rocket = "0.4"
+rocket = "0.5.0-rc.2"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 tower-lsp = "0.13.3"
@@ -35,9 +35,13 @@ log-panics = "2.0.0"
 measurements = "0.11"
 anyhow ="1.0"
 clap = { version = "3.2.21", features = ["derive"] }
+rand = "0.8.5"
+url = "2.3.1"
+http = "0.2.8"
+strum = {version = "0.24.1", features = ["derive"]}
+strum_macros = "0.24.3"
 
 
-[dependencies.rocket_contrib]
-version = "0.4.5"
-default-features = false
-features = ["tera_templates"]
+[dependencies.rocket_dyn_templates]
+version = "0.1.0-rc.2"
+features = ["tera"]

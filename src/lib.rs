@@ -1,18 +1,19 @@
-use lalrpop_util::lexer::Token;
 use lalrpop_util::ParseError;
 
 // Local modules
 pub mod ast;
 pub mod format;
+pub mod menu;
+mod quant;
 pub mod semantic;
-#[cfg(test)]
-mod slop_test;
 pub mod svg;
 
 // Bring in generated parser for slop
 #[macro_use]
 extern crate lalrpop_util;
 lalrpop_mod!(parser);
+#[cfg(test)]
+mod parser_test;
 
 pub type Error<'a> = ParseError<usize, String, &'static str>;
 

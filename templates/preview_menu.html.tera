@@ -1,0 +1,22 @@
+{% extends "base" %}
+
+{% block content %}
+    <form action="/save_menu" method="post">
+    <h1>Menu List</h1>
+    <ul>
+        {% for l in recipes %}
+            <li>
+                <a href="{{ l.1 }}">{{ l.0 }}</a>
+                <input name="recipe" id="recipe" type="hidden" value="{{ l.2 }}"/>
+            </li>
+        {% endfor %}
+    </ul>
+    <h1>Shopping List</h1>
+    <ul>
+        {% for l in ingredients %}
+            <li>{{ l.0 }} -- {{ l.1 }}</li>
+        {% endfor %}
+    </ul>
+    <input type="submit" value="Save"/>
+    </form>
+{% endblock content %}

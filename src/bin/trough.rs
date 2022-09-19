@@ -1,31 +1,85 @@
 // Initialize rocket crate
-#![feature(proc_macro_hygiene, decl_macro)]
 #[macro_use]
 extern crate rocket;
-use rocket_contrib::templates::Template;
 
-use rocket::response::content::Content;
-use rocket::{http::ContentType, response::Redirect};
-use std::fs;
+use strum::IntoEnumIterator;
+use url::form_urlencoded;
+
+use rand::seq::SliceRandom;
+use rand::thread_rng;
+use rocket::http::ContentType;
+use rocket::response::Redirect;
+use rocket_dyn_templates::Template;
+use slop::{self, menu::compile_menu};
+use slop::{menu::MealType, svg};
+use slop::{menu::RecipeLink, semantic};
 use std::path::{Path, PathBuf};
+use std::{collections::HashMap, fs};
 
-use slop;
-use slop::semantic;
-use slop::svg;
+use anyhow::Result;
 
 #[get("/recipe/card/<name..>")]
-fn recipe_card(name: PathBuf) -> Content<Vec<u8>> {
+fn recipe_card(name: PathBuf) -> (ContentType, Vec<u8>) {
     let mut filepath = Path::new("recipes/").join(name);
     filepath.set_extension("slop");
     let contents = fs::read_to_string(filepath).expect("Something went wrong reading the file");
     let src_ast = slop::parse(&contents).expect("parsing failed");
     let src_sem = semantic::convert_source_file(src_ast);
-    Content(ContentType::SVG, svg::to_svg(src_sem))
+    (ContentType::SVG, svg::to_svg(src_sem))
 }
 
 #[derive(serde::Serialize)]
 struct IndexTemplateContext {
     items: Vec<(String, String)>,
+}
+
+#[derive(serde::Serialize)]
+struct IngredientTemplateContext {
+    ingredients: Vec<String>,
+}
+
+#[derive(serde::Serialize)]
+struct MenuTemplateContext {
+    recipes: Vec<(String, PathBuf, PathBuf)>,
+    ingredients: Vec<(String, String)>,
+}
+
+#[derive(FromForm, Debug)]
+struct CreateMenuData {
+    breakfast: usize,
+    lunch: usize,
+    dinner: usize,
+}
+#[derive(FromForm, PartialEq, Debug)]
+struct PreviewMenuData {
+    recipe: Vec<String>,
+}
+
+#[get("/ingredients")]
+fn ingredients() -> Template {
+    _ingredients()
+}
+
+#[get("/menu")]
+fn menu() -> Template {
+    _menu()
+}
+
+#[get("/create_menu")]
+fn create_menu() -> Template {
+    _create_menu()
+}
+#[get("/generate_menu?<data..>")]
+fn generate_menu(data: CreateMenuData) -> Redirect {
+    _generate_menu(data)
+}
+#[get("/preview_menu?<recipe..>")]
+fn preview_menu(recipe: PreviewMenuData) -> Template {
+    _preview_menu(recipe)
+}
+#[post("/save_menu?<recipe..>")]
+fn save_menu(recipe: PreviewMenuData) -> Template {
+    _preview_menu(recipe)
 }
 #[get("/recipes/<name..>")]
 fn recipes_index(name: PathBuf) -> Template {
@@ -37,7 +91,7 @@ fn recipes_root_index() -> Template {
 }
 #[get("/")]
 fn recipes_root_index_redirect() -> Redirect {
-    Redirect::to(uri!(recipes_root_index))
+    Redirect::to(uri!(recipes_root_index()))
 }
 fn _recipes_index(name: PathBuf) -> Template {
     let mut items: Vec<(String, String)> = Vec::new();
@@ -74,17 +128,155 @@ fn _recipes_index(name: PathBuf) -> Template {
     Template::render("recipe-index", &context)
 }
 
-fn main() {
-    rocket::ignite()
-        .attach(Template::fairing())
-        .mount(
-            "/",
-            routes![
-                recipes_index,
-                recipes_root_index,
-                recipes_root_index_redirect,
-                recipe_card
-            ],
-        )
-        .launch();
+const RECIPE_ROOT: &'static str = "recipes";
+
+fn _ingredients() -> Template {
+    let recipes = list_all_recipes(&PathBuf::from(RECIPE_ROOT)).expect("list all recipes");
+    let menu = compile_menu(recipes).expect("compile menu");
+
+    let mut ingredients = menu
+        .ingredients
+        .iter()
+        .map(|(name, _amounts)| (name.to_owned()))
+        .collect::<Vec<String>>();
+    ingredients.sort();
+    let context = IngredientTemplateContext { ingredients };
+
+    Template::render("ingredients", &context)
+}
+
+fn _menu() -> Template {
+    todo!()
+}
+
+fn _create_menu() -> Template {
+    let context: HashMap<String, String> = HashMap::new();
+    Template::render("create_menu", &context)
+}
+fn _generate_menu(data: CreateMenuData) -> Redirect {
+    let root = PathBuf::from(RECIPE_ROOT);
+    let mut recipes = Vec::with_capacity(data.breakfast + data.lunch + data.dinner);
+    recipes.extend(pick_random(
+        list_recipes(&root, MealType::Breakfast).expect("failed to read breakfasts"),
+        data.breakfast,
+    ));
+    recipes.extend(pick_random(
+        list_recipes(&root, MealType::Lunch).expect("failed to read lunches"),
+        data.lunch,
+    ));
+    recipes.extend(pick_random(
+        list_recipes(&root, MealType::Dinner).expect("failed to read dinners"),
+        data.dinner,
+    ));
+
+    let mut serializer = form_urlencoded::Serializer::new(String::new());
+    for r in recipes {
+        serializer.append_pair("recipe", r.slop_path.to_str().unwrap());
+    }
+    Redirect::to(format!("/preview_menu?{}", serializer.finish()))
+}
+fn _preview_menu(mut data: PreviewMenuData) -> Template {
+    let recipes = data
+        .recipe
+        .drain(..)
+        .map(|slop_path| parse_slop_path(PathBuf::from(slop_path)))
+        .collect::<Result<Vec<RecipeLink>>>()
+        .unwrap();
+
+    let menu = compile_menu(recipes).expect("compile menu");
+
+    let context = MenuTemplateContext {
+        recipes: menu
+            .recipes
+            .iter()
+            .map(|recipe| {
+                (
+                    recipe.title().to_owned(),
+                    recipe.link.card_url.to_owned(),
+                    recipe.link.slop_path.to_owned(),
+                )
+            })
+            .collect(),
+        ingredients: menu
+            .ingredients
+            .iter()
+            .map(|(name, amounts)| (name.to_owned(), format!("{}", amounts)))
+            .collect(),
+    };
+    Template::render("preview_menu", &context)
+}
+
+const CARD_PATH: &'static str = "recipe/card";
+
+fn list_all_recipes(root: &Path) -> Result<Vec<RecipeLink>> {
+    let mut recipes = Vec::new();
+    for typ in MealType::iter() {
+        recipes.extend(list_recipes(root, typ)?);
+    }
+    Ok(recipes)
+}
+fn list_recipes(root: &Path, typ: MealType) -> Result<Vec<RecipeLink>> {
+    let dir = root.join(typ.clone().name());
+    let mut recipes: Vec<RecipeLink> = Vec::new();
+    if dir.is_dir() {
+        for entry in fs::read_dir(dir)? {
+            let entry = entry?;
+            let file_path = entry.path();
+            if file_path.is_file() {
+                if let Some(ext) = file_path.extension() {
+                    if ext == "slop" {
+                        let card_url = PathBuf::from(CARD_PATH)
+                            .join(file_path.strip_prefix(root).unwrap())
+                            .with_extension("");
+                        recipes.push(RecipeLink {
+                            typ: typ.clone(),
+                            slop_path: file_path,
+                            card_url,
+                        });
+                    }
+                }
+            }
+        }
+    }
+    Ok(recipes)
+}
+fn parse_slop_path(path: PathBuf) -> Result<RecipeLink> {
+    let p = path.strip_prefix(RECIPE_ROOT)?.to_owned();
+    let mut mt: MealType = MealType::Breakfast;
+    for typ in MealType::iter() {
+        if p.starts_with(typ.name()) {
+            mt = typ;
+            break;
+        }
+    }
+    Ok(RecipeLink {
+        typ: mt,
+        slop_path: path,
+        card_url: PathBuf::from(CARD_PATH).join(p).with_extension(""),
+    })
+}
+fn pick_random<T>(mut list: Vec<T>, count: usize) -> Vec<T> {
+    let mut rng = thread_rng();
+    list.shuffle(&mut rng);
+    list.truncate(count);
+    list
+}
+
+#[launch]
+fn rocket() -> _ {
+    rocket::build().attach(Template::fairing()).mount(
+        "/",
+        routes![
+            recipes_index,
+            recipes_root_index,
+            recipes_root_index_redirect,
+            recipe_card,
+            menu,
+            create_menu,
+            generate_menu,
+            preview_menu,
+            save_menu,
+            ingredients,
+        ],
+    )
 }

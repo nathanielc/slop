@@ -14,10 +14,16 @@ pub struct Recipe {
 }
 
 #[derive(Debug, PartialEq)]
+pub struct Ingredient {
+    pub derived: bool,
+    pub quantity: Option<String>,
+    pub unit: Option<String>,
+    pub name: String,
+}
+
+#[derive(Debug, PartialEq)]
 pub enum Operand {
-    Ingredient {
-        text: String,
-    },
+    Ingredient(Ingredient),
     Operator {
         text: String,
         operands: Vec<Operand>,
@@ -40,10 +46,16 @@ pub fn convert_recipe(r: ast::Recipe) -> Recipe {
 pub fn convert_operand(op: ast::Operand) -> Operand {
     match op {
         ast::Operand::Ingredient {
+            derived,
             quantity,
             unit,
             name,
-        } => Operand::Ingredient { text: name },
+        } => Operand::Ingredient(Ingredient {
+            derived,
+            quantity,
+            unit,
+            name,
+        }),
         ast::Operand::UnaryOp(operand, text) => Operand::Operator {
             text,
             operands: vec![convert_operand(*operand)],
@@ -79,6 +91,7 @@ mod test {
         let sg = convert_operand(ast::Operand::BinaryOp(
             Box::new(ast::Operand::UnaryOp(
                 Box::new(ast::Operand::Ingredient {
+                    derived: false,
                     quantity: None,
                     unit: None,
                     name: "butter".to_string(),
@@ -86,6 +99,7 @@ mod test {
                 "soften".to_string(),
             )),
             Box::new(ast::Operand::Ingredient {
+                derived: false,
                 quantity: None,
                 unit: None,
                 name: "salt".to_string(),
@@ -99,13 +113,19 @@ mod test {
                 operands: vec![
                     Operand::Operator {
                         text: "soften".to_string(),
-                        operands: vec![Operand::Ingredient {
-                            text: "butter".to_string(),
-                        }],
+                        operands: vec![Operand::Ingredient(Ingredient {
+                            derived: false,
+                            quantity: None,
+                            unit: None,
+                            name: "butter".to_string(),
+                        })],
                     },
-                    Operand::Ingredient {
-                        text: "salt".to_string(),
-                    },
+                    Operand::Ingredient(Ingredient {
+                        derived: false,
+                        quantity: None,
+                        unit: None,
+                        name: "salt".to_string(),
+                    }),
                 ],
             }
         );
@@ -115,11 +135,13 @@ mod test {
         let sg = convert_operand(ast::Operand::BinaryOp(
             Box::new(ast::Operand::BinaryOp(
                 Box::new(ast::Operand::Ingredient {
+                    derived: false,
                     quantity: None,
                     unit: None,
                     name: "flour".to_string(),
                 }),
                 Box::new(ast::Operand::Ingredient {
+                    derived: false,
                     quantity: None,
                     unit: None,
                     name: "baking soda".to_string(),
@@ -127,6 +149,7 @@ mod test {
                 "+".to_string(),
             )),
             Box::new(ast::Operand::Ingredient {
+                derived: false,
                 quantity: None,
                 unit: None,
                 name: "salt".to_string(),
@@ -138,15 +161,24 @@ mod test {
             Operand::Operator {
                 text: "mix".to_string(),
                 operands: vec![
-                    Operand::Ingredient {
-                        text: "flour".to_string(),
-                    },
-                    Operand::Ingredient {
-                        text: "baking soda".to_string(),
-                    },
-                    Operand::Ingredient {
-                        text: "salt".to_string(),
-                    },
+                    Operand::Ingredient(Ingredient {
+                        derived: false,
+                        quantity: None,
+                        unit: None,
+                        name: "flour".to_string(),
+                    }),
+                    Operand::Ingredient(Ingredient {
+                        derived: false,
+                        quantity: None,
+                        unit: None,
+                        name: "baking soda".to_string(),
+                    }),
+                    Operand::Ingredient(Ingredient {
+                        derived: false,
+                        quantity: None,
+                        unit: None,
+                        name: "salt".to_string(),
+                    }),
                 ],
             }
         );
@@ -157,11 +189,13 @@ mod test {
             Box::new(ast::Operand::BinaryOp(
                 Box::new(ast::Operand::BinaryOp(
                     Box::new(ast::Operand::Ingredient {
+                        derived: false,
                         quantity: None,
                         unit: None,
                         name: "flour".to_string(),
                     }),
                     Box::new(ast::Operand::Ingredient {
+                        derived: false,
                         quantity: None,
                         unit: None,
                         name: "baking soda".to_string(),
@@ -169,6 +203,7 @@ mod test {
                     "+".to_string(),
                 )),
                 Box::new(ast::Operand::Ingredient {
+                    derived: false,
                     quantity: None,
                     unit: None,
                     name: "salt".to_string(),
@@ -176,6 +211,7 @@ mod test {
                 "+".to_string(),
             )),
             Box::new(ast::Operand::Ingredient {
+                derived: false,
                 quantity: None,
                 unit: None,
                 name: "oats".to_string(),
@@ -187,18 +223,30 @@ mod test {
             Operand::Operator {
                 text: "mix".to_string(),
                 operands: vec![
-                    Operand::Ingredient {
-                        text: "flour".to_string(),
-                    },
-                    Operand::Ingredient {
-                        text: "baking soda".to_string(),
-                    },
-                    Operand::Ingredient {
-                        text: "salt".to_string(),
-                    },
-                    Operand::Ingredient {
-                        text: "oats".to_string(),
-                    },
+                    Operand::Ingredient(Ingredient {
+                        derived: false,
+                        quantity: None,
+                        unit: None,
+                        name: "flour".to_string(),
+                    }),
+                    Operand::Ingredient(Ingredient {
+                        derived: false,
+                        quantity: None,
+                        unit: None,
+                        name: "baking soda".to_string(),
+                    }),
+                    Operand::Ingredient(Ingredient {
+                        derived: false,
+                        quantity: None,
+                        unit: None,
+                        name: "salt".to_string(),
+                    }),
+                    Operand::Ingredient(Ingredient {
+                        derived: false,
+                        quantity: None,
+                        unit: None,
+                        name: "oats".to_string(),
+                    }),
                 ],
             }
         );

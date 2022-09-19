@@ -42,15 +42,17 @@ BinaryOperator: String = {
 }
 
 Ingredient: Operand = {
-    "*" <m:Measure?> <n:Sentence> => {
+    "*" <d:"^"?> <m:Measure?> <n:Sentence> => {
         if let Some(m) = m {
             Operand::Ingredient{
+                derived: d.is_some(),
                 quantity: m.0,
                 unit: m.1,
                 name: n,
             }
         } else {
             Operand::Ingredient{
+                derived: d.is_some(),
                 quantity: None,
                 unit: None,
                 name: n,
@@ -79,11 +81,12 @@ match {
     "#",
     ":",
     "*",
+    "^",
     "**",
     "#*",
     "##",
 } else {
     r"[-~0-9\./]+" => quantity,
 } else {
-    r"[^-~0-9\./<>=#:*][^<>=#:*]*" => sentence,
+    r"[^-^~0-9\./<>=#:*][^<>=#:*]*" => sentence,
 }

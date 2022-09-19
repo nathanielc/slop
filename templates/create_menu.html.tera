@@ -1,0 +1,17 @@
+{% extends "base" %}
+
+{% block content %}
+    <h1>Menu Form</h1>
+    <form action="/generate_menu?" method="GET">
+        <label for="breakfast">Breakfast</label>
+        <input id="breakfast" name="breakfast" type="text"/>
+        <br/>
+        <label for="lunch">Lunch</label>
+        <input id="lunch" name="lunch" type="text"/>
+        <br/>
+        <label for="dinner">Dinner</label>
+        <input id="dinner" name="dinner" type="text"/>
+        <br/>
+        <input type="submit" value="The Button"/>
+    </form>
+{% endblock content %}
