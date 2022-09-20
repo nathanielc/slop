@@ -1,9 +1,7 @@
+use anyhow::Result;
 use std::path::PathBuf;
 use std::{collections::HashMap, fs};
-
 use strum_macros::EnumIter;
-
-use anyhow::Result;
 
 use crate::{
     parse,
@@ -70,6 +68,7 @@ pub fn compile_menu(mut input_recipes: Vec<RecipeLink>) -> Result<Menu> {
     let recipes: Result<Vec<RecipeMeta>> = input_recipes
         .drain(..)
         .map(|link| -> Result<RecipeMeta> {
+            eprintln!("parsing {:?}", link.slop_path);
             let contents = fs::read_to_string(&link.slop_path)?;
             let src_ast = parse(&contents)?;
             let mut src_sem = semantic::convert_source_file(src_ast);

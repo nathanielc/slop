@@ -2,21 +2,21 @@
 #[macro_use]
 extern crate rocket;
 
-use strum::IntoEnumIterator;
-use url::form_urlencoded;
-
+use anyhow::Result;
 use rand::seq::SliceRandom;
 use rand::thread_rng;
+use rocket::form::Form;
 use rocket::http::ContentType;
 use rocket::response::Redirect;
 use rocket_dyn_templates::Template;
+use serde::{Deserialize, Serialize};
 use slop::{self, menu::compile_menu};
 use slop::{menu::MealType, svg};
 use slop::{menu::RecipeLink, semantic};
+use std::fs::{self, File};
 use std::path::{Path, PathBuf};
-use std::{collections::HashMap, fs};
-
-use anyhow::Result;
+use strum::IntoEnumIterator;
+use url::form_urlencoded;
 
 #[get("/recipe/card/<name..>")]
 fn recipe_card(name: PathBuf) -> (ContentType, Vec<u8>) {
@@ -39,19 +39,30 @@ struct IngredientTemplateContext {
 }
 
 #[derive(serde::Serialize)]
-struct MenuTemplateContext {
+struct PreviewMenuTemplateContext {
     recipes: Vec<(String, PathBuf, PathBuf)>,
     ingredients: Vec<(String, String)>,
 }
+#[derive(serde::Serialize)]
+struct CreateMenuTemplateContext {
+    types: Vec<(String, String)>,
+}
 
 #[derive(FromForm, Debug)]
-struct CreateMenuData {
+struct GenerateMenuData {
     breakfast: usize,
     lunch: usize,
     dinner: usize,
+    snack: usize,
+    dessert: usize,
 }
 #[derive(FromForm, PartialEq, Debug)]
 struct PreviewMenuData {
+    recipe: Vec<String>,
+}
+
+#[derive(FromForm, PartialEq, Debug, Deserialize, Serialize)]
+struct SaveMenuData {
     recipe: Vec<String>,
 }
 
@@ -61,8 +72,11 @@ fn ingredients() -> Template {
 }
 
 #[get("/menu")]
-fn menu() -> Template {
-    _menu()
+fn menu() -> std::result::Result<Redirect, String> {
+    match _menu() {
+        Ok(r) => Ok(r),
+        Err(err) => Err(err.to_string()),
+    }
 }
 
 #[get("/create_menu")]
@@ -70,16 +84,19 @@ fn create_menu() -> Template {
     _create_menu()
 }
 #[get("/generate_menu?<data..>")]
-fn generate_menu(data: CreateMenuData) -> Redirect {
+fn generate_menu(data: GenerateMenuData) -> Redirect {
     _generate_menu(data)
 }
 #[get("/preview_menu?<recipe..>")]
 fn preview_menu(recipe: PreviewMenuData) -> Template {
     _preview_menu(recipe)
 }
-#[post("/save_menu?<recipe..>")]
-fn save_menu(recipe: PreviewMenuData) -> Template {
-    _preview_menu(recipe)
+#[post("/save_menu", data = "<data>")]
+fn save_menu(data: Form<SaveMenuData>) -> std::result::Result<Redirect, String> {
+    match _save_menu(data.into_inner()) {
+        Ok(r) => Ok(r),
+        Err(err) => Err(err.to_string()),
+    }
 }
 #[get("/recipes/<name..>")]
 fn recipes_index(name: PathBuf) -> Template {
@@ -129,6 +146,7 @@ fn _recipes_index(name: PathBuf) -> Template {
 }
 
 const RECIPE_ROOT: &'static str = "recipes";
+const MENU_ROOT: &'static str = "menus";
 
 fn _ingredients() -> Template {
     let recipes = list_all_recipes(&PathBuf::from(RECIPE_ROOT)).expect("list all recipes");
@@ -145,15 +163,41 @@ fn _ingredients() -> Template {
     Template::render("ingredients", &context)
 }
 
-fn _menu() -> Template {
-    todo!()
+fn _menu() -> Result<Redirect> {
+    let data = fs::read_to_string(PathBuf::from(MENU_ROOT).join("menu.json"))?;
+    let menu: SaveMenuData = serde_json::from_str(&data)?;
+
+    let mut serializer = form_urlencoded::Serializer::new(String::new());
+    for r in menu.recipe {
+        serializer.append_pair("recipe", &r);
+    }
+    Ok(Redirect::to(format!(
+        "/preview_menu?{}",
+        serializer.finish()
+    )))
 }
 
+fn capitalize(s: String) -> String {
+    s.chars()
+        .enumerate()
+        .map(|(i, c)| {
+            if i == 0 {
+                c.to_uppercase().nth(0).unwrap()
+            } else {
+                c
+            }
+        })
+        .collect::<String>()
+}
 fn _create_menu() -> Template {
-    let context: HashMap<String, String> = HashMap::new();
+    let context = CreateMenuTemplateContext {
+        types: MealType::iter()
+            .map(|t| (t.name().to_owned(), capitalize(t.name().to_owned())))
+            .collect::<Vec<(String, String)>>(),
+    };
     Template::render("create_menu", &context)
 }
-fn _generate_menu(data: CreateMenuData) -> Redirect {
+fn _generate_menu(data: GenerateMenuData) -> Redirect {
     let root = PathBuf::from(RECIPE_ROOT);
     let mut recipes = Vec::with_capacity(data.breakfast + data.lunch + data.dinner);
     recipes.extend(pick_random(
@@ -167,6 +211,14 @@ fn _generate_menu(data: CreateMenuData) -> Redirect {
     recipes.extend(pick_random(
         list_recipes(&root, MealType::Dinner).expect("failed to read dinners"),
         data.dinner,
+    ));
+    recipes.extend(pick_random(
+        list_recipes(&root, MealType::Snack).expect("failed to read snacks"),
+        data.snack,
+    ));
+    recipes.extend(pick_random(
+        list_recipes(&root, MealType::Dessert).expect("failed to read dessert"),
+        data.dessert,
     ));
 
     let mut serializer = form_urlencoded::Serializer::new(String::new());
@@ -185,7 +237,7 @@ fn _preview_menu(mut data: PreviewMenuData) -> Template {
 
     let menu = compile_menu(recipes).expect("compile menu");
 
-    let context = MenuTemplateContext {
+    let mut context = PreviewMenuTemplateContext {
         recipes: menu
             .recipes
             .iter()
@@ -203,7 +255,16 @@ fn _preview_menu(mut data: PreviewMenuData) -> Template {
             .map(|(name, amounts)| (name.to_owned(), format!("{}", amounts)))
             .collect(),
     };
+    context.ingredients.sort_unstable_by_key(|i| i.0.clone());
     Template::render("preview_menu", &context)
+}
+
+fn _save_menu(data: SaveMenuData) -> Result<Redirect> {
+    fs::create_dir_all(MENU_ROOT)?;
+    let f = File::create(PathBuf::from(MENU_ROOT).join("menu.json"))?;
+    serde_json::to_writer(&f, &data)?;
+
+    Ok(Redirect::to(uri!(menu)))
 }
 
 const CARD_PATH: &'static str = "recipe/card";
@@ -240,7 +301,7 @@ fn list_recipes(root: &Path, typ: MealType) -> Result<Vec<RecipeLink>> {
     }
     Ok(recipes)
 }
-fn parse_slop_path(path: PathBuf) -> Result<RecipeLink> {
+fn parse_slop_path(path: PathBuf) -> anyhow::Result<RecipeLink> {
     let p = path.strip_prefix(RECIPE_ROOT)?.to_owned();
     let mut mt: MealType = MealType::Breakfast;
     for typ in MealType::iter() {

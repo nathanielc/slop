@@ -1,4 +1,4 @@
-use crate::ast::{Operand, Recipe, SourceFile};
+use crate::ast::{Operand, Quantity, Recipe, SourceFile};
 
 const MAX_LINE_LEN: usize = 40;
 struct Formatter {
@@ -97,10 +97,13 @@ fn format_operand(f: &mut Formatter, o: &Operand) {
                 f.push('^');
             }
             let mut has_measure = false;
-            if let Some(q) = quantity {
-                f.push_str(q);
-                f.push(' ');
+            for q in quantity.iter() {
                 has_measure = true;
+                match q {
+                    Quantity::Number(s) => f.push_str(&s),
+                    Quantity::Fraction(s) => f.push_str(&s),
+                };
+                f.push(' ');
             }
             if let Some(u) = unit {
                 f.push_str(u);

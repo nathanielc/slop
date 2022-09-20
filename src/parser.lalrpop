@@ -1,4 +1,4 @@
-use crate::ast::{Operand,Recipe,SourceFile};
+use crate::ast::{Operand,Recipe,SourceFile,Quantity};
 
 
 grammar;
@@ -53,7 +53,7 @@ Ingredient: Operand = {
         } else {
             Operand::Ingredient{
                 derived: d.is_some(),
-                quantity: None,
+                quantity: vec![],
                 unit: None,
                 name: n,
             }
@@ -61,15 +61,17 @@ Ingredient: Operand = {
     }
 }
 
-Measure: (Option<String>, Option<String>) = {
-    <q:Quantity?> <u:Sentence?> ":" => {
+Measure: (Vec<Quantity>, Option<String>) = {
+    <q:Quantity*> <u:Sentence?> ":" => {
         (q,u)
     }
 }
 
-Quantity: String = {
-    quantity => <>.trim().to_string(),
+Quantity: Quantity = {
+    number => Quantity::Number(<>.trim().to_string()),
+    fraction => Quantity::Fraction(<>.trim().to_string()),
 }
+
 Sentence: String = {
     sentence => <>.trim().to_string(),
 }
@@ -86,7 +88,9 @@ match {
     "#*",
     "##",
 } else {
-    r"[-~0-9\./]+" => quantity,
+    r"\d+/\d+" => fraction,
 } else {
-    r"[^-^~0-9\./<>=#:*][^<>=#:*]*" => sentence,
+    r"\d+(\.\d+)?" => number,
+} else {
+    r"[^^~\s\d\./<>=#:*][^^<>=#:*]*" => sentence,
 }

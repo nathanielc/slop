@@ -2,7 +2,7 @@
 name = "slop"
 version = "0.1.0"
 authors = ["Nathaniel Cook <nvcook42@gmail.com>"]
-edition = "2018"
+edition = "2021"
 
 [[bin]]
 name = "trough"
@@ -21,7 +21,7 @@ lalrpop = { version = "0.19", features = ["lexer"] }
 codespan = "0.9.5"
 codespan-lsp = "0.10.1"
 lsp-types = "0.79.0"
-lalrpop-util = "0.19"
+lalrpop-util = {version = "0.19", features = ["lexer"] }
 regex = "1"
 svg = "0.8.0"
 rocket = "0.5.0-rc.2"

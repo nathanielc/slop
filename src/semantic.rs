@@ -1,4 +1,5 @@
 use crate::ast;
+use anyhow::Result;
 
 #[derive(Debug, PartialEq)]
 pub struct SourceFile {
@@ -16,9 +17,14 @@ pub struct Recipe {
 #[derive(Debug, PartialEq)]
 pub struct Ingredient {
     pub derived: bool,
-    pub quantity: Option<String>,
+    pub quantity: Option<(String, f64)>,
     pub unit: Option<String>,
     pub name: String,
+}
+#[derive(Debug, PartialEq)]
+pub enum Quantity {
+    Number(f64),
+    Fraction(f64),
 }
 
 #[derive(Debug, PartialEq)]
@@ -52,7 +58,19 @@ pub fn convert_operand(op: ast::Operand) -> Operand {
             name,
         } => Operand::Ingredient(Ingredient {
             derived,
-            quantity,
+            quantity: quantity
+                .iter()
+                .map(|q| -> Result<(String, f64)> { Ok((q.text().to_owned(), q.try_into()?)) })
+                .collect::<Result<Vec<(String, f64)>>>()
+                .expect("TODO ast -> semantic quantity")
+                .iter()
+                .fold(None, |acc, q| {
+                    if let Some(acc) = acc {
+                        Some(((acc.0 + " " + q.0.as_str()).to_owned(), acc.1 + q.1))
+                    } else {
+                        Some(q.to_owned())
+                    }
+                }),
             unit,
             name,
         }),
@@ -92,7 +110,7 @@ mod test {
             Box::new(ast::Operand::UnaryOp(
                 Box::new(ast::Operand::Ingredient {
                     derived: false,
-                    quantity: None,
+                    quantity: vec![],
                     unit: None,
                     name: "butter".to_string(),
                 }),
@@ -100,7 +118,7 @@ mod test {
             )),
             Box::new(ast::Operand::Ingredient {
                 derived: false,
-                quantity: None,
+                quantity: vec![],
                 unit: None,
                 name: "salt".to_string(),
             }),
@@ -136,13 +154,13 @@ mod test {
             Box::new(ast::Operand::BinaryOp(
                 Box::new(ast::Operand::Ingredient {
                     derived: false,
-                    quantity: None,
+                    quantity: vec![],
                     unit: None,
                     name: "flour".to_string(),
                 }),
                 Box::new(ast::Operand::Ingredient {
                     derived: false,
-                    quantity: None,
+                    quantity: vec![],
                     unit: None,
                     name: "baking soda".to_string(),
                 }),
@@ -150,7 +168,7 @@ mod test {
             )),
             Box::new(ast::Operand::Ingredient {
                 derived: false,
-                quantity: None,
+                quantity: vec![],
                 unit: None,
                 name: "salt".to_string(),
             }),
@@ -190,13 +208,13 @@ mod test {
                 Box::new(ast::Operand::BinaryOp(
                     Box::new(ast::Operand::Ingredient {
                         derived: false,
-                        quantity: None,
+                        quantity: vec![],
                         unit: None,
                         name: "flour".to_string(),
                     }),
                     Box::new(ast::Operand::Ingredient {
                         derived: false,
-                        quantity: None,
+                        quantity: vec![],
                         unit: None,
                         name: "baking soda".to_string(),
                     }),
@@ -204,7 +222,7 @@ mod test {
                 )),
                 Box::new(ast::Operand::Ingredient {
                     derived: false,
-                    quantity: None,
+                    quantity: vec![],
                     unit: None,
                     name: "salt".to_string(),
                 }),
@@ -212,7 +230,7 @@ mod test {
             )),
             Box::new(ast::Operand::Ingredient {
                 derived: false,
-                quantity: None,
+                quantity: vec![],
                 unit: None,
                 name: "oats".to_string(),
             }),

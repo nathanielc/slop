@@ -3,15 +3,12 @@
 {% block content %}
     <h1>Menu Form</h1>
     <form action="/generate_menu?" method="GET">
-        <label for="breakfast">Breakfast</label>
-        <input id="breakfast" name="breakfast" type="text"/>
+        {% for t in types %}
+        <label for="{{ t.0 }}">{{ t.1 }}</label>
+        <input id="{{ t.0 }}" name="{{ t.0 }}" type="text" value="0"/>
         <br/>
-        <label for="lunch">Lunch</label>
-        <input id="lunch" name="lunch" type="text"/>
         <br/>
-        <label for="dinner">Dinner</label>
-        <input id="dinner" name="dinner" type="text"/>
-        <br/>
-        <input type="submit" value="The Button"/>
+        {% endfor %}
+        <input type="submit" value="Preview"/>
     </form>
 {% endblock content %}

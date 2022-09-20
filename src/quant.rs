@@ -1,172 +1,157 @@
 use std::{collections::HashMap, fmt::Display};
 
-use anyhow::{anyhow, Result};
-use measurements::{Mass, Measurement, Volume};
-
-#[derive(Debug, Clone)]
-pub enum Amount {
-    Volume(Volume),
-    Mass(Mass),
-    Arbitrary(Arbitrary),
-}
+use measurements::{mass, volume, Mass, Measurement, Volume};
 
 // Map of unit to amount for a single ingredient
 #[derive(Debug, Clone)]
-pub struct Amounts(HashMap<String, Amount>);
+pub struct Amounts {
+    volume: Option<Volume>,
+    mass: Option<Mass>,
+    arbitrary: HashMap<String, Arbitrary>,
+}
 
 #[derive(Debug, Clone)]
 pub struct Arbitrary {
     pub units: String,
     pub value: f64,
 }
-impl Amount {
-    fn get_base_units_name(&self) -> String {
-        match self {
-            Amount::Volume(a) => a.get_base_units_name().to_string(),
-            Amount::Mass(a) => a.get_base_units_name().to_string(),
-            Amount::Arbitrary(a) => a.units.to_string(),
+
+impl Amounts {
+    fn get_volume_units(&self) -> Option<(&'static str, f64)> {
+        if let Some(v) = self.volume {
+            let list = [
+                ("tsp", 1.0 / volume::LITER_TEASPOONS_FACTOR),
+                ("tbsp", 1.0 / volume::LITER_TABLESPOONS_FACTOR),
+                ("fl oz", 1.0 / volume::LITER_FLUID_OUNCES_FACTOR),
+                ("cup", 1.0 / volume::LITER_CUP_FACTOR),
+                ("gal", 1.0 / volume::LITER_GALLONS_FACTOR),
+            ];
+            Some(v.pick_appropriate_units(&list))
+        } else {
+            None
         }
     }
-
-    fn as_base_units(&self) -> f64 {
-        match self {
-            Amount::Volume(a) => a.as_base_units(),
-            Amount::Mass(a) => a.as_base_units(),
-            Amount::Arbitrary(a) => a.value,
+    fn get_mass_units(&self) -> Option<(&'static str, f64)> {
+        if let Some(m) = self.mass {
+            let list = [
+                ("oz", 1.0 / mass::KILOGRAM_OUNCES_FACTOR),
+                ("lbs", 1.0 / mass::KILOGRAM_POUNDS_FACTOR),
+            ];
+            Some(m.pick_appropriate_units(&list))
+        } else {
+            None
         }
     }
 }
 
 impl Display for Amounts {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        for (i, (_, amount)) in self.0.iter().enumerate() {
-            if i != 0 {
-                write!(f, ", ")?;
-            }
-            write!(
-                f,
-                "{} {}",
-                amount.as_base_units(),
-                amount.get_base_units_name(),
-            )?;
+        if let Some((units, value)) = self.get_volume_units() {
+            write!(f, "{:.2} {}", value, units,)?;
+        }
+        if let Some((units, value)) = self.get_mass_units() {
+            write!(f, " {:.2} {}", value, units,)?;
+        }
+        for (_, amount) in self.arbitrary.iter() {
+            write!(f, " ")?;
+            write!(f, "{:.2} {}", amount.value, amount.units)?;
         }
         Ok(())
     }
 }
 impl Amounts {
     pub fn update(&mut self, mut other: Amounts) {
-        let mut new: Vec<(String, Amount)> = Vec::new();
-        for (key, s) in self.0.iter_mut() {
-            if let Some(o) = other.0.remove(key) {
-                match (s, o) {
-                    (Amount::Volume(s), Amount::Volume(o)) => *s = *s + o,
-                    (Amount::Mass(s), Amount::Mass(o)) => *s = *s + o,
-                    (Amount::Arbitrary(s), Amount::Arbitrary(o)) => {
-                        if s.units == o.units {
-                            s.value += o.value
-                        }
-                    }
-                    (_, o) => {
-                        // We have a mismatch of types, append to new vector
-                        new.push((key.to_owned(), o));
-                    }
-                }
+        match (self.volume, other.volume) {
+            (Some(s), Some(o)) => self.volume = Some(s + o),
+            (None, Some(o)) => self.volume = Some(o),
+            _ => {}
+        };
+        match (self.mass, other.mass) {
+            (Some(s), Some(o)) => self.mass = Some(s + o),
+            (None, Some(o)) => self.mass = Some(o),
+            _ => {}
+        };
+        for (key, s) in self.arbitrary.iter_mut() {
+            if let Some(o) = other.arbitrary.remove(key) {
+                s.value += o.value
             }
         }
-        for (key, amount) in new {
-            self.0.insert(key, amount);
-        }
-        for (key, o) in other.0 {
-            if !self.0.contains_key(&key) {
-                self.0.insert(key, o);
+        for (key, o) in other.arbitrary {
+            if !self.arbitrary.contains_key(&key) {
+                self.arbitrary.insert(key, o);
             }
         }
     }
 }
 
-impl From<(String, Amount)> for Amounts {
-    fn from(pair: (String, Amount)) -> Self {
-        Amounts(HashMap::from([(pair.0, pair.1)]))
+impl From<Volume> for Amounts {
+    fn from(src: Volume) -> Self {
+        Amounts {
+            volume: Some(src),
+            mass: None,
+            arbitrary: HashMap::new(),
+        }
+    }
+}
+impl From<Mass> for Amounts {
+    fn from(src: Mass) -> Self {
+        Amounts {
+            volume: None,
+            mass: Some(src),
+            arbitrary: HashMap::new(),
+        }
+    }
+}
+impl From<(String, Arbitrary)> for Amounts {
+    fn from(src: (String, Arbitrary)) -> Self {
+        Amounts {
+            volume: None,
+            mass: None,
+            arbitrary: HashMap::from([src]),
+        }
     }
 }
 
-pub fn compute_amounts(quantity: &Option<String>, unit: &Option<String>) -> Amounts {
+pub fn compute_amounts(quantity: &Option<(String, f64)>, unit: &Option<String>) -> Amounts {
     match (quantity, unit) {
-        (Some(q), Some(u)) => {
-            if let Ok(value) = parse_quantity(q) {
-                match u.as_str() {
-                    "cup" | "cups" => {
-                        (u.to_owned(), Amount::Volume(Volume::from_cups(value))).into()
-                    }
-                    "tablespoon" | "tablespoons" | "tbsp" => (
-                        u.to_owned(),
-                        Amount::Volume(Volume::from_tablespoons(value)),
-                    )
-                        .into(),
-                    _ => (
-                        u.to_owned(),
-                        Amount::Arbitrary(Arbitrary {
-                            units: u.to_string(),
-                            value,
-                        }),
-                    )
-                        .into(),
-                }
-            } else {
-                (
-                    "".to_string(),
-                    Amount::Arbitrary(Arbitrary {
-                        units: u.to_string(),
-                        value: 1.0,
-                    }),
-                )
-                    .into()
-            }
-        }
+        (Some((_, q)), Some(u)) => match u.as_str() {
+            "cup" | "cups" => Volume::from_cups(*q).into(),
+            "tablespoon" | "tablespoons" | "tbsp" => Volume::from_tablespoons(*q).into(),
+            "fl oz" => Volume::from_fluid_ounces(*q).into(),
+            "oz" => Mass::from_ounces(*q).into(),
+            "lbs" | "lb" => Mass::from_pounds(*q).into(),
+            _ => (
+                u.to_owned(),
+                Arbitrary {
+                    units: u.to_string(),
+                    value: *q,
+                },
+            )
+                .into(),
+        },
         (None, Some(u)) => (
             u.to_owned(),
-            Amount::Arbitrary(Arbitrary {
+            Arbitrary {
                 units: u.to_string(),
                 value: 1.0,
-            }),
+            },
         )
             .into(),
-        (Some(q), None) => {
-            if let Ok(value) = parse_quantity(q) {
-                (
-                    "".to_string(),
-                    Amount::Arbitrary(Arbitrary {
-                        units: "unknown".to_string(),
-                        value,
-                    }),
-                )
-                    .into()
-            } else {
-                (
-                    "".to_string(),
-                    Amount::Arbitrary(Arbitrary {
-                        units: "unknown".to_string(),
-                        value: 1.0,
-                    }),
-                )
-                    .into()
-            }
-        }
+        (Some((_,q)), None) => (
+            "".to_string(),
+            Arbitrary {
+                units: "".to_string(),
+                value: *q,
+            },
+        )
+            .into(),
         (None, None) => (
             "".to_string(),
-            Amount::Arbitrary(Arbitrary {
-                units: "count".to_string(),
+            Arbitrary {
+                units: "".to_string(),
                 value: 1.0,
-            }),
+            },
         )
             .into(),
-    }
-}
-
-fn parse_quantity(q: &String) -> Result<f64> {
-    if let Ok(q) = q.parse::<f64>() {
-        Ok(q)
-    } else {
-        Err(anyhow!("not a valid quantity"))
     }
 }
