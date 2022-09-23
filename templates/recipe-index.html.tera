@@ -1,10 +1,77 @@
 {% extends "base" %}
 
 {% block content %}
+    <div class="container">
     <h1>Recipe List</h1>
-    <ul>
-        {% for l in items %}
-            <li><a href="{{ l.1 }}">{{ l.0 }}</a></li>
-        {% endfor %}
-    </ul>
+    <table class="table table-sm">
+        <tbody>
+            {% for l in items %}
+            <tr>
+                {% if l.is_dir %}
+                <td></td>
+                {% else %}
+                <td>
+                <button
+                    type="button"
+                    id="{{ l.slop_path }}"
+                    class="btn btn-outline-secondary btn-sm"
+                    onclick="toggleRecipe('{{ l.slop_path }}');">Add</button>
+                </td>
+                {% endif %}
+                <td>
+                <a href="{{ l.link }}">{{ l.name }}</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button class="btn btn-outline-success btn-sm" onclick="preview()">Preview Menu</button>
+    <script>
+        function markPresent(recipe) {
+            var url = previewURL();
+            url.searchParams.getAll('recipe').forEach((recipe) => {
+                togglePresent(recipe);
+            });
+        }
+        function togglePresent(recipe) {
+            $(jq(recipe)).toggleClass('btn-outline-secondary').toggleClass('btn-secondary');
+        }
+        function previewURL() {
+            var url = getCookie('preview_url');
+            if (url == "") {
+                var url = new URL(window.location);
+                url.pathname = '/preview_menu';
+                return url
+            } else {
+                return new URL(url);
+            }
+        }
+        function toggleRecipe(recipe) {
+            var url = previewURL();
+            var found = false;
+            var recipes = [];
+            url.searchParams.getAll('recipe').forEach((r) => {
+                if (r == recipe) {
+                    found = true;
+                } else {
+                    recipes.push(r);
+                }
+            });
+            if (!found) {
+                url.searchParams.append('recipe', recipe);
+            } else {
+                url.searchParams.delete('recipe');
+                recipes.forEach((r) => url.searchParams.append('recipe', r));
+            }
+            setCookie('preview_url', url.toString(), 1);
+            togglePresent(recipe);
+        }
+        function preview() {
+            var url = previewURL();
+            // clear cookie
+            setCookie('preview_url', '', 1);
+            window.location = url.toString();
+        }
+        markPresent();
+    </script>
 {% endblock content %}

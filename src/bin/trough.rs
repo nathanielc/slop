@@ -5,9 +5,12 @@ extern crate rocket;
 use anyhow::Result;
 use rand::seq::SliceRandom;
 use rand::thread_rng;
-use rocket::form::Form;
 use rocket::http::ContentType;
 use rocket::response::Redirect;
+use rocket::{
+    form::Form,
+    fs::{relative, FileServer},
+};
 use rocket_dyn_templates::Template;
 use serde::{Deserialize, Serialize};
 use slop::{self, menu::compile_menu};
@@ -30,7 +33,15 @@ fn recipe_card(name: PathBuf) -> (ContentType, Vec<u8>) {
 
 #[derive(serde::Serialize)]
 struct IndexTemplateContext {
-    items: Vec<(String, String)>,
+    items: Vec<IndexItem>,
+}
+
+#[derive(serde::Serialize)]
+struct IndexItem {
+    is_dir: bool,
+    name: String,
+    link: String,
+    slop_path: String,
 }
 
 #[derive(serde::Serialize)]
@@ -111,7 +122,7 @@ fn recipes_root_index_redirect() -> Redirect {
     Redirect::to(uri!(recipes_root_index()))
 }
 fn _recipes_index(name: PathBuf) -> Template {
-    let mut items: Vec<(String, String)> = Vec::new();
+    let mut items: Vec<IndexItem> = Vec::new();
     let dir = Path::new("recipes/").join(name);
     for entry in fs::read_dir(&dir).expect("failed to read recipe directory") {
         let entry = entry.expect("valid entry");
@@ -122,14 +133,16 @@ fn _recipes_index(name: PathBuf) -> Template {
             if name.starts_with(".") {
                 continue;
             }
-            items.push((
+            items.push(IndexItem {
+                is_dir: true,
                 name,
-                Path::new("/recipes")
+                link: Path::new("/recipes")
                     .join(path)
                     .to_str()
                     .unwrap()
                     .to_string(),
-            ));
+                slop_path: "".to_string(),
+            });
         } else if pb.extension().unwrap() == "slop" {
             let mut l = PathBuf::from("/recipe/card").join(pb.strip_prefix("recipes/").unwrap());
             l.set_extension("");
@@ -137,10 +150,15 @@ fn _recipes_index(name: PathBuf) -> Template {
             if name.starts_with(".") {
                 continue;
             }
-            items.push((name, l.to_str().unwrap().to_string()));
+            items.push(IndexItem {
+                is_dir: false,
+                name,
+                link: l.to_str().unwrap().to_string(),
+                slop_path: pb.to_str().unwrap().to_string(),
+            });
         }
     }
-    items.sort_by(|a, b| a.0.cmp(&b.0));
+    items.sort_by(|a, b| a.name.cmp(&b.name));
     let context = IndexTemplateContext { items };
     Template::render("recipe-index", &context)
 }
@@ -325,19 +343,22 @@ fn pick_random<T>(mut list: Vec<T>, count: usize) -> Vec<T> {
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().attach(Template::fairing()).mount(
-        "/",
-        routes![
-            recipes_index,
-            recipes_root_index,
-            recipes_root_index_redirect,
-            recipe_card,
-            menu,
-            create_menu,
-            generate_menu,
-            preview_menu,
-            save_menu,
-            ingredients,
-        ],
-    )
+    rocket::build()
+        .attach(Template::fairing())
+        .mount(
+            "/",
+            routes![
+                recipes_index,
+                recipes_root_index,
+                recipes_root_index_redirect,
+                recipe_card,
+                menu,
+                create_menu,
+                generate_menu,
+                preview_menu,
+                save_menu,
+                ingredients,
+            ],
+        )
+        .mount("/static", FileServer::from(relative!("static")))
 }

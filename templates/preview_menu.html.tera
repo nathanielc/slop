@@ -2,21 +2,39 @@
 
 {% block content %}
     <form action="/save_menu" method="post">
-    <h1>Menu List</h1>
-    <ul>
-        {% for l in recipes %}
-            <li>
-                <a href="{{ l.1 }}">{{ l.0 }}</a>
-                <input name="recipe" id="recipe" type="hidden" value="{{ l.2 }}"/>
-            </li>
-        {% endfor %}
-    </ul>
-    <h1>Shopping List</h1>
-    <ul>
-        {% for l in ingredients %}
-            <li>{{ l.0 }} -- {{ l.1 }}</li>
-        {% endfor %}
-    </ul>
-    <input type="submit" value="Save"/>
+    <div class="container">
+        <h1>Menu List</h1>
+        <ul>
+            {% for l in recipes %}
+                <li>
+                    <a href="{{ l.1 }}">{{ l.0 }}</a>
+                    <input name="recipe" id="recipe" type="hidden" value="{{ l.2 }}"/>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="container">
+        <h1>Shopping List</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col"></div>
+                    <th scope="col">Ingredient</div>
+                    <th scope="col">Amount</div>
+                </tr>
+            </thead>
+            <tbody>
+                {% for l in ingredients %}
+                <tr>
+                    <td><input type="checkbox"/></td>
+                    <td>{{ l.0 }}</td>
+                    <td>{{ l.1 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+        <input type="submit" class="btn btn-primary" value="Save"/>
+    </div>
     </form>
 {% endblock content %}
