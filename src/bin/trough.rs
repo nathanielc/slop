@@ -7,10 +7,7 @@ use rand::seq::SliceRandom;
 use rand::thread_rng;
 use rocket::http::ContentType;
 use rocket::response::Redirect;
-use rocket::{
-    form::Form,
-    fs::{relative, FileServer},
-};
+use rocket::{form::Form, fs::FileServer};
 use rocket_dyn_templates::Template;
 use serde::{Deserialize, Serialize};
 use slop::{self, menu::compile_menu};
@@ -360,5 +357,5 @@ fn rocket() -> _ {
                 ingredients,
             ],
         )
-        .mount("/static", FileServer::from(relative!("static")))
+        .mount("/static", FileServer::from("./static"))
 }
