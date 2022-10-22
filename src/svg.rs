@@ -112,9 +112,9 @@ struct ReturnState {
 fn ingredient_text(i: &Ingredient) -> String {
     let derived = if i.derived { "^" } else { "" };
     match (i.quantity.as_ref(), i.unit.as_ref()) {
-        (Some(q), Some(u)) => format!("{}{} {} {}", derived,q.0, u, i.name),
-        (Some(q), None) => format!("{}{} {}", derived,q.0, i.name),
-        _ => i.name.to_string(),
+        (Some(q), Some(u)) => format!("{}{} {} {}", derived, q.0, u, i.name),
+        (Some(q), None) => format!("{}{} {}", derived, q.0, i.name),
+        _ => format!("{}{}", derived, i.name),
     }
 }
 
