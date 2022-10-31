@@ -25,7 +25,7 @@ fn recipe_card(name: PathBuf) -> (ContentType, Vec<u8>) {
     let contents = fs::read_to_string(filepath).expect("Something went wrong reading the file");
     let src_ast = slop::parse(&contents).expect("parsing failed");
     let src_sem = semantic::convert_source_file(src_ast);
-    (ContentType::SVG, svg::to_svg(src_sem))
+    (ContentType::SVG, svg::to_svg(&src_sem))
 }
 
 #[derive(serde::Serialize)]
