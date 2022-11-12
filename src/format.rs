@@ -168,6 +168,32 @@ mod test {
 #* Yield 12
 >
 ",
-        )
+        );
+    }
+    #[test]
+    fn another_long_recipe() {
+        test_format(
+            "<** Souffle pancake with one egg
+*3 or 4 drops: lemon juice
+*1 : egg =separate keep white #stir in =beat at medium speed, until foamy
+*1 1/2 tbsp: sugar #sprinkle in =beat at medium speed 3m until firm peaks form
+*^egg yolk
+*2 tbsp: flour #+
+*1 tbsp: milk #mix to combine
+*1/2 tsp: vanilla #stir in
+*^1/3 of: egg white mixture #mix with circular motion
+    #fold in with flat spatula
+*1 tsp: oil =heat in pan 1m
+*^2/3 of: pancake mixture #scoop into pan as two pancakes
+*2 tsp: water #add to sides of pan =cover cook 2m on medium heat
+*1 tsp: water #add to sides of pan #place on top
+    =cover cook 5m on medium low heat
+    =flip
+    =cover cook 5m
+    =serve with fruit and syrup/powdered sugar
+#* Makes 2 pancakes
+>
+",
+        );
     }
 }
