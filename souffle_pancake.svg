@@ -1,194 +1,338 @@
-<svg height="390" width="2242" xmlns="http://www.w3.org/2000/svg">
-<text font-family="monospace" font-size="14" font-style="bold" x="5" y="20">
+<svg height="492" width="1740" xmlns="http://www.w3.org/2000/svg">
+<style>
+text {
+    font-family: monospace;
+    font-size: 16px;
+}
+rect {
+    stroke: black;
+    stroke-width: 1;
+    fill: green;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+}
+</style>
+<text font-size="18px" font-style="bold" x="5" y="27">
 Souffle pancake with one egg
 </text>
 <g>
-<rect height="25" id="0" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('0'));" style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1" width="186" x="0" y="25"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('0'));" x="5" y="45">
-3-4 drops lemon juice
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<text x="0" y="32">
+<tspan dy="20" x="5">
+3 or 4 drops lemon 
+</tspan>
+<tspan dy="20" x="5">
+juice 
+</tspan>
 </text>
+<rect height="50" width="200" x="0" y="32"/>
 </g>
 <g>
-<rect height="25" id="1" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('1'));" style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1" width="186" x="0" y="50"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('1'));" x="5" y="70">
-1 egg
+<g>
+<text x="0" y="82">
+<tspan dy="20" x="5">
+1 egg 
+</tspan>
 </text>
+<rect height="30" width="200" x="0" y="82"/>
+</g>
+<text x="200" y="82">
+<tspan dy="20" x="205">
+separate keep white 
+</tspan>
+</text>
+<rect height="30" width="410" x="0" y="82"/>
+</g>
+<text x="410" y="57">
+<tspan dy="20" x="415">
+stir in 
+</tspan>
+</text>
+<rect height="80" width="500" x="0" y="32"/>
+</g>
+<text x="500" y="37">
+<tspan dy="20" x="505">
+beat at 
+</tspan>
+<tspan dy="20" x="505">
+medium speed, 
+</tspan>
+<tspan dy="20" x="505">
+until foamy 
+</tspan>
+</text>
+<rect height="80" width="650" x="0" y="32"/>
 </g>
 <g>
-<polygon id="2" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('2'));" points="186,50 186,75 348,75 348,50 " style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('2'));" x="191" y="67">
-separate keep white
+<text x="0" y="112">
+<tspan dy="20" x="5">
+1 1/2 tbsp sugar 
+</tspan>
 </text>
+<rect height="30" width="200" x="0" y="112"/>
+</g>
+<text x="650" y="72">
+<tspan dy="20" x="655">
+sprinkle in 
+</tspan>
+</text>
+<rect height="110" width="780" x="0" y="32"/>
+</g>
+<text x="780" y="42">
+<tspan dy="20" x="785">
+beat at 
+</tspan>
+<tspan dy="20" x="785">
+medium speed 
+</tspan>
+<tspan dy="20" x="785">
+3m until firm 
+</tspan>
+<tspan dy="20" x="785">
+peaks form 
+</tspan>
+</text>
+<rect height="110" width="930" x="0" y="32"/>
 </g>
 <g>
-<polygon id="3" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('3'));" points="348,25 186,25 186,50 348,50 348,75 414,75 414,25 " style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('3'));" x="353" y="55">
-stir in
+<g>
+<g>
+<g>
+<text x="0" y="142">
+<tspan dy="20" x="5">
+^egg yolk 
+</tspan>
 </text>
+<rect height="30" width="200" x="0" y="142"/>
 </g>
 <g>
-<polygon id="4" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('4'));" points="414,25 414,75 688,75 688,25 " style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('4'));" x="419" y="55">
-beat at medium speed, until foamy
+<text x="0" y="172">
+<tspan dy="20" x="5">
+2 tbsp flour 
+</tspan>
 </text>
+<rect height="30" width="200" x="0" y="172"/>
 </g>
 <g>
-<rect height="25" id="5" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('5'));" style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1" width="186" x="0" y="75"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('5'));" x="5" y="95">
-1.5 tbsp sugar
+<text x="0" y="202">
+<tspan dy="20" x="5">
+1 tbsp milk 
+</tspan>
 </text>
+<rect height="30" width="200" x="0" y="202"/>
+</g>
+<text x="200" y="162">
+<tspan dy="20" x="205">
+mix to 
+</tspan>
+<tspan dy="20" x="205">
+combine 
+</tspan>
+</text>
+<rect height="90" width="290" x="0" y="142"/>
 </g>
 <g>
-<polygon id="6" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('6'));" points="688,25 688,75 186,75 186,100 786,100 786,25 " style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('6'));" x="693" y="67">
-sprinkle in
+<text x="0" y="232">
+<tspan dy="20" x="5">
+1/2 tsp vanilla 
+</tspan>
 </text>
+<rect height="30" width="200" x="0" y="232"/>
+</g>
+<text x="290" y="187">
+<tspan dy="20" x="295">
+stir in 
+</tspan>
+</text>
+<rect height="120" width="380" x="0" y="142"/>
 </g>
 <g>
-<polygon id="7" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('7'));" points="786,25 786,100 1156,100 1156,25 " style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('7'));" x="791" y="67">
-beat at medium speed 3m until firm peaks form
+<text x="0" y="262">
+<tspan dy="20" x="5">
+^1/3 of egg white 
+</tspan>
+<tspan dy="20" x="5">
+mixture 
+</tspan>
 </text>
+<rect height="50" width="200" x="0" y="262"/>
+</g>
+<text x="380" y="192">
+<tspan dy="20" x="385">
+mix with 
+</tspan>
+<tspan dy="20" x="385">
+circular 
+</tspan>
+<tspan dy="20" x="385">
+motion 
+</tspan>
+</text>
+<rect height="170" width="480" x="0" y="142"/>
+</g>
+<text x="930" y="147">
+<tspan dy="20" x="935">
+fold in with 
+</tspan>
+<tspan dy="20" x="935">
+flat spatula 
+</tspan>
+</text>
+<rect height="280" width="1070" x="0" y="32"/>
 </g>
 <g>
-<rect height="25" id="8" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('8'));" style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1" width="186" x="0" y="100"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('8'));" x="5" y="120">
-^egg yolk
+<g>
+<g>
+<g>
+<g>
+<g>
+<text x="0" y="312">
+<tspan dy="20" x="5">
+1 tsp oil 
+</tspan>
 </text>
+<rect height="30" width="200" x="0" y="312"/>
+</g>
+<text x="200" y="312">
+<tspan dy="20" x="205">
+heat in pan 1m 
+</tspan>
+</text>
+<rect height="30" width="360" x="0" y="312"/>
 </g>
 <g>
-<rect height="25" id="9" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('9'));" style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1" width="186" x="0" y="125"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('9'));" x="5" y="145">
-2 tbsp flour
+<text x="0" y="342">
+<tspan dy="20" x="5">
+^2/3 of pancake 
+</tspan>
+<tspan dy="20" x="5">
+mixture 
+</tspan>
 </text>
+<rect height="50" width="200" x="0" y="342"/>
+</g>
+<text x="360" y="317">
+<tspan dy="20" x="365">
+scoop into 
+</tspan>
+<tspan dy="20" x="365">
+pan as two 
+</tspan>
+<tspan dy="20" x="365">
+pancakes 
+</tspan>
+</text>
+<rect height="80" width="480" x="0" y="312"/>
 </g>
 <g>
-<rect height="25" id="10" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('10'));" style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1" width="186" x="0" y="150"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('10'));" x="5" y="170">
-1 tbsp milk
+<text x="0" y="392">
+<tspan dy="20" x="5">
+2 tsp water 
+</tspan>
 </text>
+<rect height="30" width="200" x="0" y="392"/>
+</g>
+<text x="480" y="342">
+<tspan dy="20" x="485">
+add to sides 
+</tspan>
+<tspan dy="20" x="485">
+of pan 
+</tspan>
+</text>
+<rect height="110" width="620" x="0" y="312"/>
+</g>
+<text x="620" y="332">
+<tspan dy="20" x="625">
+cover cook 2m 
+</tspan>
+<tspan dy="20" x="625">
+on medium 
+</tspan>
+<tspan dy="20" x="625">
+heat 
+</tspan>
+</text>
+<rect height="110" width="770" x="0" y="312"/>
 </g>
 <g>
-<polygon id="11" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('11'));" points="186,100 186,125 186,150 186,175 308,175 308,100 " style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('11'));" x="191" y="142">
-mix to combine
+<text x="0" y="422">
+<tspan dy="20" x="5">
+1 tsp water 
+</tspan>
 </text>
+<rect height="30" width="200" x="0" y="422"/>
 </g>
-<g>
-<rect height="25" id="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('12'));" style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1" width="186" x="0" y="175"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('12'));" x="5" y="195">
-1/2 tsp vanilla
+<text x="770" y="357">
+<tspan dy="20" x="775">
+add to sides 
+</tspan>
+<tspan dy="20" x="775">
+of pan 
+</tspan>
 </text>
+<rect height="140" width="910" x="0" y="312"/>
 </g>
-<g>
-<polygon id="13" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('13'));" points="308,100 308,175 186,175 186,200 374,200 374,100 " style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('13'));" x="313" y="155">
-stir in
+<text x="1070" y="227">
+<tspan dy="20" x="1075">
+place on top 
+</tspan>
 </text>
+<rect height="420" width="1210" x="0" y="32"/>
 </g>
-<g>
-<rect height="25" id="14" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('14'));" style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1" width="186" x="0" y="200"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('14'));" x="5" y="220">
-^1/3 egg white mixture
+<text x="1210" y="207">
+<tspan dy="20" x="1215">
+cover cook 5m 
+</tspan>
+<tspan dy="20" x="1215">
+on medium low 
+</tspan>
+<tspan dy="20" x="1215">
+heat 
+</tspan>
 </text>
+<rect height="420" width="1360" x="0" y="32"/>
 </g>
-<g>
-<polygon id="15" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('15'));" points="374,100 374,200 186,200 186,225 576,225 576,100 " style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('15'));" x="379" y="167">
-mix with circular motion
+<text x="1360" y="227">
+<tspan dy="20" x="1365">
+flip 
+</tspan>
 </text>
+<rect height="420" width="1420" x="0" y="32"/>
 </g>
-<g>
-<polygon id="16" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('16'));" points="1156,25 1156,100 576,100 576,225 1366,225 1366,25 " style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('16'));" x="1161" y="130">
-fold in with flat spatula
+<text x="1420" y="227">
+<tspan dy="20" x="1425">
+cover cook 5m 
+</tspan>
 </text>
+<rect height="420" width="1570" x="0" y="32"/>
 </g>
-<g>
-<rect height="25" id="17" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('17'));" style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1" width="186" x="0" y="225"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('17'));" x="5" y="245">
-1 tsp oil
+<text x="1570" y="197">
+<tspan dy="20" x="1575">
+serve with 
+</tspan>
+<tspan dy="20" x="1575">
+fruit and 
+</tspan>
+<tspan dy="20" x="1575">
+syrup/powdered 
+</tspan>
+<tspan dy="20" x="1575">
+sugar 
+</tspan>
 </text>
+<rect height="420" width="1730" x="0" y="32"/>
 </g>
-<g>
-<polygon id="18" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('18'));" points="186,225 186,250 308,250 308,225 " style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('18'));" x="191" y="242">
-heat in pan 1m
-</text>
-</g>
-<g>
-<rect height="25" id="19" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('19'));" style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1" width="186" x="0" y="250"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('19'));" x="5" y="270">
-^2/3 pancake mixture
-</text>
-</g>
-<g>
-<polygon id="20" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('20'));" points="308,225 308,250 186,250 186,275 558,275 558,225 " style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('20'));" x="313" y="255">
-scoop into pan as two pancakes
-</text>
-</g>
-<g>
-<rect height="25" id="21" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('21'));" style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1" width="186" x="0" y="275"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('21'));" x="5" y="295">
-2 tsp water
-</text>
-</g>
-<g>
-<polygon id="22" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('22'));" points="558,225 558,275 186,275 186,300 720,300 720,225 " style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('22'));" x="563" y="267">
-add to sides of pan
-</text>
-</g>
-<g>
-<polygon id="23" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('23'));" points="720,225 720,300 954,300 954,225 " style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('23'));" x="725" y="267">
-cover cook 2m on medium heat
-</text>
-</g>
-<g>
-<rect height="25" id="24" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('24'));" style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1" width="186" x="0" y="300"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('24'));" x="5" y="320">
-1 tsp water
-</text>
-</g>
-<g>
-<polygon id="25" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('25'));" points="954,225 954,300 186,300 186,325 1116,325 1116,225 " style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('25'));" x="959" y="280">
-add to sides of pan
-</text>
-</g>
-<g>
-<polygon id="26" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('26'));" points="1366,25 1366,225 1116,225 1116,325 1472,325 1472,25 " style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('26'));" x="1371" y="180">
-place on top
-</text>
-</g>
-<g>
-<polygon id="27" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('27'));" points="1472,25 1472,325 1738,325 1738,25 " style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('27'));" x="1477" y="180">
-cover cook 5m on medium low heat
-</text>
-</g>
-<g>
-<polygon id="28" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('28'));" points="1738,25 1738,325 1780,325 1780,25 " style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('28'));" x="1743" y="180">
-flip
-</text>
-</g>
-<g>
-<polygon id="29" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('29'));" points="1780,25 1780,325 1894,325 1894,25 " style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('29'));" x="1785" y="180">
-cover cook 5m
-</text>
-</g>
-<g>
-<polygon id="30" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('30'));" points="1894,25 1894,325 2232,325 2232,25 " style="stroke:black;stroke-width:1;fill:green;fill-opacity:0;stroke-opacity:1"/>
-<text font-family="monospace" font-size="12" onclick="function toggle_fill(e) { if (e.style['fill-opacity'] == 0) { e.style['fill-opacity'] = 0.5 } else {e.style['fill-opacity'] = 0}}; toggle_fill(document.getElementById('30'));" x="1899" y="180">
-serve with fruit and syrup/powdered sugar
-</text>
-</g>
-<text font-family="monospace" font-size="14" x="5" y="365">
+<text x="5" y="477">
 Makes 2 pancakes
 </text>
 </svg>
