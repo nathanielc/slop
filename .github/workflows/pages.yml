@@ -1,0 +1,57 @@
+name: Publish Slop App to Github Pages
+
+on:
+  push:
+    branches: [ "yew-app" ]
+env:
+  CARGO_TERM_COLOR: always
+  SCCACHE_GHA_ENABLED: "true"
+  RUSTC_WRAPPER: "sccache"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: dtolnay/rust-toolchain@stable
+      with:
+        targets: wasm32-unknown-unknown
+        toolchain: stable
+    - uses: Swatinem/rust-cache@v2
+      with:
+        # The prefix cache key, this can be changed to start a new cache manually.
+        # default: "v0-rust"
+        prefix-key: v0
+        # Cache only the cargo registry
+        cache-targets: false
+    - uses: mozilla-actions/sccache-action@v0.0.3
+    - name: Install Trunk
+      run: cargo install trunk
+    - name: Build and Deploy
+      run: |
+        cd slop_app
+        trunk build --release
+        tar -czf artifact.tar.gz -C dist .
+    - name: Upload Pages artifact
+      uses: actions/upload-pages-artifact@v2
+      with:
+        path: ${{ runner.temp }}/slop_app/artifact.tar
+
+  depoy:
+    needs: build
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    # Specify runner + deployment step
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2 # or the latest "vX.X.

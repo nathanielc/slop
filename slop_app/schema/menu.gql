@@ -1,0 +1,16 @@
+type Recipe {
+    id: ID!,
+    title: String! @string(maxLength: 200),
+    source: String! @string(maxLength: 100000),
+}
+type Ingredient {
+    name: String! @string(maxLength: 200),
+    amount: String! @string(maxLength: 200),
+}
+
+# Represents a set of recipes for the current menu.
+# This model denormalizes the recipes it references.
+type Menu @createModel(accountRelation: SINGLE, description: "A menu of recipes")  {
+  recipes: [Recipe] @list(maxLength: 50),
+  ingredients: [Ingredient] @list(maxLength: 500),
+}

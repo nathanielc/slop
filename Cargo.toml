@@ -1,48 +1,5 @@
-[package]
-name = "slop"
-version = "0.1.0"
-authors = ["Nathaniel Cook <nvcook42@gmail.com>"]
-edition = "2021"
-
-[[bin]]
-name = "trough"
-
-[[bin]]
-name = "slop-language-server"
-
-[[bin]]
-name = "slop"
-
-
-[build-dependencies]
-lalrpop = { version = "0.19", features = ["lexer"] }
-
-[dependencies]
-codespan = "0.9.5"
-codespan-lsp = "0.10.1"
-lsp-types = "0.79.0"
-lalrpop-util = {version = "0.19", features = ["lexer"] }
-regex = "1"
-svg = "0.12.1"
-rocket = "0.5.0-rc.2"
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
-tower-lsp = "0.13.3"
-tokio = { version = "0.2", features = ["full"] }
-simplelog = "^0.7.6"
-log ="0.4.11"
-log-panics = "2.0.0"
-measurements = "0.11"
-anyhow ="1.0"
-clap = { version = "3.2.21", features = ["derive"] }
-rand = "0.8.5"
-url = "2.3.1"
-http = "0.2.8"
-strum = {version = "0.24.1", features = ["derive"]}
-strum_macros = "0.24.3"
-expect-test = "1.4.0"
-
-
-[dependencies.rocket_dyn_templates]
-version = "0.1.0-rc.2"
-features = ["tera"]
+[workspace]
+members = ["slop", "slop_app", "slop_lsp"]
+resolver = "2"
+[workspace.dependencies]
+slop = { path = "./slop" }
