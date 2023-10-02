@@ -38,7 +38,7 @@ pub enum Operand {
 
 pub fn convert_source_file(f: ast::SourceFile) -> SourceFile {
     SourceFile {
-        recipes: f.recipes.into_iter().map(|r| convert_recipe(r)).collect(),
+        recipes: f.recipes.into_iter().map(convert_recipe).collect(),
     }
 }
 pub fn convert_recipe(r: ast::Recipe) -> Recipe {
@@ -82,10 +82,10 @@ pub fn convert_operand(op: ast::Operand) -> Operand {
             let mut ops: Vec<Operand> = Vec::with_capacity(2);
             let l = convert_operand(*left);
             let r = convert_operand(*right);
-            for mut op in vec![l, r] {
+            for mut op in [l, r] {
                 if let Operand::Operator { text, operands } = &mut op {
                     if text == "+" {
-                        ops.extend(operands.drain(..));
+                        ops.append(operands);
                         continue;
                     }
                 }

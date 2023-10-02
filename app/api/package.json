@@ -1,0 +1,24 @@
+{
+  "name": "api",
+  "version": "0.1.0",
+  "description": "",
+  "main": "lib.ts",
+  "scripts": {
+    "build": "esbuild src/api.ts --format=esm --bundle --sourcemap --outfile=dist/api.js",
+    "build-prod": "esbuild src/api.ts --format=esm --bundle --minify --outfile=dist/api.js"
+  },
+  "browser": {
+    "stream": "stream-browserify"
+  },
+  "devDependencies": {
+    "esbuild": "0.17.10"
+  },
+  "dependencies": {
+    "@composedb/client": "^0.5.1",
+    "@composedb/types": "^0.5.0",
+    "@didtools/pkh-ethereum": "^0.1.0",
+    "did-session": "^2.0.0",
+    "eth-provider": "^0.13.6",
+    "stream-browserify": "^3.0.0"
+  }
+}

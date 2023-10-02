@@ -1,3 +1,0 @@
-type Profile @createModel(accountRelation: SINGLE, description: "Basic profile") {
-  displayName: String! @string(minLength: 3, maxLength: 50)
-}

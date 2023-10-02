@@ -1,5 +1,12 @@
 [workspace]
-members = ["slop", "slop_app", "slop_lsp"]
+members = ["slop", "app", "lsp"]
 resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+authors = ["Nathaniel Cook <nvcook42@gmail.com>"]
+edition = "2021"
+license = "MIT"
+
 [workspace.dependencies]
 slop = { path = "./slop" }
