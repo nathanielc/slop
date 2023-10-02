@@ -3,3 +3,5 @@
 /menus
 node_modules/
 /ceramic
+dist/
+/app/slop-app.tar.gz

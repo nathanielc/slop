@@ -24,13 +24,11 @@ impl Formatter {
         if self.current_line_len > MAX_LINE_LEN {
             self.indent();
             return;
-        } else {
-            if let Some(idx) = self.data.rfind('\n') {
-                let start = self.data[idx + 1..].chars().next().unwrap();
-                if start != '*' {
-                    self.indent();
-                    return;
-                }
+        } else if let Some(idx) = self.data.rfind('\n') {
+            let start = self.data[idx + 1..].chars().next().unwrap();
+            if start != '*' {
+                self.indent();
+                return;
             }
         }
         self.pad();
@@ -100,8 +98,8 @@ fn format_operand(f: &mut Formatter, o: &Operand) {
             for q in quantity.iter() {
                 has_measure = true;
                 match q {
-                    Quantity::Number(s) => f.push_str(&s),
-                    Quantity::Fraction(s) => f.push_str(&s),
+                    Quantity::Number(s) => f.push_str(s),
+                    Quantity::Fraction(s) => f.push_str(s),
                 };
                 f.push(' ');
             }

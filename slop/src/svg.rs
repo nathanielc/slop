@@ -68,7 +68,7 @@ impl BoundingBox {
     fn width(&self) -> usize {
         self.bottom_right.x - self.upper_left.x
     }
-    fn enclose(self: Self, other: Self) -> Self {
+    fn enclose(self, other: Self) -> Self {
         Self {
             upper_left: Point {
                 x: min(self.upper_left.x, other.upper_left.x),
@@ -155,7 +155,7 @@ impl Builder {
     fn build_operand(&mut self, op: &Operand) -> (Group, BoundingBox) {
         let (mut g, b) = match op {
             Operand::Ingredient(i) => {
-                let text = ingredient_text(&i);
+                let text = ingredient_text(i);
                 let (t, mut txt_bounds) = render_text(
                     text.as_str(),
                     Point {
@@ -232,17 +232,17 @@ rect {
     stroke-opacity: 1;
 }"#,
     ));
-    if let Some(title) = builder.build_title(&r) {
+    if let Some(title) = builder.build_title(r) {
         doc = doc.add(title);
     }
-    if let Some(preamble) = builder.build_preamble(&r) {
+    if let Some(preamble) = builder.build_preamble(r) {
         doc = doc.add(preamble);
     }
 
     let (op_doc, mut bound) = builder.build_operand(&r.root);
     doc = doc.add(op_doc);
 
-    if let Some(comment) = builder.build_comment(&r) {
+    if let Some(comment) = builder.build_comment(r) {
         doc = doc.add(comment);
         // Add room for comment line
         // TODO: Render text to max width of enitre card

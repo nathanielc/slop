@@ -37,9 +37,6 @@ fn find_ingredients(op: &Operand) -> Vec<(String, Amounts)> {
         Operand::Operator {
             text: _text,
             operands,
-        } => operands
-            .iter()
-            .flat_map(|op| find_ingredients(op))
-            .collect(),
+        } => operands.iter().flat_map(find_ingredients).collect(),
     }
 }

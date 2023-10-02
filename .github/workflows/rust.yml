@@ -1,0 +1,73 @@
+name: Rust
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  CARGO_TERM_COLOR: always
+  SCCACHE_GHA_ENABLED: "true"
+  RUSTC_WRAPPER: "sccache"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: pnpm/action-setup@v2.4.0
+      with:
+        package_json_file: "app/package.json"
+    - uses: dtolnay/rust-toolchain@stable
+    - uses: Swatinem/rust-cache@v2
+      with:
+        # The prefix cache key, this can be changed to start a new cache manually.
+        # default: "v0-rust"
+        prefix-key: v0
+        # Cache only the cargo registry
+        cache-targets: false
+    - uses: mozilla-actions/sccache-action@v0.0.3
+    - name: Check fmt
+      run: make check-fmt
+    - name: Check clippy
+      run: make check-clippy
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: pnpm/action-setup@v2.4.0
+      with:
+        package_json_file: "app/package.json"
+    - uses: dtolnay/rust-toolchain@stable
+    - uses: Swatinem/rust-cache@v2
+      with:
+        # The prefix cache key, this can be changed to start a new cache manually.
+        # default: "v0-rust"
+        prefix-key: v0
+        # Cache only the cargo registry
+        cache-targets: false
+    - uses: mozilla-actions/sccache-action@v0.0.3
+    - name: Run tests
+      run: make test
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: pnpm/action-setup@v2.4.0
+      with:
+        package_json_file: "app/package.json"
+    - uses: dtolnay/rust-toolchain@stable
+    - uses: Swatinem/rust-cache@v2
+      with:
+        # The prefix cache key, this can be changed to start a new cache manually.
+        # default: "v0-rust"
+        prefix-key: v0
+        # Cache only the cargo registry
+        cache-targets: false
+    - uses: mozilla-actions/sccache-action@v0.0.3
+    - name: Build
+      run: make build
+
+
+

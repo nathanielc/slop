@@ -38,7 +38,7 @@ impl TryFrom<&Quantity> for f64 {
         match value {
             Quantity::Number(n) => Ok(n.parse::<f64>()?),
             Quantity::Fraction(f) => {
-                let parts: Vec<&str> = f.split("/").collect();
+                let parts: Vec<&str> = f.split('/').collect();
                 if parts.len() == 2 {
                     let numerator = parts[0].parse::<f64>()?;
                     let denominator = parts[1].parse::<f64>()?;

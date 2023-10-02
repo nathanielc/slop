@@ -1,0 +1,4 @@
+type Recipe @createModel(accountRelation: LIST, description: "A recipe") {
+  source: String! @string(maxLength: 100000),
+  author: DID! @documentAccount
+}

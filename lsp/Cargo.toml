@@ -1,0 +1,23 @@
+[package]
+name = "slop-lsp"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+codespan = "0.9.5"
+codespan-lsp = "0.10.1"
+lalrpop-util = { version = "0.19", features = ["lexer"] }
+log = "0.4.11"
+log-panics = "2.0.0"
+lsp-types = "0.79.0"
+simplelog = "^0.7.6"
+slop.workspace = true
+tokio = { version = "0.2", features = ["full"] }
+tower-lsp = "0.13.3"
+
+[dev-dependencies]
+expect-test = "1.4.0"

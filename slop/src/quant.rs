@@ -77,9 +77,7 @@ impl Amounts {
             }
         }
         for (key, o) in other.arbitrary {
-            if !self.arbitrary.contains_key(&key) {
-                self.arbitrary.insert(key, o);
-            }
+            self.arbitrary.entry(key).or_insert(o);
         }
     }
 }
@@ -137,7 +135,7 @@ pub fn compute_amounts(quantity: &Option<(String, f64)>, unit: &Option<String>) 
             },
         )
             .into(),
-        (Some((_,q)), None) => (
+        (Some((_, q)), None) => (
             "".to_string(),
             Arbitrary {
                 units: "".to_string(),

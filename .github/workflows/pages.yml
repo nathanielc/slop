@@ -2,7 +2,9 @@ name: Publish Slop App to Github Pages
 
 on:
   push:
-    branches: [ "yew-app" ]
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
 env:
   CARGO_TERM_COLOR: always
   SCCACHE_GHA_ENABLED: "true"
@@ -13,6 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - uses: pnpm/action-setup@v2.4.0
+      with:
+        package_json_file: "app/package.json"
     - uses: dtolnay/rust-toolchain@stable
       with:
         targets: wasm32-unknown-unknown
@@ -29,13 +34,11 @@ jobs:
       run: cargo install trunk
     - name: Build and Deploy
       run: |
-        cd slop_app
-        trunk build --release
-        tar -czf artifact.tar.gz -C dist .
+        make slop-app
     - name: Upload Pages artifact
       uses: actions/upload-pages-artifact@v2
       with:
-        path: ${{ runner.temp }}/slop_app/artifact.tar
+        path: app/dist/
 
   depoy:
     needs: build
