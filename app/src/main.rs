@@ -8,6 +8,7 @@ mod menu;
 mod menu_context;
 mod my_recipes;
 mod new_recipe;
+mod pagination;
 mod recipe;
 mod recipe_link;
 mod settings;

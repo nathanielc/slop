@@ -34,10 +34,10 @@ extern "C" {
     async fn fetch_recipe(this: &Api, id: JsValue) -> Result<JsValue, JsValue>;
 
     #[wasm_bindgen(method, catch)]
-    async fn fetch_all_recipes(this: &Api) -> Result<JsValue, JsValue>;
+    async fn fetch_all_recipes(this: &Api, page: JsValue) -> Result<JsValue, JsValue>;
 
     #[wasm_bindgen(method, catch)]
-    async fn fetch_my_recipes(this: &Api) -> Result<JsValue, JsValue>;
+    async fn fetch_my_recipes(this: &Api, page: JsValue) -> Result<JsValue, JsValue>;
 
     #[wasm_bindgen(method, catch)]
     async fn create_menu(this: &Api, menu_create: JsValue) -> Result<JsValue, JsValue>;
@@ -148,10 +148,6 @@ pub struct Recipe {
     pub author: Author,
     pub deleted: bool,
 }
-#[derive(Deserialize, PartialEq, Debug, Clone)]
-pub struct Author {
-    pub id: String,
-}
 
 impl TryFrom<JsValue> for Recipe {
     type Error = FetchError;
@@ -162,7 +158,11 @@ impl TryFrom<JsValue> for Recipe {
 }
 
 #[derive(Deserialize, PartialEq, Debug, Clone)]
-struct Recipes(Vec<Recipe>);
+pub struct Recipes {
+    pub recipes: Vec<Recipe>,
+    #[serde(rename = "pageInfo")]
+    pub page_info: Option<PageInfo>,
+}
 
 impl TryFrom<JsValue> for Recipes {
     type Error = FetchError;
@@ -221,6 +221,41 @@ pub struct MenuCreate {
     pub ingredients: Vec<MenuIngredient>,
 }
 
+#[derive(PartialEq, Debug, Clone)]
+pub enum Direction {
+    Forward,
+    Backward,
+}
+#[derive(Serialize, PartialEq, Debug, Default, Clone)]
+pub struct Page {
+    #[serde(skip_serializing)]
+    pub direction: Option<Direction>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub before: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub after: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub first: Option<usize>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub last: Option<usize>,
+}
+
+#[derive(Deserialize, PartialEq, Debug, Clone)]
+pub struct PageInfo {
+    #[serde(rename = "startCursor")]
+    pub start_cursor: String,
+    #[serde(rename = "endCursor")]
+    pub end_cursor: String,
+    #[serde(rename = "hasPreviousPage")]
+    pub has_previous_page: bool,
+    #[serde(rename = "hasNextPage")]
+    pub has_next_page: bool,
+}
+
+#[derive(Deserialize, PartialEq, Debug, Clone)]
+pub struct Author {
+    pub id: String,
+}
 #[derive(Clone, Debug, PartialEq)]
 pub struct ApiHandle {
     api: Api,
@@ -271,17 +306,21 @@ impl ApiHandle {
         let value = self.api.fetch_recipe(JsValue::from(id)).await?;
         value.try_into()
     }
-    pub async fn fetch_all_recipes(&self) -> Result<Vec<Recipe>, FetchError> {
+    pub async fn fetch_all_recipes(&self, page: &Page) -> Result<Recipes, FetchError> {
         self.ensure_authenticated().await?;
-        let value = self.api.fetch_all_recipes().await?;
-        let recipes: Recipes = value.try_into()?;
-        Ok(recipes.0)
+        let value = self
+            .api
+            .fetch_all_recipes(JsValue::from_serde(page)?)
+            .await?;
+        value.try_into()
     }
-    pub async fn fetch_my_recipes(&self) -> Result<Vec<Recipe>, FetchError> {
+    pub async fn fetch_my_recipes(&self, page: &Page) -> Result<Recipes, FetchError> {
         self.ensure_authenticated().await?;
-        let value = self.api.fetch_my_recipes().await?;
-        let recipes: Recipes = value.try_into()?;
-        Ok(recipes.0)
+        let value = self
+            .api
+            .fetch_my_recipes(JsValue::from_serde(page)?)
+            .await?;
+        value.try_into()
     }
 
     pub async fn create_menu(&self, create: MenuCreate) -> Result<(), FetchError> {

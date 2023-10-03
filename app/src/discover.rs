@@ -4,18 +4,21 @@ use yew::{function_component, html, Component, Context, Html, Properties};
 use crate::{
     api::{self, FetchState},
     api_context::ApiContext,
+    pagination::{self, Paginator},
     recipe_link::RecipeLink,
     slop::recipe_title,
 };
 
+const RECIPES_PER_PAGE: usize = 10;
+
 pub enum Msg {
-    SetFetchState(FetchState<Vec<api::Recipe>>),
-    Fetch,
+    SetFetchState(FetchState<api::Recipes>),
+    Fetch(api::Page),
     ContextUpdate(ApiContext),
 }
 
 pub struct Discover {
-    fetch_state: FetchState<Vec<api::Recipe>>,
+    fetch_state: FetchState<api::Recipes>,
     api_context: ApiContext,
 }
 
@@ -41,10 +44,13 @@ impl Component for Discover {
                 self.fetch_state = fetch_state;
                 true
             }
-            Msg::Fetch => {
+            Msg::Fetch(page) => {
                 ctx.link().send_future(async move {
-                    match api.fetch_all_recipes().await {
-                        Ok(md) => Msg::SetFetchState(FetchState::Success(md)),
+                    match api.fetch_all_recipes(&page).await {
+                        Ok(mut ret) => {
+                            pagination::apply_remembered_direction(&page, &mut ret.page_info);
+                            Msg::SetFetchState(FetchState::Success(ret))
+                        }
                         Err(err) => Msg::SetFetchState(FetchState::Failed(err)),
                     }
                 });
@@ -62,15 +68,35 @@ impl Component for Discover {
     fn view(&self, ctx: &Context<Self>) -> Html {
         match &self.fetch_state {
             FetchState::NotFetching => {
-                ctx.link().send_message(Msg::Fetch);
+                ctx.link().send_message(Msg::Fetch(api::Page {
+                    first: Some(RECIPES_PER_PAGE),
+                    ..Default::default()
+                }));
                 html! { <Spinner/> }
             }
             FetchState::Fetching => html! { <Spinner/> },
             FetchState::Success(recipes) => {
                 let children = recipes
+                    .recipes
                     .iter()
                     .map(|r| html! { <RecipeItem recipe={r.clone()}/> });
-                html! { <Stack gutter=true> {children.collect::<Html>() } </Stack> }
+
+                let onpage = ctx.link().callback(Msg::Fetch);
+                let page_buttons = html! {
+                    <Paginator limit={RECIPES_PER_PAGE} page_info={recipes.page_info.clone()} {onpage} />
+                };
+
+                html! {
+                    <Stack gutter=true>
+                        <StackItem>
+                            {page_buttons.clone()}
+                        </StackItem>
+                        {for children }
+                        <StackItem>
+                            {page_buttons}
+                        </StackItem>
+                    </Stack>
+                }
             }
             FetchState::Failed(err) => html! { err },
         }
