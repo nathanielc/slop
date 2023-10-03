@@ -34,10 +34,10 @@ deploy: schema/composite.json
 schema/runtime-composite.json: schema/composite.json
 	composedb composite:compile schema/composite.json schema/runtime-composite.json
 
-api/src/__generated__/definition.js: schema/composite.json
-	composedb composite:compile schema/composite.json api/src/__generated__/definition.js
+api/src/__generated__/definition.mjs: schema/composite.json
+	composedb composite:compile schema/composite.json api/src/__generated__/definition.mjs
 
-api/dist/api.js: api/src/api.ts api/src/__generated__/definition.js
+api/dist/api.js: api/src/api.ts api/src/__generated__/definition.mjs
 	cd api && pnpm install && pnpm run build
 
 # TODO make this depend on api/dist/api.js

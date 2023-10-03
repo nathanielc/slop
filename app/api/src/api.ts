@@ -2,7 +2,7 @@ import { DIDSession } from 'did-session'
 import { EthereumWebAuth, getAccountId } from '@didtools/pkh-ethereum'
 import { ComposeClient } from '@composedb/client'
 import { } from '@composedb/types'
-import { definition } from './__generated__/definition.js'
+import { definition } from './__generated__/definition.mjs'
 import provider from 'eth-provider'
 
 interface PageInfo {
