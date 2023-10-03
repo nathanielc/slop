@@ -175,7 +175,7 @@ query BookTags($did: ID!) {
     if (menu.ingredients === null) {
       menu.ingredients = []
     }
-    return result.data.node.menu
+    return menu
   }
 
   async fetch_book_tags(): Promise<Array<string>> {

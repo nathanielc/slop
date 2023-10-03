@@ -1,9 +1,11 @@
 use patternfly_yew::prelude::*;
 use yew::{function_component, html, Component, Context, Html, Properties};
+use yew_nested_router::components::Link;
 
 use crate::{
     api::{self, FetchState},
     api_context::ApiContext,
+    app::Route,
     pagination::{self, Paginator},
     recipe_link::RecipeLink,
     slop::recipe_title,
@@ -76,26 +78,40 @@ impl Component for Discover {
             }
             FetchState::Fetching => html! { <Spinner/> },
             FetchState::Success(recipes) => {
-                let children = recipes
-                    .recipes
-                    .iter()
-                    .map(|r| html! { <RecipeItem recipe={r.clone()}/> });
+                if recipes.recipes.is_empty() {
+                    let my_recipes =
+                        html! {<Link<Route> target={Route::MyRecipes}>{"here"}</Link<Route>>};
+                    html! {
+                        <Content>
+                            <p>
+                                {"There are no recipes. Be the first to create a recipe "}
+                                {my_recipes}
+                                {"."}
+                            </p>
+                        </Content>
+                    }
+                } else {
+                    let children = recipes
+                        .recipes
+                        .iter()
+                        .map(|r| html! { <RecipeItem recipe={r.clone()}/> });
 
-                let onpage = ctx.link().callback(Msg::Fetch);
-                let page_buttons = html! {
-                    <Paginator limit={RECIPES_PER_PAGE} page_info={recipes.page_info.clone()} {onpage} />
-                };
+                    let onpage = ctx.link().callback(Msg::Fetch);
+                    let page_buttons = html! {
+                        <Paginator limit={RECIPES_PER_PAGE} page_info={recipes.page_info.clone()} {onpage} />
+                    };
 
-                html! {
-                    <Stack gutter=true>
-                        <StackItem>
-                            {page_buttons.clone()}
-                        </StackItem>
-                        {for children }
-                        <StackItem>
-                            {page_buttons}
-                        </StackItem>
-                    </Stack>
+                    html! {
+                        <Stack gutter=true>
+                            <StackItem>
+                                {page_buttons.clone()}
+                            </StackItem>
+                            {for children }
+                            <StackItem>
+                                {page_buttons}
+                            </StackItem>
+                        </Stack>
+                    }
                 }
             }
             FetchState::Failed(err) => html! { err },
