@@ -177,15 +177,11 @@ impl Component for BookTab {
             FetchState::Fetching => html! { <Spinner/> },
             FetchState::Success(data) => {
                 let ondelete = ctx.link().callback(|_| BookTabMsg::Fetch);
-                let entries = data
-                    .entries
-                    .iter()
-                    .map(|book_entry| {
-                        html! {
-                            <BookEntry book_entry={book_entry.clone()} ondelete={ondelete.clone()} />
-                        }
-                    })
-                    .collect::<Vec<Html>>();
+                let entries = data.entries.iter().map(|book_entry| {
+                    html! {
+                        <BookEntry book_entry={book_entry.clone()} ondelete={ondelete.clone()} />
+                    }
+                });
                 html! {
                     <div class="book-tab">
                         <table>
@@ -194,7 +190,7 @@ impl Component for BookTab {
                                 <th/>
                             </thead>
                             <tbody>
-                            { entries }
+                            { for entries }
                             </tbody>
                         </table>
                     </div>

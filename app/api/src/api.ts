@@ -5,6 +5,17 @@ import { } from '@composedb/types'
 import { definition } from './__generated__/definition.js'
 import provider from 'eth-provider'
 
+interface PageInfo {
+  startCursor: string
+  endCursor: string
+  hasPreviousPage: boolean
+  hasNextPage: boolean
+}
+
+interface Recipes {
+  recipes: Recipe[]
+  pageInfo: PageInfo
+}
 
 interface Recipe {
   id: string
@@ -67,6 +78,13 @@ interface MenuCreate {
 
 interface Author {
   id: string
+}
+
+interface Page {
+  before: string,
+  after: string,
+  first: number,
+  last: number,
 }
 
 export class Api {
@@ -255,11 +273,11 @@ query QueryRecipe($id: ID!) {
     console.log('fetch_recipe', result);
     return result.data.node
   }
-  async fetch_all_recipes(): Promise<Array<Recipe>> {
+  async fetch_all_recipes(page: Page): Promise<Recipes> {
     console.log('fetch_all_recipes')
     const result = await this.composedb.executeQuery(`
-query AllRecipes($filters: RecipeFiltersInput!) {
-  recipeIndex(first: 1000, filters: $filters) {
+query AllRecipes($filters: RecipeFiltersInput!, $before: String, $after: String, $first: Int, $last: Int) {
+  recipeIndex(filters: $filters, before: $before, after: $after, first: $first, last: $last) {
     edges {
       node {
         id
@@ -270,26 +288,33 @@ query AllRecipes($filters: RecipeFiltersInput!) {
         deleted
       }
     }
-    pageInfo
+    pageInfo {
+      startCursor
+      endCursor
+      hasNextPage
+      hasPreviousPage
+    }
   }
 }`,
       {
         filters: { where: { deleted: { equalTo: false } } },
+        ...page
       }
     );
 
     console.log('fetch_all_recipes', result);
-    const recipes = result.data.recipeIndex.edges.map((edge) => edge.node)
-    return recipes
+    const recipes = result.data.recipeIndex.edges.map((edge) => edge.node);
+    const pageInfo = result.data.recipeIndex.pageInfo;
+    return { recipes, pageInfo }
   }
-  async fetch_my_recipes(): Promise<Array<Recipe>> {
+  async fetch_my_recipes(page: Page): Promise<Recipes> {
     console.log('fetch_my_recipes')
     const result = await this.composedb.executeQuery(`
-query MyRecipes($did: ID!, $filters: RecipeFiltersInput!) {
+query MyRecipes($did: ID!, $filters: RecipeFiltersInput!, $before: String, $after: String, $first: Int, $last: Int) {
   node(id: $did) {
     ... on CeramicAccount {
-      recipeList(first: 1000, filters: $filters) {
-        edges{
+      recipeList(filters: $filters, before: $before, after: $after, first: $first, last: $last) {
+        edges {
           node{
             id
             source
@@ -299,6 +324,12 @@ query MyRecipes($did: ID!, $filters: RecipeFiltersInput!) {
             deleted
           }
         }
+        pageInfo {
+          startCursor
+          endCursor
+          hasNextPage
+          hasPreviousPage
+        }
       }
     }
   }
@@ -306,14 +337,13 @@ query MyRecipes($did: ID!, $filters: RecipeFiltersInput!) {
       {
         did: this.composedb.id,
         filters: { where: { deleted: { equalTo: false } } },
+        ...page
       })
 
     console.log('fetch_my_recipes', result);
-    if (result.data.node.recipeList) {
-      return result.data.node.recipeList.edges.map((edge) => edge.node)
-    } else {
-      return []
-    }
+    const recipes = result.data.node.recipeList.edges.map((edge) => edge.node);
+    const pageInfo = result.data.node.recipeList.pageInfo;
+    return { recipes, pageInfo }
   }
 
   async create_menu(menu: MenuCreate): Promise<string> {

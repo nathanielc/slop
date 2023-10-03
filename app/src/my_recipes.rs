@@ -2,20 +2,27 @@ use patternfly_yew::prelude::*;
 use yew::{html, Callback, Component, Context, Html, Properties};
 use yew_nested_router::components::Link;
 
-use crate::{api, app::Route};
+use crate::{
+    api,
+    app::Route,
+    pagination::{self, Paginator},
+};
 use crate::{
     api::FetchState, api_context::ApiContext, recipe_link::RecipeLink, slop::recipe_title,
 };
 
+const RECIPES_PER_PAGE: usize = 10;
+
 pub enum Msg {
-    SetFetchState(FetchState<Vec<api::Recipe>>),
-    Fetch,
+    SetFetchState(FetchState<api::Recipes>),
+    Fetch(api::Page),
     ApiUpdate(ApiContext),
 }
 
 pub struct MyRecipes {
-    fetch_state: FetchState<Vec<api::Recipe>>,
+    fetch_state: FetchState<api::Recipes>,
     api_context: ApiContext,
+    current_page: api::Page,
 }
 
 impl Component for MyRecipes {
@@ -30,6 +37,10 @@ impl Component for MyRecipes {
         Self {
             fetch_state: FetchState::NotFetching,
             api_context,
+            current_page: api::Page {
+                first: Some(RECIPES_PER_PAGE),
+                ..Default::default()
+            },
         }
     }
 
@@ -39,11 +50,14 @@ impl Component for MyRecipes {
                 self.fetch_state = fetch_state;
                 true
             }
-            Msg::Fetch => {
+            Msg::Fetch(page) => {
                 let api = self.api_context.api();
                 ctx.link().send_future(async move {
-                    match api.fetch_my_recipes().await {
-                        Ok(md) => Msg::SetFetchState(FetchState::Success(md)),
+                    match api.fetch_my_recipes(&page).await {
+                        Ok(mut ret) => {
+                            pagination::apply_remembered_direction(&page, &mut ret.page_info);
+                            Msg::SetFetchState(FetchState::Success(ret))
+                        }
                         Err(err) => Msg::SetFetchState(FetchState::Failed(err)),
                     }
                 });
@@ -61,17 +75,23 @@ impl Component for MyRecipes {
     fn view(&self, ctx: &Context<Self>) -> Html {
         match &self.fetch_state {
             FetchState::NotFetching => {
-                ctx.link().send_message(Msg::Fetch);
+                ctx.link()
+                    .send_message(Msg::Fetch(self.current_page.clone()));
                 html! {
                         <Spinner/>
                 }
             }
             FetchState::Fetching => html! { <Spinner/> },
             FetchState::Success(recipes) => {
-                let ondelete = ctx.link().callback(|_| Msg::Fetch);
-                let children = recipes.iter().map(
+                let page = self.current_page.clone();
+                let ondelete = ctx.link().callback(move |_| Msg::Fetch(page.clone()));
+                let children = recipes.recipes.iter().map(
                     |r| html! { <RecipeItem recipe={r.clone()} ondelete={ondelete.clone()} /> },
                 );
+                let onpage = ctx.link().callback(Msg::Fetch);
+                let page_buttons = html! {
+                    <Paginator limit={RECIPES_PER_PAGE} page_info={recipes.page_info.clone()} {onpage} />
+                };
                 html! {
                     <div class="my-recipes">
                         <Stack gutter=true>
@@ -79,6 +99,9 @@ impl Component for MyRecipes {
                                 <Link<Route> target={Route::NewRecipe}>
                                     <Button variant={ButtonVariant::Primary} icon={Icon::PlusCircle} label="New Recipe" ></Button>
                                 </Link<Route>>
+                            </StackItem>
+                            <StackItem>
+                                {page_buttons.clone()}
                             </StackItem>
                             <StackItem>
                                 <table>
@@ -90,6 +113,9 @@ impl Component for MyRecipes {
                                         {for children}
                                     </tbody>
                                 </table>
+                            </StackItem>
+                            <StackItem>
+                                {page_buttons}
                             </StackItem>
                         </Stack>
                     </div>
@@ -180,9 +206,7 @@ impl Component for RecipeItem {
         html! {
             <tr>
                 <td>
-                    <RecipeLink id={ctx.props().recipe.id.clone()} >
-                        <Content><h2>{self.title.clone()}</h2></Content>
-                    </RecipeLink>
+                    <RecipeLink id={ctx.props().recipe.id.clone()} >{self.title.clone()}</RecipeLink>
                 </td>
                 <td>
                     <Bullseye>
