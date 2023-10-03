@@ -1,9 +1,11 @@
 use patternfly_yew::prelude::*;
 use yew::{html, html_nested, virtual_dom::VChild, Callback, Component, Context, Html, Properties};
+use yew_nested_router::components::Link;
 
 use crate::{
     api::{self, FetchState},
     api_context::ApiContext,
+    app::Route,
     recipe_link::RecipeLink,
 };
 
@@ -74,25 +76,43 @@ impl Component for Book {
             }
             FetchState::Fetching => html! { <Spinner/> },
             FetchState::Success(data) => {
-                let onselect = ctx.link().callback(BookMsg::SelectTab);
-                let mut data = data.to_owned();
-                data.sort();
-                let tabs = data
-                    .iter()
-                    .enumerate()
-                    .map(|(i, tag)| {
-                        let capital_tag = capitalize(tag);
-                        html_nested! {
-                            <Tab<usize> index={i} title={capital_tag}>
-                                <BookTab tag={tag.clone()} />
-                            </Tab<usize>>
-                        }
-                    })
-                    .collect::<Vec<VChild<Tab<usize>>>>();
-                html! {
-                    <Tabs<usize> selected={self.selected} {onselect}>
-                    { tabs }
-                    </Tabs<usize>>
+                if data.is_empty() {
+                    let my_recipes =
+                        html! {<Link<Route> target={Route::MyRecipes}>{"here"}</Link<Route>>};
+                    let discover =
+                        html! {<Link<Route> target={Route::Discover}>{"here"}</Link<Route>>};
+                    html! {
+                        <Content>
+                            <p>
+                                {"You have no recipes in your book. You can create new recipes "}
+                                {my_recipes}
+                                {" or find new recipes "}
+                                {discover}
+                                {"."}
+                            </p>
+                        </Content>
+                    }
+                } else {
+                    let onselect = ctx.link().callback(BookMsg::SelectTab);
+                    let mut data = data.to_owned();
+                    data.sort();
+                    let tabs = data
+                        .iter()
+                        .enumerate()
+                        .map(|(i, tag)| {
+                            let capital_tag = capitalize(tag);
+                            html_nested! {
+                                <Tab<usize> index={i} title={capital_tag}>
+                                    <BookTab tag={tag.clone()} />
+                                </Tab<usize>>
+                            }
+                        })
+                        .collect::<Vec<VChild<Tab<usize>>>>();
+                    html! {
+                        <Tabs<usize> selected={self.selected} {onselect}>
+                        { tabs }
+                        </Tabs<usize>>
+                    }
                 }
             }
             FetchState::Failed(err) => html! { err },

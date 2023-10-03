@@ -243,9 +243,9 @@ pub struct Page {
 #[derive(Deserialize, PartialEq, Debug, Clone)]
 pub struct PageInfo {
     #[serde(rename = "startCursor")]
-    pub start_cursor: String,
+    pub start_cursor: Option<String>,
     #[serde(rename = "endCursor")]
-    pub end_cursor: String,
+    pub end_cursor: Option<String>,
     #[serde(rename = "hasPreviousPage")]
     pub has_previous_page: bool,
     #[serde(rename = "hasNextPage")]

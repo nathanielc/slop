@@ -40,29 +40,31 @@ impl Component for Paginator {
         let (prev_page, next_page) = if let Some(page_info) = &ctx.props().page_info {
             debug!("page info {page_info:?}");
             let prev_page = if page_info.has_previous_page {
-                let start = page_info.start_cursor.to_owned();
-                Some(ctx.link().callback(move |_| {
-                    Msg::Page(api::Page {
-                        direction: Some(api::Direction::Backward),
-                        before: Some(start.clone()),
-                        last: Some(limit),
-                        ..Default::default()
+                page_info.start_cursor.to_owned().map(|start| {
+                    ctx.link().callback(move |_| {
+                        Msg::Page(api::Page {
+                            direction: Some(api::Direction::Backward),
+                            before: Some(start.clone()),
+                            last: Some(limit),
+                            ..Default::default()
+                        })
                     })
-                }))
+                })
             } else {
                 None
             };
 
             let next_page = if page_info.has_next_page {
-                let end = page_info.end_cursor.to_owned();
-                Some(ctx.link().callback(move |_| {
-                    Msg::Page(api::Page {
-                        direction: Some(api::Direction::Forward),
-                        after: Some(end.clone()),
-                        first: Some(limit),
-                        ..Default::default()
+                page_info.end_cursor.to_owned().map(|end| {
+                    ctx.link().callback(move |_| {
+                        Msg::Page(api::Page {
+                            direction: Some(api::Direction::Forward),
+                            after: Some(end.clone()),
+                            first: Some(limit),
+                            ..Default::default()
+                        })
                     })
-                }))
+                })
             } else {
                 None
             };
