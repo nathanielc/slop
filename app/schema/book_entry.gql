@@ -7,9 +7,11 @@ type Recipe @loadModel(id: "RECIPE_MODEL") {
 # The set of BookEntry models owned by an account is the entire book.
 type BookEntry
   @createModel(accountRelation: LIST, description: "A recipe entry in a book") 
-  @createIndex(fields: [{ path: "tag" }]) {
+  @createIndex(fields: [{ path: "tag" }])
+  @createIndex(fields: [{ path: "deleted" }]) {
   recipeId: StreamID! @documentReference(model: "Recipe")
   recipe: Recipe! @relationDocument(property: "recipeId")
-  title: String! @string(maxLength: 200),
+  title: String! @string(maxLength: 200)
   tag: String! @string(minLength: 1, maxLength: 100)
+  deleted: Boolean!
 }

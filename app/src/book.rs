@@ -1,9 +1,5 @@
-use log::debug;
 use patternfly_yew::prelude::*;
-use yew::{
-    function_component, html, html_nested, virtual_dom::VChild, Component, Context, Html,
-    Properties,
-};
+use yew::{html, html_nested, virtual_dom::VChild, Callback, Component, Context, Html, Properties};
 
 use crate::{
     api::{self, FetchState},
@@ -15,7 +11,7 @@ use crate::{
 pub enum BookMsg {
     SetFetchState(FetchState<Vec<String>>),
     Fetch,
-    ContextUpdate(ApiContext),
+    ApiUpdate(ApiContext),
     SelectTab(usize),
 }
 pub struct Book {
@@ -30,7 +26,7 @@ impl Component for Book {
     fn create(ctx: &Context<Self>) -> Self {
         let (api_context, _) = ctx
             .link()
-            .context::<ApiContext>(ctx.link().callback(BookMsg::ContextUpdate))
+            .context::<ApiContext>(ctx.link().callback(BookMsg::ApiUpdate))
             .expect("context should exist");
         Self {
             selected: 0,
@@ -57,7 +53,7 @@ impl Component for Book {
                     .send_message(BookMsg::SetFetchState(FetchState::Fetching));
                 false
             }
-            BookMsg::ContextUpdate(api_context) => {
+            BookMsg::ApiUpdate(api_context) => {
                 self.api_context = api_context;
                 false
             }
@@ -117,7 +113,7 @@ fn capitalize(s: &str) -> String {
 pub enum BookTabMsg {
     SetFetchState(FetchState<api::BookEntries>),
     Fetch,
-    ContextUpdate(ApiContext),
+    ApiUpdate(ApiContext),
 }
 pub struct BookTab {
     fetch_state: FetchState<api::BookEntries>,
@@ -136,7 +132,7 @@ impl Component for BookTab {
     fn create(ctx: &Context<Self>) -> Self {
         let (api_context, _) = ctx
             .link()
-            .context::<ApiContext>(ctx.link().callback(BookTabMsg::ContextUpdate))
+            .context::<ApiContext>(ctx.link().callback(BookTabMsg::ApiUpdate))
             .expect("context should exist");
         Self {
             fetch_state: FetchState::NotFetching,
@@ -145,7 +141,6 @@ impl Component for BookTab {
     }
 
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
-        debug!("BookTab update {:?}", msg);
         let api = self.api_context.api();
         match msg {
             BookTabMsg::SetFetchState(fetch_state) => {
@@ -164,7 +159,7 @@ impl Component for BookTab {
                     .send_message(BookTabMsg::SetFetchState(FetchState::Fetching));
                 false
             }
-            BookTabMsg::ContextUpdate(api_context) => {
+            BookTabMsg::ApiUpdate(api_context) => {
                 self.api_context = api_context;
                 false
             }
@@ -181,20 +176,27 @@ impl Component for BookTab {
             }
             FetchState::Fetching => html! { <Spinner/> },
             FetchState::Success(data) => {
+                let ondelete = ctx.link().callback(|_| BookTabMsg::Fetch);
                 let entries = data
                     .entries
                     .iter()
                     .map(|book_entry| {
                         html! {
-                            <BookEntry book_entry={book_entry.clone()} />
+                            <BookEntry book_entry={book_entry.clone()} ondelete={ondelete.clone()} />
                         }
                     })
                     .collect::<Vec<Html>>();
                 html! {
                     <div class="book-tab">
-                        <List>
-                        { entries }
-                        </List>
+                        <table>
+                            <thead>
+                                <th/>
+                                <th/>
+                            </thead>
+                            <tbody>
+                            { entries }
+                            </tbody>
+                        </table>
                     </div>
                 }
             }
@@ -206,11 +208,89 @@ impl Component for BookTab {
 #[derive(Debug, Properties, PartialEq)]
 struct BookEntryProps {
     book_entry: api::BookEntry,
+    ondelete: Callback<()>,
 }
 
-#[function_component(BookEntry)]
-fn book_entry(props: &BookEntryProps) -> Html {
-    html! {
-        <RecipeLink id={props.book_entry.recipe_id.clone()}>{props.book_entry.title.clone()}</RecipeLink>
+#[derive(Debug)]
+pub enum BookEntryMsg {
+    SetDeleteState(FetchState<()>),
+    Delete,
+    ApiUpdate(ApiContext),
+}
+
+struct BookEntry {
+    fetch_state: FetchState<()>,
+    api_context: ApiContext,
+}
+
+impl Component for BookEntry {
+    type Message = BookEntryMsg;
+
+    type Properties = BookEntryProps;
+
+    fn create(ctx: &Context<Self>) -> Self {
+        let (api_context, _) = ctx
+            .link()
+            .context::<ApiContext>(ctx.link().callback(BookEntryMsg::ApiUpdate))
+            .expect("context should exist");
+        Self {
+            fetch_state: FetchState::NotFetching,
+            api_context,
+        }
+    }
+
+    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
+        match msg {
+            BookEntryMsg::SetDeleteState(fetch_state) => {
+                self.fetch_state = fetch_state;
+                if matches!(self.fetch_state, FetchState::Success(_)) {
+                    ctx.props().ondelete.emit(());
+                }
+                true
+            }
+            BookEntryMsg::Delete => {
+                let api = self.api_context.api();
+                let id = ctx.props().book_entry.id.to_owned();
+                ctx.link().send_future(async move {
+                    match api
+                        .update_book_entry(
+                            &id,
+                            &api::BookEntryUpdate {
+                                deleted: Some(true),
+                                ..Default::default()
+                            },
+                        )
+                        .await
+                    {
+                        Ok(_) => BookEntryMsg::SetDeleteState(FetchState::Success(())),
+                        Err(err) => BookEntryMsg::SetDeleteState(FetchState::Failed(err)),
+                    }
+                });
+                ctx.link()
+                    .send_message(BookEntryMsg::SetDeleteState(FetchState::Fetching));
+                false
+            }
+            BookEntryMsg::ApiUpdate(api_context) => {
+                self.api_context = api_context;
+                false
+            }
+        }
+    }
+
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let loading = matches!(self.fetch_state, FetchState::Fetching);
+        let onclick = ctx.link().callback(|_| BookEntryMsg::Delete);
+        html! {
+            <tr>
+                <td>
+                    <RecipeLink id={ctx.props().book_entry.recipe_id.clone()}>{ctx.props().book_entry.title.clone()}</RecipeLink>
+                </td>
+                <td>
+                    <Bullseye>
+                        <Button {loading} variant={ButtonVariant::Plain} icon={Icon::Trash} {onclick}/>
+                    </Bullseye>
+                </td>
+            </tr>
+        }
     }
 }
