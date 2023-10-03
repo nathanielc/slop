@@ -1,3 +1,4 @@
+mod add_to_book;
 mod api;
 mod api_context;
 mod app;

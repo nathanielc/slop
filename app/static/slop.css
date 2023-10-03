@@ -7,6 +7,25 @@
 }
 
 .book-tab {
-    padding: 20px;
+    padding-top: 20px;
 }
 
+.book-tab table {
+    width: 100%;
+}
+.book-tab tbody td {
+  padding-left: 20px;
+}
+.book-tab tbody tr:nth-child(odd) {
+  background-color: #e0e0e0;
+}
+
+.my-recipes table {
+    width: 100%;
+}
+.my-recipes tbody td {
+  padding-left: 20px;
+}
+.my-recipes tbody tr:nth-child(odd) {
+  background-color: #e0e0e0;
+}

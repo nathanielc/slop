@@ -1,4 +1,7 @@
-type Recipe @createModel(accountRelation: LIST, description: "A recipe") {
-  source: String! @string(maxLength: 100000),
+type Recipe
+  @createModel(accountRelation: LIST, description: "A recipe")
+  @createIndex(fields: [{ path: "deleted" }]) {
+  source: String! @string(maxLength: 100000)
+  deleted: Boolean!
   author: DID! @documentAccount
 }

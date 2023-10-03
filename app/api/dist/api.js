@@ -64987,7 +64987,7 @@ var ComposeClient = class {
 };
 
 // src/__generated__/definition.js
-var definition = { "models": { "Profile": { "id": "kjzl6hvfrbw6cb45byrd8ssbi8r75zt9qpba00rqffzgtwjeb917zahhvcscjqh", "accountRelation": { "type": "single" } }, "BookEntry": { "id": "kjzl6hvfrbw6caorigdezo0io8l9kwdfms2c8uzpn4fpxc7yjfs1vnbheqijg2m", "accountRelation": { "type": "list" } }, "Recipe": { "id": "kjzl6hvfrbw6c6ngtt7harvn6qb4g1t5rt7wa1yt4giolyi6pxbyti1gjf9tv8k", "accountRelation": { "type": "list" } }, "Menu": { "id": "kjzl6hvfrbw6c592suu7067ldjkd4wxpyrwqgel1mawwt9ovgv8bpgdthl8s15x", "accountRelation": { "type": "single" } } }, "objects": { "Profile": { "displayName": { "type": "string", "required": true } }, "BookEntry": { "tag": { "type": "string", "required": true, "indexed": true }, "title": { "type": "string", "required": true }, "recipeId": { "type": "streamid", "required": true }, "recipe": { "type": "view", "viewType": "relation", "relation": { "source": "document", "model": "kjzl6hvfrbw6c6ngtt7harvn6qb4g1t5rt7wa1yt4giolyi6pxbyti1gjf9tv8k", "property": "recipeId" } } }, "Recipe": { "source": { "type": "string", "required": true }, "author": { "type": "view", "viewType": "documentAccount" } }, "MenuRecipe": { "id": { "type": "id", "required": true }, "title": { "type": "string", "required": true }, "source": { "type": "string", "required": true } }, "MenuIngredient": { "name": { "type": "string", "required": true }, "amount": { "type": "string", "required": true } }, "Menu": { "recipes": { "type": "list", "required": false, "item": { "type": "reference", "refType": "object", "refName": "MenuRecipe", "required": false } }, "ingredients": { "type": "list", "required": false, "item": { "type": "reference", "refType": "object", "refName": "MenuIngredient", "required": false } } } }, "enums": {}, "accountData": { "profile": { "type": "node", "name": "Profile" }, "bookEntryList": { "type": "connection", "name": "BookEntry" }, "recipeList": { "type": "connection", "name": "Recipe" }, "menu": { "type": "node", "name": "Menu" } } };
+var definition = { "models": { "Profile": { "id": "kjzl6hvfrbw6cb45byrd8ssbi8r75zt9qpba00rqffzgtwjeb917zahhvcscjqh", "accountRelation": { "type": "single" } }, "Recipe": { "id": "kjzl6hvfrbw6c76yv981ixb4e4wd3e14fh9ixlm73wd6p6o5s70n8qjqhlem78d", "accountRelation": { "type": "list" } }, "BookEntry": { "id": "kjzl6hvfrbw6cawogvor3pj1r8suscc7tjaoty5ekoy2dhit4fbwxgro9dgihqp", "accountRelation": { "type": "list" } }, "Menu": { "id": "kjzl6hvfrbw6c592suu7067ldjkd4wxpyrwqgel1mawwt9ovgv8bpgdthl8s15x", "accountRelation": { "type": "single" } } }, "objects": { "Profile": { "displayName": { "type": "string", "required": true } }, "Recipe": { "source": { "type": "string", "required": true }, "deleted": { "type": "boolean", "required": true, "indexed": true }, "author": { "type": "view", "viewType": "documentAccount" } }, "BookEntry": { "tag": { "type": "string", "required": true, "indexed": true }, "title": { "type": "string", "required": true }, "deleted": { "type": "boolean", "required": true, "indexed": true }, "recipeId": { "type": "streamid", "required": true }, "recipe": { "type": "view", "viewType": "relation", "relation": { "source": "document", "model": "kjzl6hvfrbw6c76yv981ixb4e4wd3e14fh9ixlm73wd6p6o5s70n8qjqhlem78d", "property": "recipeId" } } }, "MenuRecipe": { "id": { "type": "id", "required": true }, "title": { "type": "string", "required": true }, "source": { "type": "string", "required": true } }, "MenuIngredient": { "name": { "type": "string", "required": true }, "amount": { "type": "string", "required": true } }, "Menu": { "recipes": { "type": "list", "required": false, "item": { "type": "reference", "refType": "object", "refName": "MenuRecipe", "required": false } }, "ingredients": { "type": "list", "required": false, "item": { "type": "reference", "refType": "object", "refName": "MenuIngredient", "required": false } } } }, "enums": {}, "accountData": { "profile": { "type": "node", "name": "Profile" }, "recipeList": { "type": "connection", "name": "Recipe" }, "bookEntryList": { "type": "connection", "name": "BookEntry" }, "menu": { "type": "node", "name": "Menu" } } };
 
 // src/api.ts
 var import_eth_provider = __toESM(require_browser2());
@@ -65074,10 +65074,10 @@ query BookTags($did: ID!) {
     console.log("fetch_book_tags");
     const result = await this.composedb.executeQuery(
       `
-query BookTags($did: ID!) {
+query BookTags($did: ID!, $filters: BookEntryFiltersInput!) {
   node(id: $did) {
     ... on CeramicAccount {
-      bookEntryList(first: 100) {
+      bookEntryList(first: 100, filters: $filters) {
         edges {
           node {
             tag
@@ -65088,7 +65088,8 @@ query BookTags($did: ID!) {
   }
 }`,
       {
-        did: this.composedb.id
+        did: this.composedb.id,
+        filters: { where: { deleted: { equalTo: false } } }
       }
     );
     console.log("fetch_book_tags", result);
@@ -65102,10 +65103,10 @@ query BookTags($did: ID!) {
     console.log("fetch_book_entries", tag);
     const result = await this.composedb.executeQuery(
       `
-query BookEntries($did: ID!, $filter: BookEntryFiltersInput!) {
+query BookEntries($did: ID!, $filters: BookEntryFiltersInput!) {
   node(id: $did) {
     ... on CeramicAccount {
-      bookEntryList(first: 100, filters: $filter) {
+      bookEntryList(first: 100, filters: $filters) {
         edges {
           node {
             id
@@ -65120,7 +65121,12 @@ query BookEntries($did: ID!, $filter: BookEntryFiltersInput!) {
 }`,
       {
         did: this.composedb.id,
-        filter: { where: { tag: { equalTo: tag } } }
+        filters: {
+          and: [
+            { where: { tag: { equalTo: tag } } },
+            { where: { deleted: { equalTo: false } } }
+          ]
+        }
       }
     );
     console.log("fetch_book_entries", result);
@@ -65148,6 +65154,7 @@ query QueryRecipe($id: ID!) {
       author {
         id
       }
+      deleted
     }
   }
 }`,
@@ -65160,9 +65167,10 @@ query QueryRecipe($id: ID!) {
   }
   async fetch_all_recipes() {
     console.log("fetch_all_recipes");
-    const result = await this.composedb.executeQuery(`
-query {
-  recipeIndex(first: 1000) {
+    const result = await this.composedb.executeQuery(
+      `
+query AllRecipes($filters: RecipeFiltersInput!) {
+  recipeIndex(first: 1000, filters: $filters) {
     edges {
       node {
         id
@@ -65170,26 +65178,27 @@ query {
         author {
           id
         }
+        deleted
       }
     }
   }
-}`);
+}`,
+      {
+        filters: { where: { deleted: { equalTo: false } } }
+      }
+    );
     console.log("fetch_all_recipes", result);
-    const recipes = result.data.recipeIndex.edges.map((edge) => ({
-      id: edge.node.id,
-      source: edge.node.source,
-      author: edge.node.author
-    }));
+    const recipes = result.data.recipeIndex.edges.map((edge) => edge.node);
     return recipes;
   }
   async fetch_my_recipes() {
     console.log("fetch_my_recipes");
     const result = await this.composedb.executeQuery(
       `
-query MyRecipes($did: ID!) {
+query MyRecipes($did: ID!, $filters: RecipeFiltersInput!) {
   node(id: $did) {
     ... on CeramicAccount {
-      recipeList(first: 1000) {
+      recipeList(first: 1000, filters: $filters) {
         edges{
           node{
             id
@@ -65197,6 +65206,7 @@ query MyRecipes($did: ID!) {
             author {
               id
             }
+            deleted
           }
         }
       }
@@ -65204,16 +65214,13 @@ query MyRecipes($did: ID!) {
   }
 }`,
       {
-        did: this.composedb.id
+        did: this.composedb.id,
+        filters: { where: { deleted: { equalTo: false } } }
       }
     );
     console.log("fetch_my_recipes", result);
     if (result.data.node.recipeList) {
-      return result.data.node.recipeList.edges.map((edge) => ({
-        id: edge.node.id,
-        source: edge.node.source,
-        author: edge.node.author
-      }));
+      return result.data.node.recipeList.edges.map((edge) => edge.node);
     } else {
       return [];
     }
@@ -65251,14 +65258,33 @@ mutation CreateRecipe($i: CreateRecipeInput!) {
 }`,
       {
         i: {
-          content: {
-            source: recipe.source
-          }
+          content: { deleted: false, ...recipe }
         }
       }
     );
     console.log("create_recipe", result);
     return result.data.createRecipe.document.id;
+  }
+  async update_recipe(id, entry) {
+    console.log("update_recipe", entry);
+    const result = await this.composedb.executeQuery(
+      `
+mutation UpdateRecipe($i: UpdateRecipeInput!) {
+    updateRecipe(input: $i) {
+        document {
+            id
+        }
+    }
+}`,
+      {
+        i: {
+          id,
+          content: entry
+        }
+      }
+    );
+    console.log("update_recipe", result);
+    return result.data.updateRecipe.document.id;
   }
   async create_book_entry(entry) {
     console.log("create_book_entry", entry);
@@ -65273,12 +65299,33 @@ mutation CreateBookEntry($i: CreateBookEntryInput!) {
 }`,
       {
         i: {
-          content: entry
+          content: { deleted: false, ...entry }
         }
       }
     );
     console.log("create_book_entry", result);
     return result.data.createBookEntry.document.id;
+  }
+  async update_book_entry(id, entry) {
+    console.log("update_book_entry", entry);
+    const result = await this.composedb.executeQuery(
+      `
+mutation UpdateBookEntry($i: UpdateBookEntryInput!) {
+    updateBookEntry(input: $i) {
+        document {
+            id
+        }
+    }
+}`,
+      {
+        i: {
+          id,
+          content: entry
+        }
+      }
+    );
+    console.log("update_book_entry", result);
+    return result.data.updateBookEntry.document.id;
   }
 };
 export {

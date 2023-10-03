@@ -1,12 +1,12 @@
 use patternfly_yew::prelude::{
-    ActionGroup, Backdrop, Backdropper, Bullseye, Button, ButtonVariant, Content, DescriptionGroup,
-    DescriptionList, Flex, FlexItem, Form, FormGroup, Modal, ModalVariant, SimpleSelect, Spinner,
-    Stack, StackItem, TextInput, Tooltip,
+    Backdrop, Backdropper, Button, ButtonVariant, Content, DescriptionGroup, DescriptionList, Flex,
+    FlexItem, Spinner, Stack, StackItem, Tooltip,
 };
 use yew::{html, Component, Context, Html, Properties};
 use yew_nested_router::prelude::RouterContext;
 
 use crate::{
+    add_to_book::AddToBook,
     api::{self, FetchError, FetchState},
     api_context::ApiContext,
     app::Route,
@@ -22,9 +22,7 @@ pub enum Msg {
     FetchRecipe,
     FetchTags,
     AddModal(Vec<String>),
-    NewTag(String),
-    SelectTag(String),
-    AddToBook,
+    AddToBook(String),
     ApiUpdate(ApiContext),
     MenuUpdate(MenuContext),
     RouterUpdate(RouterContext<Route>),
@@ -46,8 +44,6 @@ pub struct Recipe {
     saving_menu: bool,
 
     title: Option<String>,
-    selected_tag: Option<String>,
-    new_tag: Option<String>,
 
     id: String,
     api_context: ApiContext,
@@ -91,14 +87,10 @@ impl Component for Recipe {
             router,
             title: None,
             backdropper,
-            new_tag: None,
-            selected_tag: None,
         }
     }
 
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
-        let api = self.api_context.api();
-        let id = self.id.clone();
         match msg {
             Msg::SetRecipeFetchState(fetch_state) => {
                 match fetch_state {
@@ -146,6 +138,8 @@ impl Component for Recipe {
                 }
             },
             Msg::FetchRecipe => {
+                let api = self.api_context.api();
+                let id = self.id.clone();
                 ctx.link().send_future(async move {
                     match api.fetch_recipe(id).await {
                         Ok(recipe) => Msg::SetRecipeFetchState(FetchState::Success(recipe)),
@@ -157,6 +151,7 @@ impl Component for Recipe {
                 false
             }
             Msg::FetchTags => {
+                let api = self.api_context.api();
                 ctx.link().send_future(async move {
                     match api.fetch_book_tags().await {
                         Ok(b) => Msg::SetTagsFetchState(FetchState::Success(b)),
@@ -167,22 +162,11 @@ impl Component for Recipe {
                     .send_message(Msg::SetTagsFetchState(FetchState::Fetching));
                 false
             }
-            Msg::NewTag(tag) => {
-                self.new_tag = Some(tag);
-                false
-            }
-            Msg::SelectTag(tag) => {
-                self.selected_tag = Some(tag);
-                true
-            }
-            Msg::AddToBook => {
+            Msg::AddToBook(tag) => {
+                let api = self.api_context.api();
                 let recipe_id = self.id.clone();
                 // TODO error on missing title or tag
                 let title = self.title.clone().unwrap_or_default();
-                let tag = self
-                    .new_tag
-                    .clone()
-                    .unwrap_or_else(|| self.selected_tag.clone().unwrap_or_default());
                 ctx.link().send_future(async move {
                     match api.create_book_entry(recipe_id, title, tag).await {
                         Ok(b) => Msg::SetAddToBookState(FetchState::Success(b)),
@@ -208,32 +192,10 @@ impl Component for Recipe {
                 false
             }
             Msg::AddModal(all_tags) => {
-                let onclick = ctx.link().callback(|_| Msg::AddToBook);
-                let onselect = ctx.link().callback(Msg::SelectTag);
-                let onchange = ctx.link().callback(Msg::NewTag);
-                let selected_tag = self.selected_tag.clone();
+                let onsubmit = ctx.link().callback(Msg::AddToBook);
                 self.backdropper.open(Backdrop {
                     content: html! {
-                        <Bullseye>
-                            <div class="recipe_modal">
-                            <Modal
-                                title = {"Add this recpie to your book "}
-                                variant = { ModalVariant::Medium }
-                            >
-                                <Form>
-                                    <FormGroup label="Select an existing tag" >
-                                        <SimpleSelect<String> selected={selected_tag} entries={all_tags} {onselect}/>
-                                    </FormGroup>
-                                    <FormGroup label="Or create a new tag" >
-                                        <TextInput {onchange} placeholder="breakfast"/>
-                                    </FormGroup>
-                                    <ActionGroup>
-                                        <Button label="Add" variant={ButtonVariant::Primary} {onclick}/>
-                                    </ActionGroup>
-                                </Form>
-                            </Modal>
-                            </div>
-                        </Bullseye>
+                        <AddToBook {onsubmit} entries={all_tags} />
                     },
                 });
                 true
@@ -256,6 +218,7 @@ impl Component for Recipe {
                 true
             }
             Msg::SaveMenu => {
+                let api = self.api_context.api();
                 let menu = self.menu_context.menu();
                 ctx.link().send_future(async move {
                     match api.create_menu(menu).await {

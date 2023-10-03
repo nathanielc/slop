@@ -46,7 +46,21 @@ extern "C" {
     async fn create_recipe(this: &Api, recipe_create: JsValue) -> Result<JsValue, JsValue>;
 
     #[wasm_bindgen(method, catch)]
+    async fn update_recipe(
+        this: &Api,
+        id: JsValue,
+        recipe_update: JsValue,
+    ) -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen(method, catch)]
     async fn create_book_entry(this: &Api, book_entry_create: JsValue) -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen(method, catch)]
+    async fn update_book_entry(
+        this: &Api,
+        id: JsValue,
+        book_entry_update: JsValue,
+    ) -> Result<JsValue, JsValue>;
 }
 
 /// Something wrong has occurred while fetching an external resource.
@@ -115,11 +129,24 @@ struct BookEntryCreate {
     pub tag: String,
 }
 
+#[derive(Serialize, PartialEq, Debug, Default, Clone)]
+pub struct BookEntryUpdate {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub deleted: Option<bool>,
+    #[serde(rename = "recipeId", skip_serializing_if = "Option::is_none")]
+    pub recipe_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub title: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub tag: Option<String>,
+}
+
 #[derive(Deserialize, PartialEq, Debug, Clone)]
 pub struct Recipe {
     pub id: String,
     pub source: String,
     pub author: Author,
+    pub deleted: bool,
 }
 #[derive(Deserialize, PartialEq, Debug, Clone)]
 pub struct Author {
@@ -148,6 +175,14 @@ impl TryFrom<JsValue> for Recipes {
 #[derive(Serialize, PartialEq, Debug, Clone)]
 struct RecipeCreate {
     pub source: String,
+}
+
+#[derive(Serialize, PartialEq, Debug, Default, Clone)]
+pub struct RecipeUpdate {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub source: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub deleted: Option<bool>,
 }
 
 #[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
@@ -264,6 +299,15 @@ impl ApiHandle {
         Ok(())
     }
 
+    pub async fn update_recipe(&self, id: &str, update: &RecipeUpdate) -> Result<(), FetchError> {
+        self.ensure_authenticated().await?;
+        let _res = self
+            .api
+            .update_recipe(JsValue::from(id), JsValue::from_serde(update)?)
+            .await?;
+        Ok(())
+    }
+
     pub async fn create_book_entry(
         &self,
         recipe_id: String,
@@ -278,6 +322,18 @@ impl ApiHandle {
         };
         let js_create = JsValue::from_serde(&create)?;
         let _res = self.api.create_book_entry(js_create).await?;
+        Ok(())
+    }
+    pub async fn update_book_entry(
+        &self,
+        id: &str,
+        update: &BookEntryUpdate,
+    ) -> Result<(), FetchError> {
+        self.ensure_authenticated().await?;
+        let _res = self
+            .api
+            .update_book_entry(JsValue::from(id), JsValue::from_serde(update)?)
+            .await?;
         Ok(())
     }
 }
