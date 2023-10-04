@@ -1,0 +1,15 @@
+@media print {
+    .pf-v5-c-page__sidebar {
+        display: none;
+    }
+    .pf-v5-c-masthead  {
+        display: none;
+    }
+
+    .recipe-description {
+        display: none;
+    }
+    .recipe-controls {
+        display: none;
+    }
+}

@@ -291,32 +291,40 @@ impl Component for Recipe {
                 html! {
                     <Stack>
                         <StackItem>
-                            <Content >
-                                <h2>{title}</h2>
-                            </Content>
-                            <DescriptionList>
-                                <DescriptionGroup term="Author">
-                                    {recipe.author.id.clone()}
-                                </DescriptionGroup>
-                            </DescriptionList>
-                            <div>{card}</div>
+                            <div class="recipe-description">
+                                <Content >
+                                    <h2>{title}</h2>
+                                </Content>
+                                <DescriptionList>
+                                    <DescriptionGroup term="Author">
+                                        {recipe.author.id.clone()}
+                                    </DescriptionGroup>
+                                </DescriptionList>
+                            </div>
                         </StackItem>
                         <StackItem>
-                            <Flex>
-                                <FlexItem>
-                                    <Button
-                                        label="Add to Recipe Book"
-                                        variant={ButtonVariant::Primary}
-                                        {onclick}
-                                    />
-                                </FlexItem>
-                                <FlexItem>
-                                    {add_to_menu}
-                                </FlexItem>
-                                <FlexItem>
-                                    {remove_from_menu}
-                                </FlexItem>
-                            </Flex>
+                            <div class="recipe-card">
+                                {card}
+                            </div>
+                        </StackItem>
+                        <StackItem>
+                            <div class="recipe-controls">
+                                <Flex>
+                                    <FlexItem>
+                                        <Button
+                                            label="Add to Recipe Book"
+                                            variant={ButtonVariant::Primary}
+                                            {onclick}
+                                        />
+                                    </FlexItem>
+                                    <FlexItem>
+                                        {add_to_menu}
+                                    </FlexItem>
+                                    <FlexItem>
+                                        {remove_from_menu}
+                                    </FlexItem>
+                                </Flex>
+                            </div>
                         </StackItem>
                     </Stack>
                 }
