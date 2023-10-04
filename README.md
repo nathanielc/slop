@@ -61,12 +61,40 @@ For example using the rendered fat from cooking bacon
 
 In both cases `+` and `^` do not mean anything to the parser but communicate to the reader of the code the intent.
 
-## Trough and Recipe Cards
+## Sharing Recipes
 
-Storing recipes as a tree structure allows for visualizing recipes based on their dependent parallel paths instead of simply a linear set of instructions.
-The Trough binary will serve a directory structure of `.slop` files and will render the slop files as a recipe card.
+Slop comes with both a web application and a server to host and share recipes.
+The app is built on the [Ceramic Network](https://ceramic.network/) which means that you can share recipes with anyone also running the app.
+The Ceramic Network enables each individual hosted server to synchronize the global set of recipes.
 
-The recipe card is a rectangular representation of a tree. It makes it easy to read and understand dependencies between steps of the recipe.
+The web application itself is fully client side rendered meaning that all you need is to host a Ceramic node and change the `Server Address` in `Settings`.
+You can find the application hosted at https://nathanielc.github.io/slop/ .
+
+### Participate in the Slop network
+
+Follow the steps to [run a Ceramic node in production](https://developers.ceramic.network/run/nodes/nodes/).
+
+Once you have a Ceramic + ComposeDB node running follow these steps to tell the node about the Slop data.
+
+First ensure your `daemon.config.json` has these `indexing` settings:
+
+```json
+  "indexing": {
+    "allow-queries-before-historical-sync": true,
+    "disable-composedb": false,
+    "enable-historical-sync": true
+  }
+```
+
+
+Then run these command to instruct the Ceramic daemon to synchronize the Slop data.
+
+    $ wget https://raw.githubusercontent.com/nathanielc/slop/master/app/schema/composite.json
+    $ composedb composite:deploy composite.json # Make sure you have configured your Admin DID for this command to work
+
+
+Now you should be able to immediately use the web application to create recipes, build menus and organize your recipe book.
+It may take some time for the global recipes to synchronize to your server before you can explore recipes from others.
 
 ## Example
 
