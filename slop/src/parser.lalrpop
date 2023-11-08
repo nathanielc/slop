@@ -1,5 +1,5 @@
 use crate::ast::{Operand,Recipe,SourceFile,Quantity};
-
+use regex::Regex;
 
 grammar;
 
@@ -73,7 +73,10 @@ Quantity: Quantity = {
 }
 
 Sentence: String = {
-    sentence => <>.trim().to_string(),
+    sentence => {
+        let re = Regex::new(r"\r?\n\s+").unwrap();
+        re.replace_all(<>.trim(), " ").to_string()
+    }
 }
 
 match {
