@@ -59,26 +59,28 @@ pub async fn run() -> Result<()> {
     match args.command {
         Command::Fmt(opts) => {
             let source = fs::read_to_string(opts.file).await?;
-            let formatted = slop::format(&source)?;
+            let (formatted, errors) = slop::format(&source);
+            eprintln!("{errors}");
             println!("{formatted}");
             Ok(())
         }
         Command::Check(opts) => {
             let source = fs::read_to_string(opts.file).await?;
-            let _ast = slop::parse(&source)?;
+            let (_ast, errors) = slop::parse(&source);
+            eprintln!("{errors}");
             Ok(())
         }
         Command::Title(opts) => {
             let source = fs::read_to_string(opts.file).await?;
-            let ast = slop::parse(&source)?;
+            let (ast, errors) = slop::parse(&source);
+            eprintln!("{errors}");
             println!("{}", ast.recipes[0].title.as_ref().unwrap());
             Ok(())
         }
         Command::Render(opts) => {
             let source = fs::read_to_string(opts.in_file).await?;
-            let ast = slop::parse(&source)?;
-            let sem = slop::semantic::convert_source_file(ast);
-            let svg = slop::svg::to_svg(&sem);
+            let (svg, errors) = slop::to_svg(&source);
+            eprintln!("{errors}");
             let mut f = fs::File::create(opts.out_file).await?;
             f.write_all(&svg).await?;
             Ok(())

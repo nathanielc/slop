@@ -4,12 +4,6 @@ use pretty::{Arena, DocAllocator, DocBuilder, Pretty};
 
 use crate::ast::{Operand, Quantity, Recipe, SourceFile};
 
-const MAX_LINE_LEN: usize = 40;
-struct Formatter {
-    data: String,
-    current_line_len: usize,
-}
-
 impl<'a, D, A> Pretty<'a, D, A> for &'a SourceFile
 where
     A: 'a + Clone,
@@ -75,9 +69,10 @@ where
         match self {
             Operand::Ingredient {
                 derived,
-                quantity,
+                quantities: quantity,
                 unit,
-                name,
+                text: name,
+                ..
             } => allocator
                 .hardline()
                 .append(allocator.text("*"))
@@ -104,7 +99,7 @@ where
                     allocator.nil()
                 })
                 .append(allocator.text(name)),
-            Operand::UnaryOp(operand, text) => {
+            Operand::UnaryOp { operand, text, .. } => {
                 let operand = operand.pretty(allocator).group();
                 let operator = allocator
                     .softline()
@@ -114,8 +109,13 @@ where
                     .group();
                 operand.append(operator)
             }
-            Operand::BinaryOp(l, r, text) => {
-                let operands = l.pretty(allocator).append(r.pretty(allocator));
+            Operand::BinaryOp {
+                first,
+                second,
+                text,
+                ..
+            } => {
+                let operands = first.pretty(allocator).append(second.pretty(allocator));
 
                 let operator = allocator
                     .softline()
@@ -125,6 +125,8 @@ where
                     .group();
                 operands.group().append(operator)
             }
+            Operand::MissingOperand { .. } => allocator.nil(),
+            Operand::UnusedOperands { operands, .. } => allocator.concat(operands),
         }
     }
 }
@@ -138,12 +140,9 @@ pub fn format(src: &SourceFile) -> String {
 mod test {
     use expect_test::{expect, Expect};
 
-    use super::*;
-    use crate::parse;
     fn test_format(src: Expect) {
-        let src_ast = parse(src.data()).unwrap();
-        println!("AST: {:#?}", src_ast);
-        let formatted = format(&src_ast);
+        let (formatted, errors) = crate::format(src.data());
+        assert!(errors.0.is_empty());
         src.assert_eq(&formatted);
     }
     #[test]

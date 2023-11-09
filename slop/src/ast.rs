@@ -1,5 +1,12 @@
+use std::{convert::TryFrom, ops::Range};
+
 use anyhow::anyhow;
-use std::convert::TryFrom;
+
+pub type Position = Range<usize>;
+
+pub trait Positioned {
+    fn position(&self) -> Position;
+}
 
 #[derive(Debug, PartialEq)]
 pub struct SourceFile {
@@ -8,6 +15,7 @@ pub struct SourceFile {
 
 #[derive(Debug, PartialEq)]
 pub struct Recipe {
+    pub position: Position,
     pub title: Option<String>,
     pub preamble: Option<String>,
     pub comment: Option<String>,
@@ -16,13 +24,42 @@ pub struct Recipe {
 #[derive(Debug, PartialEq)]
 pub enum Operand {
     Ingredient {
+        position: Position,
         derived: bool,
-        quantity: Vec<Quantity>,
+        quantities: Vec<Quantity>,
         unit: Option<String>,
-        name: String,
+        text: String,
     },
-    UnaryOp(Box<Operand>, String),
-    BinaryOp(Box<Operand>, Box<Operand>, String),
+    UnaryOp {
+        position: Position,
+        operand: Box<Operand>,
+        text: String,
+    },
+    BinaryOp {
+        position: Position,
+        first: Box<Operand>,
+        second: Box<Operand>,
+        text: String,
+    },
+    MissingOperand {
+        position: Position,
+    },
+    UnusedOperands {
+        position: Position,
+        operands: Vec<Operand>,
+    },
+}
+
+impl Positioned for Operand {
+    fn position(&self) -> Position {
+        match self {
+            Operand::Ingredient { position, .. } => position.clone(),
+            Operand::UnaryOp { position, .. } => position.clone(),
+            Operand::BinaryOp { position, .. } => position.clone(),
+            Operand::MissingOperand { position } => position.clone(),
+            Operand::UnusedOperands { position, .. } => position.clone(),
+        }
+    }
 }
 
 #[derive(Debug, PartialEq)]
