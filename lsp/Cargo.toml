@@ -10,7 +10,6 @@ license.workspace = true
 [dependencies]
 codespan = "0.9.5"
 codespan-lsp = "0.10.1"
-lalrpop-util = { version = "0.19", features = ["lexer"] }
 log = "0.4.11"
 log-panics = "2.0.0"
 lsp-types = "0.79.0"

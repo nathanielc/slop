@@ -1,6 +1,6 @@
 use std::{cell::RefCell, rc::Rc};
 
-use slop::{menu::aggregate_ingredients, parse, semantic::convert_source_file};
+use slop::{compile, menu::aggregate_ingredients};
 use yew::prelude::*;
 
 use crate::{
@@ -75,10 +75,10 @@ impl Reducible for MenuHandle {
         // Always update the set of ingredients
         {
             let mut menu = self.menu.borrow_mut();
-            let recipes = menu
-                .recipes
-                .iter()
-                .flat_map(|r| convert_source_file(parse(&r.source).unwrap()).recipes);
+            let recipes = menu.recipes.iter().flat_map(|r| {
+                let (file, _errors) = compile(&r.source);
+                file.recipes
+            });
             menu.ingredients = aggregate_ingredients(recipes)
                 .into_iter()
                 .map(|(name, amounts)| api::MenuIngredient {

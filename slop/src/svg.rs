@@ -171,7 +171,7 @@ impl Builder {
                 self.bottom = txt_bounds.bottom_right.y;
                 (Group::new().add(t), txt_bounds)
             }
-            Operand::Operator { text, operands } => {
+            Operand::Operator { text, operands, .. } => {
                 let mut g = Group::new();
                 let mut b: Option<BoundingBox> = None;
                 for op in operands {
@@ -199,6 +199,8 @@ impl Builder {
                 g = g.add(txt_grp);
                 (g, bounds)
             }
+            Operand::MissingOperand { position } => todo!(),
+            Operand::UnusedOperands { position, operands } => todo!(),
         };
 
         self.max_width = max(self.max_width, b.bottom_right.y);
@@ -255,10 +257,10 @@ rect {
 // format the complete text for an ingredient
 fn ingredient_text(i: &Ingredient) -> String {
     let derived = if i.derived { "^" } else { "" };
-    match (i.quantity.as_ref(), i.unit.as_ref()) {
-        (Some(q), Some(u)) => format!("{}{} {} {}", derived, q.0, u, i.name),
-        (Some(q), None) => format!("{}{} {}", derived, q.0, i.name),
-        _ => format!("{}{}", derived, i.name),
+    match (i.quantities.as_ref(), i.unit.as_ref()) {
+        (Some(q), Some(u)) => format!("{}{} {} {}", derived, q.0, u, i.text),
+        (Some(q), None) => format!("{}{} {}", derived, q.0, i.text),
+        _ => format!("{}{}", derived, i.text),
     }
 }
 fn render_text(
@@ -352,15 +354,14 @@ fn render_text(
 
 #[cfg(test)]
 mod tests {
-    use crate::{parse, semantic::convert_source_file};
+    use crate::{parse, semantic::convert_source_file, to_svg};
     use expect_test::expect;
 
     // useful tool for debugging https://www.svgviewer.dev/
 
     fn build_svg(src: &str) -> String {
-        let src_ast = parse(&src).expect("parsing failed");
-        let recipe = convert_source_file(src_ast);
-        String::from_utf8(super::to_svg(&recipe)).expect("must be utf8")
+        let (svg, errors) = to_svg(&src);
+        String::from_utf8(svg).expect("must be utf8")
     }
     #[test]
     fn one_ingredient() {

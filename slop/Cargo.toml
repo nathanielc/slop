@@ -6,17 +6,15 @@ edition.workspace = true
 license.workspace = true
 
 
-[build-dependencies]
-lalrpop = { version = "0.19", features = ["lexer"] }
 
 [dependencies]
-lalrpop-util = { version = "0.19", features = ["lexer"] }
 svg = "0.12.1"
 measurements = "0.11"
-anyhow = "1.0"
 pretty = "0.12.3"
 regex = "1.10.2"
 once_cell = "1.18.0"
+thiserror = "1.0.50"
+anyhow = "1.0.75"
 
 [dev-dependencies]
 expect-test = "1.4.0"

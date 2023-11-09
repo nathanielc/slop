@@ -31,12 +31,11 @@ fn find_ingredients(op: &Operand) -> Vec<(String, Amounts)> {
                 // skip derived ingredients
                 return vec![];
             }
-            let amounts = compute_amounts(&ing.quantity, &ing.unit);
-            vec![(ing.name.to_owned(), amounts)]
+            let amounts = compute_amounts(&ing.quantities, &ing.unit);
+            vec![(ing.text.to_owned(), amounts)]
         }
-        Operand::Operator {
-            text: _text,
-            operands,
-        } => operands.iter().flat_map(find_ingredients).collect(),
+        Operand::Operator { operands, .. } => operands.iter().flat_map(find_ingredients).collect(),
+        Operand::MissingOperand { position } => todo!(),
+        Operand::UnusedOperands { position, operands } => todo!(),
     }
 }
