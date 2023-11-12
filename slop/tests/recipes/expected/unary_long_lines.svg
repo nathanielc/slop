@@ -1,0 +1,47 @@
+<svg height="40" width="2750" xmlns="http://www.w3.org/2000/svg">
+<style>
+text {
+    font-family: monospace;
+    font-size: 16px;
+}
+rect {
+    stroke: black;
+    stroke-width: 1;
+    fill: green;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+}
+</style>
+<g>
+<g>
+<g>
+<g>
+<text x="0" y="0">
+<tspan dy="20" x="5">
+a 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="0"/>
+</g>
+<text x="200" y="0">
+<tspan dy="20" x="205">
+one, this is a long line that has lots of words and it has more than 80 characters 
+</tspan>
+</text>
+<rect height="30" width="1040" x="0" y="0"/>
+</g>
+<text x="1040" y="0">
+<tspan dy="20" x="1045">
+two, this is a long line that has lots of words and it has more than 80 characters 
+</tspan>
+</text>
+<rect height="30" width="1880" x="0" y="0"/>
+</g>
+<text x="1880" y="0">
+<tspan dy="20" x="1885">
+three, this is a long line that has lots of words and it has more than 80 characters 
+</tspan>
+</text>
+<rect height="30" width="2740" x="0" y="0"/>
+</g>
+</svg>

@@ -1,0 +1,29 @@
+<svg height="102" width="210" xmlns="http://www.w3.org/2000/svg">
+<style>
+text {
+    font-family: monospace;
+    font-size: 16px;
+}
+rect {
+    stroke: black;
+    stroke-width: 1;
+    fill: green;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+}
+</style>
+<text font-size="18px" font-style="bold" x="5" y="27">
+Sugar
+</text>
+<text x="5" y="57">
+preheat oven
+</text>
+<g>
+<text x="0" y="62">
+<tspan dy="20" x="5">
+1 cup sugar 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="62"/>
+</g>
+</svg>

@@ -1,0 +1,47 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..0,
+                title: None,
+                preamble: None,
+                comment: None,
+                root: Operator {
+                    position: 2..4,
+                    text: "",
+                    operands: [
+                        MissingOperand {
+                            position: 2..2,
+                        },
+                        MissingOperand {
+                            position: 2..2,
+                        },
+                    ],
+                },
+            },
+        ],
+    },
+    Errors(
+        [
+            ParseError(
+                UnexpectedToken(
+                    ">",
+                    4..4,
+                ),
+            ),
+            ParseError(
+                UnexpectedEOF,
+            ),
+            CompilationError(
+                MissingOperand(
+                    2..2,
+                ),
+            ),
+            CompilationError(
+                MissingOperand(
+                    2..2,
+                ),
+            ),
+        ],
+    ),
+)

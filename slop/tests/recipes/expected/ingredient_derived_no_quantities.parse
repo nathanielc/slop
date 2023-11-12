@@ -1,0 +1,22 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..13,
+                title: None,
+                preamble: None,
+                comment: None,
+                root: Ingredient {
+                    position: 2..13,
+                    derived: true,
+                    quantities: [],
+                    unit: None,
+                    text: "egg yolk",
+                },
+            },
+        ],
+    },
+    Errors(
+        [],
+    ),
+)

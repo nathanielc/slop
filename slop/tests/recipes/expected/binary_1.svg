@@ -1,0 +1,71 @@
+<svg height="130" width="330" xmlns="http://www.w3.org/2000/svg">
+<style>
+text {
+    font-family: monospace;
+    font-size: 16px;
+}
+rect {
+    stroke: black;
+    stroke-width: 1;
+    fill: green;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+}
+</style>
+<g>
+<g>
+<g>
+<text x="0" y="0">
+<tspan dy="20" x="5">
+a 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="0"/>
+</g>
+<g>
+<text x="0" y="30">
+<tspan dy="20" x="5">
+b 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="30"/>
+</g>
+<text x="200" y="15">
+<tspan dy="20" x="205">
+one 
+</tspan>
+</text>
+<rect height="60" width="250" x="0" y="0"/>
+</g>
+<g>
+<g>
+<text x="0" y="60">
+<tspan dy="20" x="5">
+c 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="60"/>
+</g>
+<g>
+<text x="0" y="90">
+<tspan dy="20" x="5">
+d 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="90"/>
+</g>
+<text x="200" y="75">
+<tspan dy="20" x="205">
+two 
+</tspan>
+</text>
+<rect height="60" width="250" x="0" y="60"/>
+</g>
+<text x="250" y="45">
+<tspan dy="20" x="255">
+three 
+</tspan>
+</text>
+<rect height="120" width="320" x="0" y="0"/>
+</g>
+</svg>

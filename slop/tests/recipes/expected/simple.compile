@@ -1,0 +1,131 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..176,
+                title: None,
+                preamble: None,
+                comment: None,
+                root: Operator {
+                    position: 153..176,
+                    text: "stir until well mixed",
+                    operands: [
+                        Operator {
+                            position: 124..130,
+                            text: "stir",
+                            operands: [
+                                Operator {
+                                    position: 90..109,
+                                    text: "stir until melted",
+                                    operands: [
+                                        Operator {
+                                            position: 66..73,
+                                            text: "drain",
+                                            operands: [
+                                                Operator {
+                                                    position: 50..66,
+                                                    text: "boil till soft",
+                                                    operands: [
+                                                        Operator {
+                                                            position: 17..23,
+                                                            text: "boil",
+                                                            operands: [
+                                                                Ingredient(
+                                                                    Ingredient {
+                                                                        position: 2..17,
+                                                                        derived: false,
+                                                                        quantities: Some(
+                                                                            (
+                                                                                "6",
+                                                                                6.0,
+                                                                            ),
+                                                                        ),
+                                                                        unit: Some(
+                                                                            "cups",
+                                                                        ),
+                                                                        text: "water",
+                                                                    },
+                                                                ),
+                                                            ],
+                                                        },
+                                                        Ingredient(
+                                                            Ingredient {
+                                                                position: 23..50,
+                                                                derived: false,
+                                                                quantities: Some(
+                                                                    (
+                                                                        "2",
+                                                                        2.0,
+                                                                    ),
+                                                                ),
+                                                                unit: Some(
+                                                                    "cups",
+                                                                ),
+                                                                text: "macarroni noodles",
+                                                            },
+                                                        ),
+                                                    ],
+                                                },
+                                            ],
+                                        },
+                                        Ingredient(
+                                            Ingredient {
+                                                position: 73..90,
+                                                derived: false,
+                                                quantities: Some(
+                                                    (
+                                                        "1/4",
+                                                        0.25,
+                                                    ),
+                                                ),
+                                                unit: Some(
+                                                    "cup",
+                                                ),
+                                                text: "butter",
+                                            },
+                                        ),
+                                    ],
+                                },
+                                Ingredient(
+                                    Ingredient {
+                                        position: 109..124,
+                                        derived: false,
+                                        quantities: Some(
+                                            (
+                                                "1/3",
+                                                0.3333333333333333,
+                                            ),
+                                        ),
+                                        unit: Some(
+                                            "cup",
+                                        ),
+                                        text: "milk",
+                                    },
+                                ),
+                            ],
+                        },
+                        Ingredient(
+                            Ingredient {
+                                position: 130..153,
+                                derived: false,
+                                quantities: Some(
+                                    (
+                                        "1",
+                                        1.0,
+                                    ),
+                                ),
+                                unit: Some(
+                                    "pouch",
+                                ),
+                                text: "dried cheese",
+                            },
+                        ),
+                    ],
+                },
+            },
+        ],
+    },
+    Errors(
+        [],
+    ),
+)

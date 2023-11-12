@@ -1,0 +1,9 @@
+Errors(
+    [
+        CompilationError(
+            MissingOperand(
+                5..5,
+            ),
+        ),
+    ],
+)

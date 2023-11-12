@@ -1,0 +1,531 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..449,
+                title: Some(
+                    "Grandma Bassett's Carrot Pudding",
+                ),
+                preamble: None,
+                comment: Some(
+                    "Can substitute 2 cups of carrots and the potatoes or apples eliminated",
+                ),
+                root: Operator {
+                    position: 329..376,
+                    text: "serve with Butterscotch or Cornstarch pudding",
+                    operands: [
+                        Operator {
+                            position: 292..329,
+                            text: "steam for 2.5h in double boiler",
+                            operands: [
+                                Operator {
+                                    position: 276..292,
+                                    text: "combine in pot",
+                                    operands: [
+                                        Ingredient(
+                                            Ingredient {
+                                                position: 37..60,
+                                                derived: false,
+                                                quantities: Some(
+                                                    (
+                                                        "1",
+                                                        1.0,
+                                                    ),
+                                                ),
+                                                unit: Some(
+                                                    "cup",
+                                                ),
+                                                text: "grated carrots",
+                                            },
+                                        ),
+                                        Ingredient(
+                                            Ingredient {
+                                                position: 60..94,
+                                                derived: false,
+                                                quantities: Some(
+                                                    (
+                                                        "1",
+                                                        1.0,
+                                                    ),
+                                                ),
+                                                unit: Some(
+                                                    "cup",
+                                                ),
+                                                text: "grated potatoes or apples",
+                                            },
+                                        ),
+                                        Operator {
+                                            position: 114..120,
+                                            text: "melt",
+                                            operands: [
+                                                Ingredient(
+                                                    Ingredient {
+                                                        position: 97..114,
+                                                        derived: false,
+                                                        quantities: Some(
+                                                            (
+                                                                "1/4",
+                                                                0.25,
+                                                            ),
+                                                        ),
+                                                        unit: Some(
+                                                            "cup",
+                                                        ),
+                                                        text: "butter",
+                                                    },
+                                                ),
+                                            ],
+                                        },
+                                        Ingredient(
+                                            Ingredient {
+                                                position: 123..139,
+                                                derived: false,
+                                                quantities: Some(
+                                                    (
+                                                        "3/4",
+                                                        0.75,
+                                                    ),
+                                                ),
+                                                unit: Some(
+                                                    "cup",
+                                                ),
+                                                text: "sugar",
+                                            },
+                                        ),
+                                        Ingredient(
+                                            Ingredient {
+                                                position: 142..160,
+                                                derived: false,
+                                                quantities: Some(
+                                                    (
+                                                        "1 1/2",
+                                                        1.5,
+                                                    ),
+                                                ),
+                                                unit: Some(
+                                                    "cup",
+                                                ),
+                                                text: "flour",
+                                            },
+                                        ),
+                                        Ingredient(
+                                            Ingredient {
+                                                position: 163..176,
+                                                derived: false,
+                                                quantities: Some(
+                                                    (
+                                                        "1",
+                                                        1.0,
+                                                    ),
+                                                ),
+                                                unit: Some(
+                                                    "cup",
+                                                ),
+                                                text: "nuts",
+                                            },
+                                        ),
+                                        Ingredient(
+                                            Ingredient {
+                                                position: 179..196,
+                                                derived: false,
+                                                quantities: Some(
+                                                    (
+                                                        "1/2",
+                                                        0.5,
+                                                    ),
+                                                ),
+                                                unit: Some(
+                                                    "tsp",
+                                                ),
+                                                text: "nutmeg",
+                                            },
+                                        ),
+                                        Ingredient(
+                                            Ingredient {
+                                                position: 199..218,
+                                                derived: false,
+                                                quantities: Some(
+                                                    (
+                                                        "1/2",
+                                                        0.5,
+                                                    ),
+                                                ),
+                                                unit: Some(
+                                                    "tsp",
+                                                ),
+                                                text: "cinnamon",
+                                            },
+                                        ),
+                                        Ingredient(
+                                            Ingredient {
+                                                position: 221..234,
+                                                derived: false,
+                                                quantities: Some(
+                                                    (
+                                                        "1",
+                                                        1.0,
+                                                    ),
+                                                ),
+                                                unit: Some(
+                                                    "tsp",
+                                                ),
+                                                text: "salt",
+                                            },
+                                        ),
+                                        Ingredient(
+                                            Ingredient {
+                                                position: 237..257,
+                                                derived: false,
+                                                quantities: Some(
+                                                    (
+                                                        "1",
+                                                        1.0,
+                                                    ),
+                                                ),
+                                                unit: Some(
+                                                    "tsp",
+                                                ),
+                                                text: "baking soda",
+                                            },
+                                        ),
+                                        Ingredient(
+                                            Ingredient {
+                                                position: 260..276,
+                                                derived: false,
+                                                quantities: Some(
+                                                    (
+                                                        "1",
+                                                        1.0,
+                                                    ),
+                                                ),
+                                                unit: Some(
+                                                    "cup",
+                                                ),
+                                                text: "raisins",
+                                            },
+                                        ),
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            },
+            Recipe {
+                position: 452..829,
+                title: Some(
+                    "Cornstarch Pudding",
+                ),
+                preamble: None,
+                comment: None,
+                root: Operator {
+                    position: 811..829,
+                    text: "cover to cool 5m",
+                    operands: [
+                        Operator {
+                            position: 802..811,
+                            text: "stir in",
+                            operands: [
+                                Operator {
+                                    position: 748..766,
+                                    text: "remove from heat",
+                                    operands: [
+                                        Operator {
+                                            position: 695..748,
+                                            text: "cover and cook 10m longer stirring occasionally",
+                                            operands: [
+                                                Operator {
+                                                    position: 669..695,
+                                                    text: "place over boiling water",
+                                                    operands: [
+                                                        Operator {
+                                                            position: 603..669,
+                                                            text: "stir constantly over direct heat until it boils and thickens",
+                                                            operands: [
+                                                                Operator {
+                                                                    position: 590..603,
+                                                                    text: "combine",
+                                                                    operands: [
+                                                                        Operator {
+                                                                            position: 549..569,
+                                                                            text: "blend until smooth",
+                                                                            operands: [
+                                                                                Operator {
+                                                                                    position: 530..535,
+                                                                                    text: "mix",
+                                                                                    operands: [
+                                                                                        Ingredient(
+                                                                                            Ingredient {
+                                                                                                position: 475..496,
+                                                                                                derived: false,
+                                                                                                quantities: Some(
+                                                                                                    (
+                                                                                                        "1/3",
+                                                                                                        0.3333333333333333,
+                                                                                                    ),
+                                                                                                ),
+                                                                                                unit: Some(
+                                                                                                    "cup",
+                                                                                                ),
+                                                                                                text: "cornstarch",
+                                                                                            },
+                                                                                        ),
+                                                                                        Ingredient(
+                                                                                            Ingredient {
+                                                                                                position: 496..511,
+                                                                                                derived: false,
+                                                                                                quantities: Some(
+                                                                                                    (
+                                                                                                        "1/2",
+                                                                                                        0.5,
+                                                                                                    ),
+                                                                                                ),
+                                                                                                unit: Some(
+                                                                                                    "tsp",
+                                                                                                ),
+                                                                                                text: "salt",
+                                                                                            },
+                                                                                        ),
+                                                                                        Ingredient(
+                                                                                            Ingredient {
+                                                                                                position: 514..530,
+                                                                                                derived: false,
+                                                                                                quantities: Some(
+                                                                                                    (
+                                                                                                        "3/4",
+                                                                                                        0.75,
+                                                                                                    ),
+                                                                                                ),
+                                                                                                unit: Some(
+                                                                                                    "cup",
+                                                                                                ),
+                                                                                                text: "sugar",
+                                                                                            },
+                                                                                        ),
+                                                                                    ],
+                                                                                },
+                                                                                Ingredient(
+                                                                                    Ingredient {
+                                                                                        position: 535..549,
+                                                                                        derived: false,
+                                                                                        quantities: Some(
+                                                                                            (
+                                                                                                "1",
+                                                                                                1.0,
+                                                                                            ),
+                                                                                        ),
+                                                                                        unit: Some(
+                                                                                            "cups",
+                                                                                        ),
+                                                                                        text: "milk",
+                                                                                    },
+                                                                                ),
+                                                                            ],
+                                                                        },
+                                                                        Operator {
+                                                                            position: 583..590,
+                                                                            text: "scald",
+                                                                            operands: [
+                                                                                Ingredient(
+                                                                                    Ingredient {
+                                                                                        position: 569..583,
+                                                                                        derived: false,
+                                                                                        quantities: Some(
+                                                                                            (
+                                                                                                "3",
+                                                                                                3.0,
+                                                                                            ),
+                                                                                        ),
+                                                                                        unit: Some(
+                                                                                            "cups",
+                                                                                        ),
+                                                                                        text: "milk",
+                                                                                    },
+                                                                                ),
+                                                                            ],
+                                                                        },
+                                                                    ],
+                                                                },
+                                                            ],
+                                                        },
+                                                    ],
+                                                },
+                                            ],
+                                        },
+                                    ],
+                                },
+                                Ingredient(
+                                    Ingredient {
+                                        position: 766..783,
+                                        derived: false,
+                                        quantities: Some(
+                                            (
+                                                "1/4",
+                                                0.25,
+                                            ),
+                                        ),
+                                        unit: Some(
+                                            "cup",
+                                        ),
+                                        text: "butter",
+                                    },
+                                ),
+                                Ingredient(
+                                    Ingredient {
+                                        position: 786..802,
+                                        derived: false,
+                                        quantities: Some(
+                                            (
+                                                "1",
+                                                1.0,
+                                            ),
+                                        ),
+                                        unit: Some(
+                                            "tsp",
+                                        ),
+                                        text: "vanilla",
+                                    },
+                                ),
+                            ],
+                        },
+                    ],
+                },
+            },
+            Recipe {
+                position: 832..1033,
+                title: Some(
+                    "Butterscotch Pudding",
+                ),
+                preamble: None,
+                comment: None,
+                root: Operator {
+                    position: 1013..1033,
+                    text: "simmer until thick",
+                    operands: [
+                        Operator {
+                            position: 997..1013,
+                            text: "combine in pot",
+                            operands: [
+                                Ingredient(
+                                    Ingredient {
+                                        position: 857..881,
+                                        derived: false,
+                                        quantities: Some(
+                                            (
+                                                "1",
+                                                1.0,
+                                            ),
+                                        ),
+                                        unit: Some(
+                                            "cup",
+                                        ),
+                                        text: "evaporated milk",
+                                    },
+                                ),
+                                Ingredient(
+                                    Ingredient {
+                                        position: 881..896,
+                                        derived: false,
+                                        quantities: Some(
+                                            (
+                                                "4",
+                                                4.0,
+                                            ),
+                                        ),
+                                        unit: Some(
+                                            "cups",
+                                        ),
+                                        text: "water",
+                                    },
+                                ),
+                                Ingredient(
+                                    Ingredient {
+                                        position: 899..919,
+                                        derived: false,
+                                        quantities: Some(
+                                            (
+                                                "1",
+                                                1.0,
+                                            ),
+                                        ),
+                                        unit: Some(
+                                            "cup",
+                                        ),
+                                        text: "brown sugar",
+                                    },
+                                ),
+                                Ingredient(
+                                    Ingredient {
+                                        position: 922..937,
+                                        derived: false,
+                                        quantities: Some(
+                                            (
+                                                "1/2",
+                                                0.5,
+                                            ),
+                                        ),
+                                        unit: Some(
+                                            "tsp",
+                                        ),
+                                        text: "salt",
+                                    },
+                                ),
+                                Ingredient(
+                                    Ingredient {
+                                        position: 940..957,
+                                        derived: false,
+                                        quantities: Some(
+                                            (
+                                                "1/4",
+                                                0.25,
+                                            ),
+                                        ),
+                                        unit: Some(
+                                            "cup",
+                                        ),
+                                        text: "butter",
+                                    },
+                                ),
+                                Ingredient(
+                                    Ingredient {
+                                        position: 960..976,
+                                        derived: false,
+                                        quantities: Some(
+                                            (
+                                                "2/3",
+                                                0.6666666666666666,
+                                            ),
+                                        ),
+                                        unit: Some(
+                                            "cup",
+                                        ),
+                                        text: "flour",
+                                    },
+                                ),
+                                Ingredient(
+                                    Ingredient {
+                                        position: 979..997,
+                                        derived: false,
+                                        quantities: Some(
+                                            (
+                                                "1/2",
+                                                0.5,
+                                            ),
+                                        ),
+                                        unit: Some(
+                                            "tsp",
+                                        ),
+                                        text: "vanilla",
+                                    },
+                                ),
+                            ],
+                        },
+                    ],
+                },
+            },
+        ],
+    },
+    Errors(
+        [],
+    ),
+)

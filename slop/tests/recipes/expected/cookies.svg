@@ -1,0 +1,168 @@
+<svg height="340" width="950" xmlns="http://www.w3.org/2000/svg">
+<style>
+text {
+    font-family: monospace;
+    font-size: 16px;
+}
+rect {
+    stroke: black;
+    stroke-width: 1;
+    fill: green;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+}
+</style>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<text x="0" y="0">
+<tspan dy="20" x="5">
+butter 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="0"/>
+</g>
+<text x="200" y="0">
+<tspan dy="20" x="205">
+soften 
+</tspan>
+</text>
+<rect height="30" width="280" x="0" y="0"/>
+</g>
+<g>
+<text x="0" y="30">
+<tspan dy="20" x="5">
+sugar 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="30"/>
+</g>
+<g>
+<text x="0" y="60">
+<tspan dy="20" x="5">
+brown sugar 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="60"/>
+</g>
+<g>
+<text x="0" y="90">
+<tspan dy="20" x="5">
+vanilla 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="90"/>
+</g>
+<text x="280" y="45">
+<tspan dy="20" x="285">
+beat 
+</tspan>
+</text>
+<rect height="120" width="340" x="0" y="0"/>
+</g>
+<g>
+<text x="0" y="120">
+<tspan dy="20" x="5">
+eggs 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="120"/>
+</g>
+<text x="340" y="50">
+<tspan dy="20" x="345">
+beat one at a 
+</tspan>
+<tspan dy="20" x="345">
+time 
+</tspan>
+</text>
+<rect height="150" width="490" x="0" y="0"/>
+</g>
+<g>
+<g>
+<text x="0" y="150">
+<tspan dy="20" x="5">
+flour 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="150"/>
+</g>
+<g>
+<text x="0" y="180">
+<tspan dy="20" x="5">
+soda 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="180"/>
+</g>
+<g>
+<text x="0" y="210">
+<tspan dy="20" x="5">
+salt 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="210"/>
+</g>
+<text x="200" y="180">
+<tspan dy="20" x="205">
+mix 
+</tspan>
+</text>
+<rect height="90" width="250" x="0" y="150"/>
+</g>
+<text x="490" y="105">
+<tspan dy="20" x="495">
+beat slowly 
+</tspan>
+</text>
+<rect height="240" width="620" x="0" y="0"/>
+</g>
+<g>
+<text x="0" y="240">
+<tspan dy="20" x="5">
+chocolate chips 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="240"/>
+</g>
+<g>
+<text x="0" y="270">
+<tspan dy="20" x="5">
+chopped nuts 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="270"/>
+</g>
+<text x="620" y="135">
+<tspan dy="20" x="625">
+stir 
+</tspan>
+</text>
+<rect height="300" width="680" x="0" y="0"/>
+</g>
+<text x="680" y="125">
+<tspan dy="20" x="685">
+form into 
+</tspan>
+<tspan dy="20" x="685">
+balls 
+</tspan>
+</text>
+<rect height="300" width="790" x="0" y="0"/>
+</g>
+<text x="790" y="135">
+<tspan dy="20" x="795">
+bake 375F 10m 
+</tspan>
+</text>
+<rect height="300" width="940" x="0" y="0"/>
+</g>
+<text x="5" y="325">
+Yield 1 dozen cookies
+</text>
+</svg>

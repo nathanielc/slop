@@ -1,0 +1,57 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..101,
+                title: None,
+                preamble: None,
+                comment: Some(
+                    "Test shows that nested binary operators can be merged",
+                ),
+                root: BinaryOp {
+                    position: 40..45,
+                    first: BinaryOp {
+                        position: 31..34,
+                        first: BinaryOp {
+                            position: 22..25,
+                            first: Ingredient {
+                                position: 2..9,
+                                derived: false,
+                                quantities: [],
+                                unit: None,
+                                text: "flour",
+                            },
+                            second: Ingredient {
+                                position: 9..22,
+                                derived: false,
+                                quantities: [],
+                                unit: None,
+                                text: "baking soda",
+                            },
+                            text: "+",
+                        },
+                        second: Ingredient {
+                            position: 25..31,
+                            derived: false,
+                            quantities: [],
+                            unit: None,
+                            text: "salt",
+                        },
+                        text: "+",
+                    },
+                    second: Ingredient {
+                        position: 34..40,
+                        derived: false,
+                        quantities: [],
+                        unit: None,
+                        text: "oats",
+                    },
+                    text: "mix",
+                },
+            },
+        ],
+    },
+    Errors(
+        [],
+    ),
+)

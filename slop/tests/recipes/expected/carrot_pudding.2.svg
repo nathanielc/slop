@@ -1,0 +1,99 @@
+<svg height="272" width="470" xmlns="http://www.w3.org/2000/svg">
+<style>
+text {
+    font-family: monospace;
+    font-size: 16px;
+}
+rect {
+    stroke: black;
+    stroke-width: 1;
+    fill: green;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+}
+</style>
+<text font-size="18px" font-style="bold" x="5" y="27">
+Butterscotch Pudding
+</text>
+<g>
+<g>
+<g>
+<text x="0" y="32">
+<tspan dy="20" x="5">
+1 cup evaporated 
+</tspan>
+<tspan dy="20" x="5">
+milk 
+</tspan>
+</text>
+<rect height="50" width="200" x="0" y="32"/>
+</g>
+<g>
+<text x="0" y="82">
+<tspan dy="20" x="5">
+4 cups water 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="82"/>
+</g>
+<g>
+<text x="0" y="112">
+<tspan dy="20" x="5">
+1 cup brown sugar 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="112"/>
+</g>
+<g>
+<text x="0" y="142">
+<tspan dy="20" x="5">
+1/2 tsp salt 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="142"/>
+</g>
+<g>
+<text x="0" y="172">
+<tspan dy="20" x="5">
+1/4 cup butter 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="172"/>
+</g>
+<g>
+<text x="0" y="202">
+<tspan dy="20" x="5">
+2/3 cup flour 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="202"/>
+</g>
+<g>
+<text x="0" y="232">
+<tspan dy="20" x="5">
+1/2 tsp vanilla 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="232"/>
+</g>
+<text x="200" y="122">
+<tspan dy="20" x="205">
+combine in 
+</tspan>
+<tspan dy="20" x="205">
+pot 
+</tspan>
+</text>
+<rect height="230" width="320" x="0" y="32"/>
+</g>
+<text x="320" y="122">
+<tspan dy="20" x="325">
+simmer until 
+</tspan>
+<tspan dy="20" x="325">
+thick 
+</tspan>
+</text>
+<rect height="230" width="460" x="0" y="32"/>
+</g>
+</svg>

@@ -1,0 +1,69 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..31,
+                title: None,
+                preamble: None,
+                comment: None,
+                root: Operator {
+                    position: 24..31,
+                    text: "three",
+                    operands: [
+                        Operator {
+                            position: 8..13,
+                            text: "one",
+                            operands: [
+                                Ingredient(
+                                    Ingredient {
+                                        position: 2..5,
+                                        derived: false,
+                                        quantities: None,
+                                        unit: None,
+                                        text: "a",
+                                    },
+                                ),
+                                Ingredient(
+                                    Ingredient {
+                                        position: 5..8,
+                                        derived: false,
+                                        quantities: None,
+                                        unit: None,
+                                        text: "b",
+                                    },
+                                ),
+                            ],
+                        },
+                        Operator {
+                            position: 19..24,
+                            text: "two",
+                            operands: [
+                                Ingredient(
+                                    Ingredient {
+                                        position: 13..16,
+                                        derived: false,
+                                        quantities: None,
+                                        unit: None,
+                                        text: "c",
+                                    },
+                                ),
+                                Ingredient(
+                                    Ingredient {
+                                        position: 16..19,
+                                        derived: false,
+                                        quantities: None,
+                                        unit: None,
+                                        text: "d",
+                                    },
+                                ),
+                            ],
+                        },
+                    ],
+                },
+            },
+        ],
+    },
+    Errors(
+        [],
+    ),
+)

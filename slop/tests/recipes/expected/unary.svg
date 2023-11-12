@@ -1,0 +1,31 @@
+<svg height="40" width="320" xmlns="http://www.w3.org/2000/svg">
+<style>
+text {
+    font-family: monospace;
+    font-size: 16px;
+}
+rect {
+    stroke: black;
+    stroke-width: 1;
+    fill: green;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+}
+</style>
+<g>
+<g>
+<text x="0" y="0">
+<tspan dy="20" x="5">
+1 cup sugar 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="0"/>
+</g>
+<text x="200" y="0">
+<tspan dy="20" x="205">
+pulverize 
+</tspan>
+</text>
+<rect height="30" width="310" x="0" y="0"/>
+</g>
+</svg>

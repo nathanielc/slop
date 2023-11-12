@@ -1,0 +1,48 @@
+<svg height="100" width="310" xmlns="http://www.w3.org/2000/svg">
+<style>
+text {
+    font-family: monospace;
+    font-size: 16px;
+}
+rect {
+    stroke: black;
+    stroke-width: 1;
+    fill: green;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+}
+</style>
+<g>
+<g>
+<text x="0" y="0">
+<tspan dy="20" x="5">
+one 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="0"/>
+</g>
+<g>
+<text x="0" y="30">
+<tspan dy="20" x="5">
+two 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="30"/>
+</g>
+<g>
+<text x="0" y="60">
+<tspan dy="20" x="5">
+three 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="60"/>
+</g>
+<text x="200" y="30">
+<tspan dy="20" x="205">
+*UNUSED* 
+</tspan>
+</text>
+<rect height="90" width="300" x="0" y="0"/>
+<rect height="90" width="300" x="0" y="0"/>
+</g>
+</svg>

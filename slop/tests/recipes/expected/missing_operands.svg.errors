@@ -1,0 +1,23 @@
+Errors(
+    [
+        ParseError(
+            UnexpectedToken(
+                ">",
+                4..4,
+            ),
+        ),
+        ParseError(
+            UnexpectedEOF,
+        ),
+        CompilationError(
+            MissingOperand(
+                2..2,
+            ),
+        ),
+        CompilationError(
+            MissingOperand(
+                2..2,
+            ),
+        ),
+    ],
+)

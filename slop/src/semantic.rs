@@ -1,7 +1,4 @@
-use crate::{
-    ast::{self, Position},
-    stack_parser,
-};
+use crate::ast::{self, Position};
 
 use thiserror::Error;
 
@@ -19,7 +16,7 @@ pub struct Recipe {
     pub root: Operand,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct Ingredient {
     pub position: Position,
     pub derived: bool,
@@ -27,13 +24,8 @@ pub struct Ingredient {
     pub unit: Option<String>,
     pub text: String,
 }
-#[derive(Debug, PartialEq)]
-pub enum Quantity {
-    Number(f64),
-    Fraction(f64),
-}
 
-#[derive(Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum Operand {
     Ingredient(Ingredient),
     Operator {
@@ -57,7 +49,7 @@ pub fn convert_source_file(f: &ast::SourceFile) -> (SourceFile, Vec<Error>) {
             recipes: f
                 .recipes
                 .iter()
-                .map(|r| convert_recipe(&r, &mut errors))
+                .map(|r| convert_recipe(r, &mut errors))
                 .collect(),
         },
         errors,
@@ -163,202 +155,4 @@ pub enum Error {
     MissingOperand(Position),
     #[error("unused operands: {0}")]
     UnusedOperands(usize, Position),
-}
-
-#[cfg(test)]
-mod test {
-    use expect_test::{expect, Expect};
-
-    use crate::parse;
-
-    use super::*;
-
-    fn test_convert_source(src: &str, expectation: Expect, expected_errors: Expect) {
-        let (src_ast, errors) = parse(src);
-        assert!(errors.0.is_empty());
-        let (src_semantic, errors) = convert_source_file(&src_ast);
-        expectation.assert_debug_eq(&src_semantic);
-        expected_errors.assert_debug_eq(&errors);
-    }
-
-    #[test]
-    fn one_to_one() {
-        test_convert_source(
-            r#"<
-                *butter = soften
-                *salt # mix
-            >"#,
-            expect![[r#"
-                SourceFile {
-                    recipes: [
-                        Recipe {
-                            position: 0..76,
-                            title: None,
-                            preamble: None,
-                            comment: None,
-                            root: Operator {
-                                position: 57..76,
-                                text: "mix",
-                                operands: [
-                                    Operator {
-                                        position: 26..52,
-                                        text: "soften",
-                                        operands: [
-                                            Ingredient(
-                                                Ingredient {
-                                                    position: 18..27,
-                                                    derived: false,
-                                                    quantities: None,
-                                                    unit: None,
-                                                    text: "butter",
-                                                },
-                                            ),
-                                        ],
-                                    },
-                                    Ingredient(
-                                        Ingredient {
-                                            position: 51..58,
-                                            derived: false,
-                                            quantities: None,
-                                            unit: None,
-                                            text: "salt",
-                                        },
-                                    ),
-                                ],
-                            },
-                        },
-                    ],
-                }
-            "#]],
-            expect![[r#"
-                []
-            "#]],
-        );
-    }
-    #[test]
-    fn merge_binary_plus() {
-        test_convert_source(
-            r#"<
-                *flour
-                *baking soda #+
-                *salt #mix
-            >"#,
-            expect![[r#"
-                SourceFile {
-                    recipes: [
-                        Recipe {
-                            position: 0..97,
-                            title: None,
-                            preamble: None,
-                            comment: None,
-                            root: Operator {
-                                position: 79..97,
-                                text: "mix",
-                                operands: [
-                                    Ingredient(
-                                        Ingredient {
-                                            position: 18..42,
-                                            derived: false,
-                                            quantities: None,
-                                            unit: None,
-                                            text: "flour",
-                                        },
-                                    ),
-                                    Ingredient(
-                                        Ingredient {
-                                            position: 41..55,
-                                            derived: false,
-                                            quantities: None,
-                                            unit: None,
-                                            text: "baking soda",
-                                        },
-                                    ),
-                                    Ingredient(
-                                        Ingredient {
-                                            position: 73..80,
-                                            derived: false,
-                                            quantities: None,
-                                            unit: None,
-                                            text: "salt",
-                                        },
-                                    ),
-                                ],
-                            },
-                        },
-                    ],
-                }
-            "#]],
-            expect![[r#"
-                []
-            "#]],
-        );
-    }
-    #[test]
-    fn merge_binary_plus_nested() {
-        test_convert_source(
-            r#"<
-                *flour
-                *baking soda #+
-                *salt #+
-                *oats #mix
-            >"#,
-            expect![[r#"
-                SourceFile {
-                    recipes: [
-                        Recipe {
-                            position: 0..122,
-                            title: None,
-                            preamble: None,
-                            comment: None,
-                            root: Operator {
-                                position: 104..122,
-                                text: "mix",
-                                operands: [
-                                    Ingredient(
-                                        Ingredient {
-                                            position: 18..42,
-                                            derived: false,
-                                            quantities: None,
-                                            unit: None,
-                                            text: "flour",
-                                        },
-                                    ),
-                                    Ingredient(
-                                        Ingredient {
-                                            position: 41..55,
-                                            derived: false,
-                                            quantities: None,
-                                            unit: None,
-                                            text: "baking soda",
-                                        },
-                                    ),
-                                    Ingredient(
-                                        Ingredient {
-                                            position: 73..80,
-                                            derived: false,
-                                            quantities: None,
-                                            unit: None,
-                                            text: "salt",
-                                        },
-                                    ),
-                                    Ingredient(
-                                        Ingredient {
-                                            position: 98..105,
-                                            derived: false,
-                                            quantities: None,
-                                            unit: None,
-                                            text: "oats",
-                                        },
-                                    ),
-                                ],
-                            },
-                        },
-                    ],
-                }
-            "#]],
-            expect![[r#"
-                []
-            "#]],
-        );
-    }
 }

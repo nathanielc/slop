@@ -1,0 +1,55 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..280,
+                title: None,
+                preamble: None,
+                comment: None,
+                root: BinaryOp {
+                    position: 194..280,
+                    first: BinaryOp {
+                        position: 12..96,
+                        first: Ingredient {
+                            position: 2..5,
+                            derived: false,
+                            quantities: [],
+                            unit: None,
+                            text: "a",
+                        },
+                        second: Ingredient {
+                            position: 5..12,
+                            derived: false,
+                            quantities: [],
+                            unit: None,
+                            text: "b",
+                        },
+                        text: "one, this is a long line that has lots of words and it has more than 80 characters",
+                    },
+                    second: BinaryOp {
+                        position: 106..194,
+                        first: Ingredient {
+                            position: 96..99,
+                            derived: false,
+                            quantities: [],
+                            unit: None,
+                            text: "c",
+                        },
+                        second: Ingredient {
+                            position: 99..106,
+                            derived: false,
+                            quantities: [],
+                            unit: None,
+                            text: "d",
+                        },
+                        text: "two, this is a long line that has lots of words and it has more than 80 characters",
+                    },
+                    text: "three, this is a long line that has lots of words and it has more than 80 characters",
+                },
+            },
+        ],
+    },
+    Errors(
+        [],
+    ),
+)

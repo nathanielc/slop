@@ -1,0 +1,69 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..280,
+                title: None,
+                preamble: None,
+                comment: None,
+                root: Operator {
+                    position: 194..280,
+                    text: "three, this is a long line that has lots of words and it has more than 80 characters",
+                    operands: [
+                        Operator {
+                            position: 12..96,
+                            text: "one, this is a long line that has lots of words and it has more than 80 characters",
+                            operands: [
+                                Ingredient(
+                                    Ingredient {
+                                        position: 2..5,
+                                        derived: false,
+                                        quantities: None,
+                                        unit: None,
+                                        text: "a",
+                                    },
+                                ),
+                                Ingredient(
+                                    Ingredient {
+                                        position: 5..12,
+                                        derived: false,
+                                        quantities: None,
+                                        unit: None,
+                                        text: "b",
+                                    },
+                                ),
+                            ],
+                        },
+                        Operator {
+                            position: 106..194,
+                            text: "two, this is a long line that has lots of words and it has more than 80 characters",
+                            operands: [
+                                Ingredient(
+                                    Ingredient {
+                                        position: 96..99,
+                                        derived: false,
+                                        quantities: None,
+                                        unit: None,
+                                        text: "c",
+                                    },
+                                ),
+                                Ingredient(
+                                    Ingredient {
+                                        position: 99..106,
+                                        derived: false,
+                                        quantities: None,
+                                        unit: None,
+                                        text: "d",
+                                    },
+                                ),
+                            ],
+                        },
+                    ],
+                },
+            },
+        ],
+    },
+    Errors(
+        [],
+    ),
+)

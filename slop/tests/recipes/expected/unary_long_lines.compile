@@ -1,0 +1,42 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..271,
+                title: None,
+                preamble: None,
+                comment: None,
+                root: Operator {
+                    position: 185..271,
+                    text: "three, this is a long line that has lots of words and it has more than 80 characters",
+                    operands: [
+                        Operator {
+                            position: 97..185,
+                            text: "two, this is a long line that has lots of words and it has more than 80 characters",
+                            operands: [
+                                Operator {
+                                    position: 9..97,
+                                    text: "one, this is a long line that has lots of words and it has more than 80 characters",
+                                    operands: [
+                                        Ingredient(
+                                            Ingredient {
+                                                position: 2..9,
+                                                derived: false,
+                                                quantities: None,
+                                                unit: None,
+                                                text: "a",
+                                            },
+                                        ),
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            },
+        ],
+    },
+    Errors(
+        [],
+    ),
+)

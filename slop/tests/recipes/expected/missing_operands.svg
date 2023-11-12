@@ -1,0 +1,37 @@
+<svg height="70" width="220" xmlns="http://www.w3.org/2000/svg">
+<style>
+text {
+    font-family: monospace;
+    font-size: 16px;
+}
+rect {
+    stroke: black;
+    stroke-width: 1;
+    fill: green;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+}
+</style>
+<g>
+<g>
+<text x="0" y="0">
+<tspan dy="20" x="5">
+*MISSING* 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="0"/>
+<rect height="30" width="200" x="0" y="0"/>
+</g>
+<g>
+<text x="0" y="30">
+<tspan dy="20" x="5">
+*MISSING* 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="30"/>
+<rect height="30" width="200" x="0" y="30"/>
+</g>
+<text x="200" y="25"/>
+<rect height="60" width="210" x="0" y="0"/>
+</g>
+</svg>

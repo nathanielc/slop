@@ -1,0 +1,199 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..645,
+                title: Some(
+                    "Hauloumi",
+                ),
+                preamble: Some(
+                    "Sterilize all equipment, boil ~15m",
+                ),
+                comment: Some(
+                    "Yield 12",
+                ),
+                root: Operator {
+                    position: 609..634,
+                    text: "grill when ready to eat",
+                    operands: [
+                        Operator {
+                            position: 582..609,
+                            text: "store for max 2 weeks",
+                            operands: [
+                                Operator {
+                                    position: 572..582,
+                                    text: "rub over",
+                                    operands: [
+                                        Operator {
+                                            position: 537..543,
+                                            text: "cool",
+                                            operands: [
+                                                Operator {
+                                                    position: 511..537,
+                                                    text: "boil in until they float",
+                                                    operands: [
+                                                        Operator {
+                                                            position: 468..504,
+                                                            text: "cut curds into desired size blocks",
+                                                            operands: [
+                                                                Operator {
+                                                                    position: 393..468,
+                                                                    text: "press curds between two boards for 30m, large bowl of water as weight",
+                                                                    operands: [
+                                                                        Operator {
+                                                                            position: 343..393,
+                                                                            text: "scoop curds into cheese cloth lined colander",
+                                                                            operands: [
+                                                                                Operator {
+                                                                                    position: 325..343,
+                                                                                    text: "stir for 10m",
+                                                                                    operands: [
+                                                                                        Operator {
+                                                                                            position: 303..325,
+                                                                                            text: "allow to heal for 5m",
+                                                                                            operands: [
+                                                                                                Operator {
+                                                                                                    position: 272..303,
+                                                                                                    text: "cut curds into 1/2 inch cubes",
+                                                                                                    operands: [
+                                                                                                        Operator {
+                                                                                                            position: 219..272,
+                                                                                                            text: "cover and rest for 45m or until the curd is set",
+                                                                                                            operands: [
+                                                                                                                Operator {
+                                                                                                                    position: 186..219,
+                                                                                                                    text: "stir in for no more than 1m",
+                                                                                                                    operands: [
+                                                                                                                        Operator {
+                                                                                                                            position: 118..127,
+                                                                                                                            text: "stir in",
+                                                                                                                            operands: [
+                                                                                                                                Operator {
+                                                                                                                                    position: 76..94,
+                                                                                                                                    text: "heat to 45C 113F",
+                                                                                                                                    operands: [
+                                                                                                                                        Ingredient(
+                                                                                                                                            Ingredient {
+                                                                                                                                                position: 51..76,
+                                                                                                                                                derived: false,
+                                                                                                                                                quantities: Some(
+                                                                                                                                                    (
+                                                                                                                                                        "4",
+                                                                                                                                                        4.0,
+                                                                                                                                                    ),
+                                                                                                                                                ),
+                                                                                                                                                unit: Some(
+                                                                                                                                                    "L",
+                                                                                                                                                ),
+                                                                                                                                                text: "unhomogenised milk",
+                                                                                                                                            },
+                                                                                                                                        ),
+                                                                                                                                    ],
+                                                                                                                                },
+                                                                                                                                Ingredient(
+                                                                                                                                    Ingredient {
+                                                                                                                                        position: 94..118,
+                                                                                                                                        derived: false,
+                                                                                                                                        quantities: Some(
+                                                                                                                                            (
+                                                                                                                                                "2",
+                                                                                                                                                2.0,
+                                                                                                                                            ),
+                                                                                                                                        ),
+                                                                                                                                        unit: Some(
+                                                                                                                                            "mL",
+                                                                                                                                        ),
+                                                                                                                                        text: "calcium chloride",
+                                                                                                                                    },
+                                                                                                                                ),
+                                                                                                                            ],
+                                                                                                                        },
+                                                                                                                        Operator {
+                                                                                                                            position: 178..186,
+                                                                                                                            text: "dilute",
+                                                                                                                            operands: [
+                                                                                                                                Ingredient(
+                                                                                                                                    Ingredient {
+                                                                                                                                        position: 127..159,
+                                                                                                                                        derived: false,
+                                                                                                                                        quantities: Some(
+                                                                                                                                            (
+                                                                                                                                                "1/4",
+                                                                                                                                                0.25,
+                                                                                                                                            ),
+                                                                                                                                        ),
+                                                                                                                                        unit: Some(
+                                                                                                                                            "cup",
+                                                                                                                                        ),
+                                                                                                                                        text: "non chlorinated water",
+                                                                                                                                    },
+                                                                                                                                ),
+                                                                                                                                Ingredient(
+                                                                                                                                    Ingredient {
+                                                                                                                                        position: 159..178,
+                                                                                                                                        derived: false,
+                                                                                                                                        quantities: Some(
+                                                                                                                                            (
+                                                                                                                                                "2",
+                                                                                                                                                2.0,
+                                                                                                                                            ),
+                                                                                                                                        ),
+                                                                                                                                        unit: Some(
+                                                                                                                                            "tablets",
+                                                                                                                                        ),
+                                                                                                                                        text: "rennet",
+                                                                                                                                    },
+                                                                                                                                ),
+                                                                                                                            ],
+                                                                                                                        },
+                                                                                                                    ],
+                                                                                                                },
+                                                                                                            ],
+                                                                                                        },
+                                                                                                    ],
+                                                                                                },
+                                                                                            ],
+                                                                                        },
+                                                                                    ],
+                                                                                },
+                                                                            ],
+                                                                        },
+                                                                    ],
+                                                                },
+                                                            ],
+                                                        },
+                                                        Ingredient(
+                                                            Ingredient {
+                                                                position: 504..511,
+                                                                derived: true,
+                                                                quantities: None,
+                                                                unit: None,
+                                                                text: "whey",
+                                                            },
+                                                        ),
+                                                    ],
+                                                },
+                                            ],
+                                        },
+                                        Ingredient(
+                                            Ingredient {
+                                                position: 543..572,
+                                                derived: false,
+                                                quantities: None,
+                                                unit: None,
+                                                text: "salt to flavor (a few tbsp)",
+                                            },
+                                        ),
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            },
+        ],
+    },
+    Errors(
+        [],
+    ),
+)

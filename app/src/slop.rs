@@ -8,10 +8,10 @@ pub fn recipe_title(source: &str) -> Option<String> {
     None
 }
 
-pub fn recipe_svg(source: &str) -> Result<String> {
-    let (svg, errors) = slop::to_svg(source);
+pub fn recipe_svgs(source: &str) -> Result<Vec<String>> {
+    let (svgs, errors) = slop::to_svgs(source);
     if errors.0.is_empty() {
         return Err(errors.into());
     }
-    Ok(String::from_utf8(svg)?)
+    Ok(svgs)
 }

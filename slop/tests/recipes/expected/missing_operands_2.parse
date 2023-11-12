@@ -1,0 +1,60 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..31,
+                title: None,
+                preamble: None,
+                comment: None,
+                root: UnusedOperands {
+                    position: 8..31,
+                    operands: [
+                        BinaryOp {
+                            position: 8..13,
+                            first: Ingredient {
+                                position: 2..5,
+                                derived: false,
+                                quantities: [],
+                                unit: None,
+                                text: "a",
+                            },
+                            second: Ingredient {
+                                position: 5..8,
+                                derived: false,
+                                quantities: [],
+                                unit: None,
+                                text: "b",
+                            },
+                            text: "one",
+                        },
+                        BinaryOp {
+                            position: 24..31,
+                            first: UnaryOp {
+                                position: 16..21,
+                                operand: Ingredient {
+                                    position: 13..16,
+                                    derived: false,
+                                    quantities: [],
+                                    unit: None,
+                                    text: "c",
+                                },
+                                text: "two",
+                            },
+                            second: Ingredient {
+                                position: 21..24,
+                                derived: false,
+                                quantities: [],
+                                unit: None,
+                                text: "d",
+                            },
+                            text: "three",
+                        },
+                    ],
+                },
+            },
+        ],
+    },
+    Errors(
+        [],
+    ),
+)

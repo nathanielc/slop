@@ -60,29 +60,31 @@ pub async fn run() -> Result<()> {
         Command::Fmt(opts) => {
             let source = fs::read_to_string(opts.file).await?;
             let (formatted, errors) = slop::format(&source);
-            eprintln!("{errors}");
+            eprint!("{errors}");
             println!("{formatted}");
             Ok(())
         }
         Command::Check(opts) => {
             let source = fs::read_to_string(opts.file).await?;
             let (_ast, errors) = slop::parse(&source);
-            eprintln!("{errors}");
+            eprint!("{errors}");
             Ok(())
         }
         Command::Title(opts) => {
             let source = fs::read_to_string(opts.file).await?;
             let (ast, errors) = slop::parse(&source);
-            eprintln!("{errors}");
+            eprint!("{errors}");
             println!("{}", ast.recipes[0].title.as_ref().unwrap());
             Ok(())
         }
         Command::Render(opts) => {
             let source = fs::read_to_string(opts.in_file).await?;
-            let (svg, errors) = slop::to_svg(&source);
-            eprintln!("{errors}");
+            let (svgs, errors) = slop::to_svgs(&source);
+            eprint!("{errors}");
             let mut f = fs::File::create(opts.out_file).await?;
-            f.write_all(&svg).await?;
+            for svg in svgs {
+                f.write_all(svg.as_bytes()).await?;
+            }
             Ok(())
         }
     }

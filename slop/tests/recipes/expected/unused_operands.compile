@@ -1,0 +1,54 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..19,
+                title: None,
+                preamble: None,
+                comment: None,
+                root: UnusedOperands {
+                    position: 2..19,
+                    operands: [
+                        Ingredient(
+                            Ingredient {
+                                position: 2..7,
+                                derived: false,
+                                quantities: None,
+                                unit: None,
+                                text: "one",
+                            },
+                        ),
+                        Ingredient(
+                            Ingredient {
+                                position: 7..12,
+                                derived: false,
+                                quantities: None,
+                                unit: None,
+                                text: "two",
+                            },
+                        ),
+                        Ingredient(
+                            Ingredient {
+                                position: 12..19,
+                                derived: false,
+                                quantities: None,
+                                unit: None,
+                                text: "three",
+                            },
+                        ),
+                    ],
+                },
+            },
+        ],
+    },
+    Errors(
+        [
+            CompilationError(
+                UnusedOperands(
+                    3,
+                    2..19,
+                ),
+            ),
+        ],
+    ),
+)

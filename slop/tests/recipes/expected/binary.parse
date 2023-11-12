@@ -1,0 +1,45 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..45,
+                title: None,
+                preamble: None,
+                comment: None,
+                root: BinaryOp {
+                    position: 30..45,
+                    first: Ingredient {
+                        position: 2..16,
+                        derived: false,
+                        quantities: [
+                            Number(
+                                "1",
+                            ),
+                        ],
+                        unit: Some(
+                            "cup",
+                        ),
+                        text: "sugar",
+                    },
+                    second: Ingredient {
+                        position: 16..30,
+                        derived: false,
+                        quantities: [
+                            Number(
+                                "3",
+                            ),
+                        ],
+                        unit: Some(
+                            "cups",
+                        ),
+                        text: "milk",
+                    },
+                    text: "boil and stir",
+                },
+            },
+        ],
+    },
+    Errors(
+        [],
+    ),
+)

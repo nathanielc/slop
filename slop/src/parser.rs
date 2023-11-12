@@ -65,10 +65,7 @@ impl<'input> Lexer<'input> {
             if is_sentence_char(*ch) {
                 self.iter.next();
             } else {
-                return (
-                    Token::Sentence(&self.input[start..*end].trim()),
-                    start..end + 1,
-                );
+                return (Token::Sentence(self.input[start..*end].trim()), start..*end);
             };
         }
         (
@@ -82,17 +79,17 @@ impl<'input> Lexer<'input> {
             match ch {
                 '/' => {
                     self.iter.next();
-                    return (Token::Fraction(self.lex_digit(start)), start..end + 1);
+                    return (Token::Fraction(self.lex_digit(start)), start..end);
                 }
                 '.' => {
                     self.iter.next();
-                    return (Token::Number(self.lex_digit(start)), start..end + 1);
+                    return (Token::Number(self.lex_digit(start)), start..end);
                 }
                 n if n.is_numeric() => {
                     self.iter.next();
                 }
                 _ => {
-                    return (Token::Number(&self.input[start..end]), start..end + 1);
+                    return (Token::Number(&self.input[start..end]), start..end);
                 }
             }
         }
@@ -116,38 +113,38 @@ impl<'input> Iterator for Lexer<'input> {
     fn next(&mut self) -> Option<Self::Item> {
         loop {
             match self.iter.next() {
-                Some((start, '<')) => return Some((Token::OpenAngle, start..start + 1)),
-                Some((start, '>')) => return Some((Token::CloseAngle, start..start + 1)),
-                Some((start, '=')) => return Some((Token::Equal, start..start + 1)),
+                Some((start, '<')) => return Some((Token::OpenAngle, start..start)),
+                Some((start, '>')) => return Some((Token::CloseAngle, start..start)),
+                Some((start, '=')) => return Some((Token::Equal, start..start)),
                 Some((start, '#')) => {
                     return match self.iter.peek() {
                         Some((end, '*')) => {
                             let end = *end;
                             self.iter.next();
-                            Some((Token::HashStar, start..end + 1))
+                            Some((Token::HashStar, start..end))
                         }
                         Some((end, '#')) => {
                             let end = *end;
                             self.iter.next();
-                            Some((Token::HashHash, start..end + 1))
+                            Some((Token::HashHash, start..end))
                         }
-                        Some(_) => Some((Token::Hash, start..start + 1)),
+                        Some(_) => Some((Token::Hash, start..start)),
                         None => None,
                     }
                 }
-                Some((start, ':')) => return Some((Token::Colon, start..start + 1)),
+                Some((start, ':')) => return Some((Token::Colon, start..start)),
                 Some((start, '*')) => {
                     return match self.iter.peek() {
                         Some((end, '*')) => {
                             let end = *end;
                             self.iter.next();
-                            Some((Token::StarStar, start..end + 1))
+                            Some((Token::StarStar, start..end))
                         }
-                        Some(_) => Some((Token::Star, start..start + 1)),
+                        Some(_) => Some((Token::Star, start..start)),
                         None => None,
                     }
                 }
-                Some((start, '^')) => return Some((Token::Hat, start..start + 1)),
+                Some((start, '^')) => return Some((Token::Hat, start..start)),
                 Some((start, ch)) if ch.is_numeric() => {
                     return Some(self.lex_number_or_fraction(start))
                 }
@@ -165,21 +162,28 @@ fn is_sentence_char(ch: char) -> bool {
     ch != '*' && ch != '#' && ch != '=' && ch != '>' && ch != ':'
 }
 
-pub struct Parser<'input> {
+pub fn parse(input: &str) -> (ast::SourceFile, Vec<Error>) {
+    let mut parser = Parser {
+        lexer: Lexer::new(input).peekable(),
+        stack: Default::default(),
+        errors: Default::default(),
+    };
+    let src = parser.parse_source_file();
+    (src, parser.errors)
+}
+
+// Handwritten parser so we can handle missing and unused operators.
+//
+// The parser is a greedy stack parser. It pushes each operand onto a stack when its encountered
+// and pops items off the stack for each operator. When the stack does not contain enough operands
+// [`Operand::MissingOperand`] are created to fill the need. When the stack contains extra operands
+// [`Operand::UnusedOperands`] is created to consume them.
+struct Parser<'input> {
     lexer: Peekable<Lexer<'input>>,
     stack: Vec<ast::Operand>,
     errors: Vec<Error>,
 }
 impl<'input> Parser<'input> {
-    pub fn parse(input: &'input str) -> (ast::SourceFile, Vec<Error>) {
-        let mut parser = Parser {
-            lexer: Lexer::new(input).peekable(),
-            stack: Default::default(),
-            errors: Default::default(),
-        };
-        let src = parser.parse_source_file();
-        (src, parser.errors)
-    }
     fn unexpected(&mut self, token: Option<(Token<'input>, Position)>) -> Position {
         let (error, position) = if let Some((token, position)) = token {
             (
@@ -237,20 +241,21 @@ impl<'input> Parser<'input> {
             _ => None,
         };
         self.parse_operands();
-        println!("stack: {:?}", self.stack);
-        let root = if self.stack.len() > 1 {
-            let operands: Vec<ast::Operand> = self.stack.drain(..).collect();
-            ast::Operand::UnusedOperands {
-                position: operands.iter().last().unwrap().position(),
-                operands,
+        let root = match self.stack.len() {
+            1 => self.stack.pop().unwrap(),
+            l if l > 1 => {
+                let operands: Vec<ast::Operand> = self.stack.drain(..).collect();
+                let start = operands[0].position().start;
+                let end = operands.iter().last().unwrap().position().end;
+                ast::Operand::UnusedOperands {
+                    position: start..end,
+                    operands,
+                }
             }
-        } else if self.stack.len() == 1 {
-            self.stack.pop().unwrap()
-        } else {
-            ast::Operand::MissingOperand {
+            _ => ast::Operand::MissingOperand {
                 // TODO determine position of missing operand
                 position: Default::default(),
-            }
+            },
         };
         debug_assert!(self.stack.is_empty());
         let comment = match self.lexer.peek() {
@@ -279,13 +284,10 @@ impl<'input> Parser<'input> {
         }
     }
     fn parse_operands(&mut self) {
-        loop {
-            match self.lexer.peek() {
-                Some((Token::Star, _)) | Some((Token::Equal, _)) | Some((Token::Hash, _)) => {
-                    self.parse_operand()
-                }
-                _ => break,
-            }
+        while let Some((Token::Star, _)) | Some((Token::Equal, _)) | Some((Token::Hash, _)) =
+            self.lexer.peek()
+        {
+            self.parse_operand()
         }
     }
     fn parse_operand(&mut self) {

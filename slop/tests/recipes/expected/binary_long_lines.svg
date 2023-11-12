@@ -1,0 +1,89 @@
+<svg height="130" width="840" xmlns="http://www.w3.org/2000/svg">
+<style>
+text {
+    font-family: monospace;
+    font-size: 16px;
+}
+rect {
+    stroke: black;
+    stroke-width: 1;
+    fill: green;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+}
+</style>
+<g>
+<g>
+<g>
+<text x="0" y="0">
+<tspan dy="20" x="5">
+a 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="0"/>
+</g>
+<g>
+<text x="0" y="30">
+<tspan dy="20" x="5">
+b 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="30"/>
+</g>
+<text x="200" y="5">
+<tspan dy="20" x="205">
+one, this is a long line that has lots of 
+</tspan>
+<tspan dy="20" x="205">
+words and it has more than 80 characters 
+</tspan>
+</text>
+<rect height="60" width="630" x="0" y="0"/>
+</g>
+<g>
+<g>
+<text x="0" y="60">
+<tspan dy="20" x="5">
+c 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="60"/>
+</g>
+<g>
+<text x="0" y="90">
+<tspan dy="20" x="5">
+d 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="90"/>
+</g>
+<text x="200" y="65">
+<tspan dy="20" x="205">
+two, this is a long line that has lots of 
+</tspan>
+<tspan dy="20" x="205">
+words and it has more than 80 characters 
+</tspan>
+</text>
+<rect height="60" width="630" x="0" y="60"/>
+</g>
+<text x="630" y="5">
+<tspan dy="20" x="635">
+three, this is a 
+</tspan>
+<tspan dy="20" x="635">
+long line that has 
+</tspan>
+<tspan dy="20" x="635">
+lots of words and 
+</tspan>
+<tspan dy="20" x="635">
+it has more than 
+</tspan>
+<tspan dy="20" x="635">
+80 characters 
+</tspan>
+</text>
+<rect height="120" width="830" x="0" y="0"/>
+</g>
+</svg>

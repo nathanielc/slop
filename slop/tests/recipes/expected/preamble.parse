@@ -1,0 +1,30 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..32,
+                title: None,
+                preamble: Some(
+                    "preheat oven",
+                ),
+                comment: None,
+                root: Ingredient {
+                    position: 18..32,
+                    derived: false,
+                    quantities: [
+                        Number(
+                            "2",
+                        ),
+                    ],
+                    unit: Some(
+                        "cup",
+                    ),
+                    text: "sugar",
+                },
+            },
+        ],
+    },
+    Errors(
+        [],
+    ),
+)
