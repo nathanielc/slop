@@ -10,7 +10,7 @@ pub fn recipe_title(source: &str) -> Option<String> {
 
 pub fn recipe_svgs(source: &str) -> Result<Vec<String>> {
     let (svgs, errors) = slop::to_svgs(source);
-    if errors.0.is_empty() {
+    if !errors.0.is_empty() {
         return Err(errors.into());
     }
     Ok(svgs)

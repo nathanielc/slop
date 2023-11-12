@@ -244,9 +244,14 @@ impl Component for Recipe {
                 let onclick = ctx.link().callback(|_| Msg::FetchTags);
                 let title = self.title.clone().unwrap_or_default();
                 let svgs = recipe_svgs(&recipe.source).unwrap_or_default();
-                let cards = svgs
-                    .into_iter()
-                    .map(|svg| Html::from_html_unchecked(svg.into()));
+                let cards = svgs.into_iter().map(|svg| {
+                    let card = Html::from_html_unchecked(svg.into());
+                    html! {
+                        <div class="recipe-card">
+                            {card}
+                        </div>
+                    }
+                });
 
                 let count = self.menu_context.count_recipe(&recipe.id);
 
@@ -304,9 +309,7 @@ impl Component for Recipe {
                             </div>
                         </StackItem>
                         <StackItem>
-                            <div class="recipe-card">
-                                {for cards}
-                            </div>
+                            {for cards}
                         </StackItem>
                         <StackItem>
                             <div class="recipe-controls">
