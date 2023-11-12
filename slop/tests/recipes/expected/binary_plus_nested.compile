@@ -1,0 +1,59 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..101,
+                title: None,
+                preamble: None,
+                comment: Some(
+                    "Test shows that nested binary operators can be merged",
+                ),
+                root: Operator {
+                    position: 40..45,
+                    text: "mix",
+                    operands: [
+                        Ingredient(
+                            Ingredient {
+                                position: 2..9,
+                                derived: false,
+                                quantities: None,
+                                unit: None,
+                                text: "flour",
+                            },
+                        ),
+                        Ingredient(
+                            Ingredient {
+                                position: 9..22,
+                                derived: false,
+                                quantities: None,
+                                unit: None,
+                                text: "baking soda",
+                            },
+                        ),
+                        Ingredient(
+                            Ingredient {
+                                position: 25..31,
+                                derived: false,
+                                quantities: None,
+                                unit: None,
+                                text: "salt",
+                            },
+                        ),
+                        Ingredient(
+                            Ingredient {
+                                position: 34..40,
+                                derived: false,
+                                quantities: None,
+                                unit: None,
+                                text: "oats",
+                            },
+                        ),
+                    ],
+                },
+            },
+        ],
+    },
+    Errors(
+        [],
+    ),
+)

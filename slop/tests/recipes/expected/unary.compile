@@ -1,0 +1,37 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..27,
+                title: None,
+                preamble: None,
+                comment: None,
+                root: Operator {
+                    position: 16..27,
+                    text: "pulverize",
+                    operands: [
+                        Ingredient(
+                            Ingredient {
+                                position: 2..16,
+                                derived: false,
+                                quantities: Some(
+                                    (
+                                        "1",
+                                        1.0,
+                                    ),
+                                ),
+                                unit: Some(
+                                    "cup",
+                                ),
+                                text: "sugar",
+                            },
+                        ),
+                    ],
+                },
+            },
+        ],
+    },
+    Errors(
+        [],
+    ),
+)

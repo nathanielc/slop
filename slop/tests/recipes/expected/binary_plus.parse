@@ -1,0 +1,46 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..129,
+                title: None,
+                preamble: None,
+                comment: Some(
+                    "Test shows that multiple binary operators can be combined into a single semanitc operator.",
+                ),
+                root: BinaryOp {
+                    position: 31..36,
+                    first: BinaryOp {
+                        position: 22..25,
+                        first: Ingredient {
+                            position: 2..9,
+                            derived: false,
+                            quantities: [],
+                            unit: None,
+                            text: "flour",
+                        },
+                        second: Ingredient {
+                            position: 9..22,
+                            derived: false,
+                            quantities: [],
+                            unit: None,
+                            text: "baking soda",
+                        },
+                        text: "+",
+                    },
+                    second: Ingredient {
+                        position: 25..31,
+                        derived: false,
+                        quantities: [],
+                        unit: None,
+                        text: "salt",
+                    },
+                    text: "mix",
+                },
+            },
+        ],
+    },
+    Errors(
+        [],
+    ),
+)

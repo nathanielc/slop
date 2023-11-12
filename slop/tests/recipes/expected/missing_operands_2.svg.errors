@@ -1,0 +1,10 @@
+Errors(
+    [
+        CompilationError(
+            UnusedOperands(
+                2,
+                8..31,
+            ),
+        ),
+    ],
+)

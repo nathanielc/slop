@@ -1,0 +1,278 @@
+<svg height="362" width="2170" xmlns="http://www.w3.org/2000/svg">
+<style>
+text {
+    font-family: monospace;
+    font-size: 16px;
+}
+rect {
+    stroke: black;
+    stroke-width: 1;
+    fill: green;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+}
+</style>
+<text font-size="18px" font-style="bold" x="5" y="27">
+Hauloumi
+</text>
+<text x="5" y="57">
+Sterilize all equipment, boil ~15m
+</text>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<text x="0" y="62">
+<tspan dy="20" x="5">
+4 L unhomogenised 
+</tspan>
+<tspan dy="20" x="5">
+milk 
+</tspan>
+</text>
+<rect height="50" width="200" x="0" y="62"/>
+</g>
+<text x="200" y="62">
+<tspan dy="20" x="205">
+heat to 45C 
+</tspan>
+<tspan dy="20" x="205">
+113F 
+</tspan>
+</text>
+<rect height="50" width="330" x="0" y="62"/>
+</g>
+<g>
+<text x="0" y="112">
+<tspan dy="20" x="5">
+2 mL calcium 
+</tspan>
+<tspan dy="20" x="5">
+chloride 
+</tspan>
+</text>
+<rect height="50" width="200" x="0" y="112"/>
+</g>
+<text x="330" y="97">
+<tspan dy="20" x="335">
+stir in 
+</tspan>
+</text>
+<rect height="100" width="420" x="0" y="62"/>
+</g>
+<g>
+<g>
+<text x="0" y="162">
+<tspan dy="20" x="5">
+1/4 cup non 
+</tspan>
+<tspan dy="20" x="5">
+chlorinated water 
+</tspan>
+</text>
+<rect height="50" width="200" x="0" y="162"/>
+</g>
+<g>
+<text x="0" y="212">
+<tspan dy="20" x="5">
+2 tablets rennet 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="212"/>
+</g>
+<text x="200" y="187">
+<tspan dy="20" x="205">
+dilute 
+</tspan>
+</text>
+<rect height="80" width="280" x="0" y="162"/>
+</g>
+<text x="420" y="117">
+<tspan dy="20" x="425">
+stir in for 
+</tspan>
+<tspan dy="20" x="425">
+no more than 
+</tspan>
+<tspan dy="20" x="425">
+1m 
+</tspan>
+</text>
+<rect height="180" width="560" x="0" y="62"/>
+</g>
+<text x="560" y="107">
+<tspan dy="20" x="565">
+cover and 
+</tspan>
+<tspan dy="20" x="565">
+rest for 45m 
+</tspan>
+<tspan dy="20" x="565">
+or until the 
+</tspan>
+<tspan dy="20" x="565">
+curd is set 
+</tspan>
+</text>
+<rect height="180" width="700" x="0" y="62"/>
+</g>
+<text x="700" y="117">
+<tspan dy="20" x="705">
+cut curds 
+</tspan>
+<tspan dy="20" x="705">
+into 1/2 inch 
+</tspan>
+<tspan dy="20" x="705">
+cubes 
+</tspan>
+</text>
+<rect height="180" width="850" x="0" y="62"/>
+</g>
+<text x="850" y="127">
+<tspan dy="20" x="855">
+allow to heal 
+</tspan>
+<tspan dy="20" x="855">
+for 5m 
+</tspan>
+</text>
+<rect height="180" width="1000" x="0" y="62"/>
+</g>
+<text x="1000" y="137">
+<tspan dy="20" x="1005">
+stir for 10m 
+</tspan>
+</text>
+<rect height="180" width="1140" x="0" y="62"/>
+</g>
+<text x="1140" y="107">
+<tspan dy="20" x="1145">
+scoop curds 
+</tspan>
+<tspan dy="20" x="1145">
+into cheese 
+</tspan>
+<tspan dy="20" x="1145">
+cloth lined 
+</tspan>
+<tspan dy="20" x="1145">
+colander 
+</tspan>
+</text>
+<rect height="180" width="1270" x="0" y="62"/>
+</g>
+<text x="1270" y="87">
+<tspan dy="20" x="1275">
+press curds 
+</tspan>
+<tspan dy="20" x="1275">
+between two 
+</tspan>
+<tspan dy="20" x="1275">
+boards for 
+</tspan>
+<tspan dy="20" x="1275">
+30m, large 
+</tspan>
+<tspan dy="20" x="1275">
+bowl of water 
+</tspan>
+<tspan dy="20" x="1275">
+as weight 
+</tspan>
+</text>
+<rect height="180" width="1420" x="0" y="62"/>
+</g>
+<text x="1420" y="117">
+<tspan dy="20" x="1425">
+cut curds 
+</tspan>
+<tspan dy="20" x="1425">
+into desired 
+</tspan>
+<tspan dy="20" x="1425">
+size blocks 
+</tspan>
+</text>
+<rect height="180" width="1560" x="0" y="62"/>
+</g>
+<g>
+<text x="0" y="242">
+<tspan dy="20" x="5">
+^whey 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="242"/>
+</g>
+<text x="1560" y="142">
+<tspan dy="20" x="1565">
+boil in until 
+</tspan>
+<tspan dy="20" x="1565">
+they float 
+</tspan>
+</text>
+<rect height="210" width="1710" x="0" y="62"/>
+</g>
+<text x="1710" y="152">
+<tspan dy="20" x="1715">
+cool 
+</tspan>
+</text>
+<rect height="210" width="1770" x="0" y="62"/>
+</g>
+<g>
+<text x="0" y="272">
+<tspan dy="20" x="5">
+salt to flavor (a 
+</tspan>
+<tspan dy="20" x="5">
+few tbsp) 
+</tspan>
+</text>
+<rect height="50" width="200" x="0" y="272"/>
+</g>
+<text x="1770" y="177">
+<tspan dy="20" x="1775">
+rub over 
+</tspan>
+</text>
+<rect height="260" width="1870" x="0" y="62"/>
+</g>
+<text x="1870" y="167">
+<tspan dy="20" x="1875">
+store for max 
+</tspan>
+<tspan dy="20" x="1875">
+2 weeks 
+</tspan>
+</text>
+<rect height="260" width="2020" x="0" y="62"/>
+</g>
+<text x="2020" y="167">
+<tspan dy="20" x="2025">
+grill when 
+</tspan>
+<tspan dy="20" x="2025">
+ready to eat 
+</tspan>
+</text>
+<rect height="260" width="2160" x="0" y="62"/>
+</g>
+<text x="5" y="347">
+Yield 12
+</text>
+</svg>

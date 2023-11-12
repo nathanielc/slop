@@ -1,0 +1,338 @@
+<svg height="492" width="1740" xmlns="http://www.w3.org/2000/svg">
+<style>
+text {
+    font-family: monospace;
+    font-size: 16px;
+}
+rect {
+    stroke: black;
+    stroke-width: 1;
+    fill: green;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+}
+</style>
+<text font-size="18px" font-style="bold" x="5" y="27">
+Souffle pancake with one egg
+</text>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<text x="0" y="32">
+<tspan dy="20" x="5">
+3 or 4 drops lemon 
+</tspan>
+<tspan dy="20" x="5">
+juice 
+</tspan>
+</text>
+<rect height="50" width="200" x="0" y="32"/>
+</g>
+<g>
+<g>
+<text x="0" y="82">
+<tspan dy="20" x="5">
+1 egg 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="82"/>
+</g>
+<text x="200" y="82">
+<tspan dy="20" x="205">
+separate keep white 
+</tspan>
+</text>
+<rect height="30" width="410" x="0" y="82"/>
+</g>
+<text x="410" y="57">
+<tspan dy="20" x="415">
+stir in 
+</tspan>
+</text>
+<rect height="80" width="500" x="0" y="32"/>
+</g>
+<text x="500" y="37">
+<tspan dy="20" x="505">
+beat at 
+</tspan>
+<tspan dy="20" x="505">
+medium speed, 
+</tspan>
+<tspan dy="20" x="505">
+until foamy 
+</tspan>
+</text>
+<rect height="80" width="650" x="0" y="32"/>
+</g>
+<g>
+<text x="0" y="112">
+<tspan dy="20" x="5">
+1 1/2 tbsp sugar 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="112"/>
+</g>
+<text x="650" y="72">
+<tspan dy="20" x="655">
+sprinkle in 
+</tspan>
+</text>
+<rect height="110" width="780" x="0" y="32"/>
+</g>
+<text x="780" y="42">
+<tspan dy="20" x="785">
+beat at 
+</tspan>
+<tspan dy="20" x="785">
+medium speed 
+</tspan>
+<tspan dy="20" x="785">
+3m until firm 
+</tspan>
+<tspan dy="20" x="785">
+peaks form 
+</tspan>
+</text>
+<rect height="110" width="930" x="0" y="32"/>
+</g>
+<g>
+<g>
+<g>
+<g>
+<text x="0" y="142">
+<tspan dy="20" x="5">
+^egg yolk 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="142"/>
+</g>
+<g>
+<text x="0" y="172">
+<tspan dy="20" x="5">
+2 tbsp flour 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="172"/>
+</g>
+<g>
+<text x="0" y="202">
+<tspan dy="20" x="5">
+1 tbsp milk 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="202"/>
+</g>
+<text x="200" y="162">
+<tspan dy="20" x="205">
+mix to 
+</tspan>
+<tspan dy="20" x="205">
+combine 
+</tspan>
+</text>
+<rect height="90" width="290" x="0" y="142"/>
+</g>
+<g>
+<text x="0" y="232">
+<tspan dy="20" x="5">
+1/2 tsp vanilla 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="232"/>
+</g>
+<text x="290" y="187">
+<tspan dy="20" x="295">
+stir in 
+</tspan>
+</text>
+<rect height="120" width="380" x="0" y="142"/>
+</g>
+<g>
+<text x="0" y="262">
+<tspan dy="20" x="5">
+^1/3 of egg white 
+</tspan>
+<tspan dy="20" x="5">
+mixture 
+</tspan>
+</text>
+<rect height="50" width="200" x="0" y="262"/>
+</g>
+<text x="380" y="192">
+<tspan dy="20" x="385">
+mix with 
+</tspan>
+<tspan dy="20" x="385">
+circular 
+</tspan>
+<tspan dy="20" x="385">
+motion 
+</tspan>
+</text>
+<rect height="170" width="480" x="0" y="142"/>
+</g>
+<text x="930" y="147">
+<tspan dy="20" x="935">
+fold in with 
+</tspan>
+<tspan dy="20" x="935">
+flat spatula 
+</tspan>
+</text>
+<rect height="280" width="1070" x="0" y="32"/>
+</g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<text x="0" y="312">
+<tspan dy="20" x="5">
+1 tsp oil 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="312"/>
+</g>
+<text x="200" y="312">
+<tspan dy="20" x="205">
+heat in pan 1m 
+</tspan>
+</text>
+<rect height="30" width="360" x="0" y="312"/>
+</g>
+<g>
+<text x="0" y="342">
+<tspan dy="20" x="5">
+^2/3 of pancake 
+</tspan>
+<tspan dy="20" x="5">
+mixture 
+</tspan>
+</text>
+<rect height="50" width="200" x="0" y="342"/>
+</g>
+<text x="360" y="317">
+<tspan dy="20" x="365">
+scoop into 
+</tspan>
+<tspan dy="20" x="365">
+pan as two 
+</tspan>
+<tspan dy="20" x="365">
+pancakes 
+</tspan>
+</text>
+<rect height="80" width="480" x="0" y="312"/>
+</g>
+<g>
+<text x="0" y="392">
+<tspan dy="20" x="5">
+2 tsp water 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="392"/>
+</g>
+<text x="480" y="342">
+<tspan dy="20" x="485">
+add to sides 
+</tspan>
+<tspan dy="20" x="485">
+of pan 
+</tspan>
+</text>
+<rect height="110" width="620" x="0" y="312"/>
+</g>
+<text x="620" y="332">
+<tspan dy="20" x="625">
+cover cook 2m 
+</tspan>
+<tspan dy="20" x="625">
+on medium 
+</tspan>
+<tspan dy="20" x="625">
+heat 
+</tspan>
+</text>
+<rect height="110" width="770" x="0" y="312"/>
+</g>
+<g>
+<text x="0" y="422">
+<tspan dy="20" x="5">
+1 tsp water 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="422"/>
+</g>
+<text x="770" y="357">
+<tspan dy="20" x="775">
+add to sides 
+</tspan>
+<tspan dy="20" x="775">
+of pan 
+</tspan>
+</text>
+<rect height="140" width="910" x="0" y="312"/>
+</g>
+<text x="1070" y="227">
+<tspan dy="20" x="1075">
+place on top 
+</tspan>
+</text>
+<rect height="420" width="1210" x="0" y="32"/>
+</g>
+<text x="1210" y="207">
+<tspan dy="20" x="1215">
+cover cook 5m 
+</tspan>
+<tspan dy="20" x="1215">
+on medium low 
+</tspan>
+<tspan dy="20" x="1215">
+heat 
+</tspan>
+</text>
+<rect height="420" width="1360" x="0" y="32"/>
+</g>
+<text x="1360" y="227">
+<tspan dy="20" x="1365">
+flip 
+</tspan>
+</text>
+<rect height="420" width="1420" x="0" y="32"/>
+</g>
+<text x="1420" y="227">
+<tspan dy="20" x="1425">
+cover cook 5m 
+</tspan>
+</text>
+<rect height="420" width="1570" x="0" y="32"/>
+</g>
+<text x="1570" y="197">
+<tspan dy="20" x="1575">
+serve with 
+</tspan>
+<tspan dy="20" x="1575">
+fruit and 
+</tspan>
+<tspan dy="20" x="1575">
+syrup/powdered 
+</tspan>
+<tspan dy="20" x="1575">
+sugar 
+</tspan>
+</text>
+<rect height="420" width="1730" x="0" y="32"/>
+</g>
+<text x="5" y="477">
+Makes 2 pancakes
+</text>
+</svg>

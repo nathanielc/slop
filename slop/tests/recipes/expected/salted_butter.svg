@@ -1,0 +1,47 @@
+<svg height="70" width="340" xmlns="http://www.w3.org/2000/svg">
+<style>
+text {
+    font-family: monospace;
+    font-size: 16px;
+}
+rect {
+    stroke: black;
+    stroke-width: 1;
+    fill: green;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+}
+</style>
+<g>
+<g>
+<g>
+<text x="0" y="0">
+<tspan dy="20" x="5">
+butter 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="0"/>
+</g>
+<text x="200" y="0">
+<tspan dy="20" x="205">
+soften 
+</tspan>
+</text>
+<rect height="30" width="280" x="0" y="0"/>
+</g>
+<g>
+<text x="0" y="30">
+<tspan dy="20" x="5">
+salt 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="30"/>
+</g>
+<text x="280" y="15">
+<tspan dy="20" x="285">
+mix 
+</tspan>
+</text>
+<rect height="60" width="330" x="0" y="0"/>
+</g>
+</svg>

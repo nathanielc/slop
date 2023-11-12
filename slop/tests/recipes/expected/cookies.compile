@@ -1,0 +1,155 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..221,
+                title: None,
+                preamble: None,
+                comment: Some(
+                    "Yield 1 dozen cookies",
+                ),
+                root: Operator {
+                    position: 182..197,
+                    text: "bake 375F 10m",
+                    operands: [
+                        Operator {
+                            position: 165..182,
+                            text: "form into balls",
+                            operands: [
+                                Operator {
+                                    position: 159..165,
+                                    text: "stir",
+                                    operands: [
+                                        Operator {
+                                            position: 112..125,
+                                            text: "beat slowly",
+                                            operands: [
+                                                Operator {
+                                                    position: 65..85,
+                                                    text: "beat one at a time",
+                                                    operands: [
+                                                        Operator {
+                                                            position: 53..59,
+                                                            text: "beat",
+                                                            operands: [
+                                                                Operator {
+                                                                    position: 10..18,
+                                                                    text: "soften",
+                                                                    operands: [
+                                                                        Ingredient(
+                                                                            Ingredient {
+                                                                                position: 2..10,
+                                                                                derived: false,
+                                                                                quantities: None,
+                                                                                unit: None,
+                                                                                text: "butter",
+                                                                            },
+                                                                        ),
+                                                                    ],
+                                                                },
+                                                                Ingredient(
+                                                                    Ingredient {
+                                                                        position: 18..25,
+                                                                        derived: false,
+                                                                        quantities: None,
+                                                                        unit: None,
+                                                                        text: "sugar",
+                                                                    },
+                                                                ),
+                                                                Ingredient(
+                                                                    Ingredient {
+                                                                        position: 25..38,
+                                                                        derived: false,
+                                                                        quantities: None,
+                                                                        unit: None,
+                                                                        text: "brown sugar",
+                                                                    },
+                                                                ),
+                                                                Ingredient(
+                                                                    Ingredient {
+                                                                        position: 41..50,
+                                                                        derived: false,
+                                                                        quantities: None,
+                                                                        unit: None,
+                                                                        text: "vanilla",
+                                                                    },
+                                                                ),
+                                                            ],
+                                                        },
+                                                        Ingredient(
+                                                            Ingredient {
+                                                                position: 59..65,
+                                                                derived: false,
+                                                                quantities: None,
+                                                                unit: None,
+                                                                text: "eggs",
+                                                            },
+                                                        ),
+                                                    ],
+                                                },
+                                                Operator {
+                                                    position: 107..112,
+                                                    text: "mix",
+                                                    operands: [
+                                                        Ingredient(
+                                                            Ingredient {
+                                                                position: 85..92,
+                                                                derived: false,
+                                                                quantities: None,
+                                                                unit: None,
+                                                                text: "flour",
+                                                            },
+                                                        ),
+                                                        Ingredient(
+                                                            Ingredient {
+                                                                position: 92..98,
+                                                                derived: false,
+                                                                quantities: None,
+                                                                unit: None,
+                                                                text: "soda",
+                                                            },
+                                                        ),
+                                                        Ingredient(
+                                                            Ingredient {
+                                                                position: 101..107,
+                                                                derived: false,
+                                                                quantities: None,
+                                                                unit: None,
+                                                                text: "salt",
+                                                            },
+                                                        ),
+                                                    ],
+                                                },
+                                            ],
+                                        },
+                                        Ingredient(
+                                            Ingredient {
+                                                position: 125..142,
+                                                derived: false,
+                                                quantities: None,
+                                                unit: None,
+                                                text: "chocolate chips",
+                                            },
+                                        ),
+                                        Ingredient(
+                                            Ingredient {
+                                                position: 142..156,
+                                                derived: false,
+                                                quantities: None,
+                                                unit: None,
+                                                text: "chopped nuts",
+                                            },
+                                        ),
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            },
+        ],
+    },
+    Errors(
+        [],
+    ),
+)

@@ -1,0 +1,151 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..645,
+                title: Some(
+                    "Hauloumi",
+                ),
+                preamble: Some(
+                    "Sterilize all equipment, boil ~15m",
+                ),
+                comment: Some(
+                    "Yield 12",
+                ),
+                root: UnaryOp {
+                    position: 609..634,
+                    operand: UnaryOp {
+                        position: 582..609,
+                        operand: BinaryOp {
+                            position: 572..582,
+                            first: UnaryOp {
+                                position: 537..543,
+                                operand: BinaryOp {
+                                    position: 511..537,
+                                    first: UnaryOp {
+                                        position: 468..504,
+                                        operand: UnaryOp {
+                                            position: 393..468,
+                                            operand: UnaryOp {
+                                                position: 343..393,
+                                                operand: UnaryOp {
+                                                    position: 325..343,
+                                                    operand: UnaryOp {
+                                                        position: 303..325,
+                                                        operand: UnaryOp {
+                                                            position: 272..303,
+                                                            operand: UnaryOp {
+                                                                position: 219..272,
+                                                                operand: BinaryOp {
+                                                                    position: 186..219,
+                                                                    first: BinaryOp {
+                                                                        position: 118..127,
+                                                                        first: UnaryOp {
+                                                                            position: 76..94,
+                                                                            operand: Ingredient {
+                                                                                position: 51..76,
+                                                                                derived: false,
+                                                                                quantities: [
+                                                                                    Number(
+                                                                                        "4",
+                                                                                    ),
+                                                                                ],
+                                                                                unit: Some(
+                                                                                    "L",
+                                                                                ),
+                                                                                text: "unhomogenised milk",
+                                                                            },
+                                                                            text: "heat to 45C 113F",
+                                                                        },
+                                                                        second: Ingredient {
+                                                                            position: 94..118,
+                                                                            derived: false,
+                                                                            quantities: [
+                                                                                Number(
+                                                                                    "2",
+                                                                                ),
+                                                                            ],
+                                                                            unit: Some(
+                                                                                "mL",
+                                                                            ),
+                                                                            text: "calcium chloride",
+                                                                        },
+                                                                        text: "stir in",
+                                                                    },
+                                                                    second: BinaryOp {
+                                                                        position: 178..186,
+                                                                        first: Ingredient {
+                                                                            position: 127..159,
+                                                                            derived: false,
+                                                                            quantities: [
+                                                                                Fraction(
+                                                                                    "1/4",
+                                                                                ),
+                                                                            ],
+                                                                            unit: Some(
+                                                                                "cup",
+                                                                            ),
+                                                                            text: "non chlorinated water",
+                                                                        },
+                                                                        second: Ingredient {
+                                                                            position: 159..178,
+                                                                            derived: false,
+                                                                            quantities: [
+                                                                                Number(
+                                                                                    "2",
+                                                                                ),
+                                                                            ],
+                                                                            unit: Some(
+                                                                                "tablets",
+                                                                            ),
+                                                                            text: "rennet",
+                                                                        },
+                                                                        text: "dilute",
+                                                                    },
+                                                                    text: "stir in for no more than 1m",
+                                                                },
+                                                                text: "cover and rest for 45m or until the curd is set",
+                                                            },
+                                                            text: "cut curds into 1/2 inch cubes",
+                                                        },
+                                                        text: "allow to heal for 5m",
+                                                    },
+                                                    text: "stir for 10m",
+                                                },
+                                                text: "scoop curds into cheese cloth lined colander",
+                                            },
+                                            text: "press curds between two boards for 30m, large bowl of water as weight",
+                                        },
+                                        text: "cut curds into desired size blocks",
+                                    },
+                                    second: Ingredient {
+                                        position: 504..511,
+                                        derived: true,
+                                        quantities: [],
+                                        unit: None,
+                                        text: "whey",
+                                    },
+                                    text: "boil in until they float",
+                                },
+                                text: "cool",
+                            },
+                            second: Ingredient {
+                                position: 543..572,
+                                derived: false,
+                                quantities: [],
+                                unit: None,
+                                text: "salt to flavor (a few tbsp)",
+                            },
+                            text: "rub over",
+                        },
+                        text: "store for max 2 weeks",
+                    },
+                    text: "grill when ready to eat",
+                },
+            },
+        ],
+    },
+    Errors(
+        [],
+    ),
+)

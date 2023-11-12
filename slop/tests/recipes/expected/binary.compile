@@ -1,0 +1,53 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..45,
+                title: None,
+                preamble: None,
+                comment: None,
+                root: Operator {
+                    position: 30..45,
+                    text: "boil and stir",
+                    operands: [
+                        Ingredient(
+                            Ingredient {
+                                position: 2..16,
+                                derived: false,
+                                quantities: Some(
+                                    (
+                                        "1",
+                                        1.0,
+                                    ),
+                                ),
+                                unit: Some(
+                                    "cup",
+                                ),
+                                text: "sugar",
+                            },
+                        ),
+                        Ingredient(
+                            Ingredient {
+                                position: 16..30,
+                                derived: false,
+                                quantities: Some(
+                                    (
+                                        "3",
+                                        3.0,
+                                    ),
+                                ),
+                                unit: Some(
+                                    "cups",
+                                ),
+                                text: "milk",
+                            },
+                        ),
+                    ],
+                },
+            },
+        ],
+    },
+    Errors(
+        [],
+    ),
+)

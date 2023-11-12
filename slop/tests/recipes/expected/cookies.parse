@@ -1,0 +1,135 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..221,
+                title: None,
+                preamble: None,
+                comment: Some(
+                    "Yield 1 dozen cookies",
+                ),
+                root: UnaryOp {
+                    position: 182..197,
+                    operand: UnaryOp {
+                        position: 165..182,
+                        operand: BinaryOp {
+                            position: 159..165,
+                            first: BinaryOp {
+                                position: 112..125,
+                                first: BinaryOp {
+                                    position: 65..85,
+                                    first: BinaryOp {
+                                        position: 53..59,
+                                        first: UnaryOp {
+                                            position: 10..18,
+                                            operand: Ingredient {
+                                                position: 2..10,
+                                                derived: false,
+                                                quantities: [],
+                                                unit: None,
+                                                text: "butter",
+                                            },
+                                            text: "soften",
+                                        },
+                                        second: BinaryOp {
+                                            position: 50..53,
+                                            first: BinaryOp {
+                                                position: 38..41,
+                                                first: Ingredient {
+                                                    position: 18..25,
+                                                    derived: false,
+                                                    quantities: [],
+                                                    unit: None,
+                                                    text: "sugar",
+                                                },
+                                                second: Ingredient {
+                                                    position: 25..38,
+                                                    derived: false,
+                                                    quantities: [],
+                                                    unit: None,
+                                                    text: "brown sugar",
+                                                },
+                                                text: "+",
+                                            },
+                                            second: Ingredient {
+                                                position: 41..50,
+                                                derived: false,
+                                                quantities: [],
+                                                unit: None,
+                                                text: "vanilla",
+                                            },
+                                            text: "+",
+                                        },
+                                        text: "beat",
+                                    },
+                                    second: Ingredient {
+                                        position: 59..65,
+                                        derived: false,
+                                        quantities: [],
+                                        unit: None,
+                                        text: "eggs",
+                                    },
+                                    text: "beat one at a time",
+                                },
+                                second: BinaryOp {
+                                    position: 107..112,
+                                    first: BinaryOp {
+                                        position: 98..101,
+                                        first: Ingredient {
+                                            position: 85..92,
+                                            derived: false,
+                                            quantities: [],
+                                            unit: None,
+                                            text: "flour",
+                                        },
+                                        second: Ingredient {
+                                            position: 92..98,
+                                            derived: false,
+                                            quantities: [],
+                                            unit: None,
+                                            text: "soda",
+                                        },
+                                        text: "+",
+                                    },
+                                    second: Ingredient {
+                                        position: 101..107,
+                                        derived: false,
+                                        quantities: [],
+                                        unit: None,
+                                        text: "salt",
+                                    },
+                                    text: "mix",
+                                },
+                                text: "beat slowly",
+                            },
+                            second: BinaryOp {
+                                position: 156..159,
+                                first: Ingredient {
+                                    position: 125..142,
+                                    derived: false,
+                                    quantities: [],
+                                    unit: None,
+                                    text: "chocolate chips",
+                                },
+                                second: Ingredient {
+                                    position: 142..156,
+                                    derived: false,
+                                    quantities: [],
+                                    unit: None,
+                                    text: "chopped nuts",
+                                },
+                                text: "+",
+                            },
+                            text: "stir",
+                        },
+                        text: "form into balls",
+                    },
+                    text: "bake 375F 10m",
+                },
+            },
+        ],
+    },
+    Errors(
+        [],
+    ),
+)

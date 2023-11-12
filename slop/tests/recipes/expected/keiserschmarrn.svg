@@ -1,0 +1,201 @@
+<svg height="402" width="870" xmlns="http://www.w3.org/2000/svg">
+<style>
+text {
+    font-family: monospace;
+    font-size: 16px;
+}
+rect {
+    stroke: black;
+    stroke-width: 1;
+    fill: green;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+}
+</style>
+<text font-size="18px" font-style="bold" x="5" y="27">
+Keiserschmarrn
+</text>
+<text x="5" y="57">
+Good Saturday breakfast
+</text>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<text x="0" y="62">
+<tspan dy="20" x="5">
+6 eggs 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="62"/>
+</g>
+<text x="200" y="62">
+<tspan dy="20" x="205">
+separate 
+</tspan>
+</text>
+<rect height="30" width="300" x="0" y="62"/>
+</g>
+<g>
+<text x="0" y="92">
+<tspan dy="20" x="5">
+1 1/2 cups milk 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="92"/>
+</g>
+<g>
+<text x="0" y="122">
+<tspan dy="20" x="5">
+1 tsp vanilla 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="122"/>
+</g>
+<text x="300" y="92">
+<tspan dy="20" x="305">
+whisk 
+</tspan>
+</text>
+<rect height="90" width="370" x="0" y="62"/>
+</g>
+<g>
+<text x="0" y="152">
+<tspan dy="20" x="5">
+salt 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="152"/>
+</g>
+<g>
+<text x="0" y="182">
+<tspan dy="20" x="5">
+1 cup flour 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="182"/>
+</g>
+<text x="370" y="122">
+<tspan dy="20" x="375">
+whisk 
+</tspan>
+</text>
+<rect height="150" width="440" x="0" y="62"/>
+</g>
+<g>
+<g>
+<text x="0" y="212">
+<tspan dy="20" x="5">
+3 tbsp sugar 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="212"/>
+</g>
+<g>
+<text x="0" y="242">
+<tspan dy="20" x="5">
+^egg whites 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="242"/>
+</g>
+<text x="200" y="217">
+<tspan dy="20" x="205">
+whip to form 
+</tspan>
+<tspan dy="20" x="205">
+soft peaks 
+</tspan>
+</text>
+<rect height="60" width="340" x="0" y="212"/>
+</g>
+<text x="440" y="122">
+<tspan dy="20" x="445">
+gently fold 
+</tspan>
+<tspan dy="20" x="445">
+until white 
+</tspan>
+<tspan dy="20" x="445">
+lumps are 
+</tspan>
+<tspan dy="20" x="445">
+gone 
+</tspan>
+</text>
+<rect height="210" width="570" x="0" y="62"/>
+</g>
+<g>
+<g>
+<text x="0" y="272">
+<tspan dy="20" x="5">
+2 tbsp butter 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="272"/>
+</g>
+<text x="200" y="272">
+<tspan dy="20" x="205">
+melt in large pan 
+</tspan>
+</text>
+<rect height="30" width="390" x="0" y="272"/>
+</g>
+<text x="570" y="97">
+<tspan dy="20" x="575">
+in two 
+</tspan>
+<tspan dy="20" x="575">
+batches cook 
+</tspan>
+<tspan dy="20" x="575">
+until bottom 
+</tspan>
+<tspan dy="20" x="575">
+side is firm 
+</tspan>
+<tspan dy="20" x="575">
+flip and 
+</tspan>
+<tspan dy="20" x="575">
+break into 
+</tspan>
+<tspan dy="20" x="575">
+bit size 
+</tspan>
+<tspan dy="20" x="575">
+pieces 
+</tspan>
+</text>
+<rect height="240" width="710" x="0" y="62"/>
+</g>
+<g>
+<text x="0" y="302">
+<tspan dy="20" x="5">
+powdered sugar 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="302"/>
+</g>
+<g>
+<text x="0" y="332">
+<tspan dy="20" x="5">
+syrup 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="332"/>
+</g>
+<text x="710" y="197">
+<tspan dy="20" x="715">
+top and serve 
+</tspan>
+</text>
+<rect height="300" width="860" x="0" y="62"/>
+</g>
+<text x="5" y="387">
+Serves 4
+</text>
+</svg>

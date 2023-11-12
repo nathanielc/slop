@@ -1,0 +1,45 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..29,
+                title: None,
+                preamble: None,
+                comment: None,
+                root: Operator {
+                    position: 24..29,
+                    text: "mix",
+                    operands: [
+                        Operator {
+                            position: 10..18,
+                            text: "soften",
+                            operands: [
+                                Ingredient(
+                                    Ingredient {
+                                        position: 2..10,
+                                        derived: false,
+                                        quantities: None,
+                                        unit: None,
+                                        text: "butter",
+                                    },
+                                ),
+                            ],
+                        },
+                        Ingredient(
+                            Ingredient {
+                                position: 18..24,
+                                derived: false,
+                                quantities: None,
+                                unit: None,
+                                text: "salt",
+                            },
+                        ),
+                    ],
+                },
+            },
+        ],
+    },
+    Errors(
+        [],
+    ),
+)

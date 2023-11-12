@@ -1,0 +1,55 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..31,
+                title: None,
+                preamble: None,
+                comment: None,
+                root: BinaryOp {
+                    position: 24..31,
+                    first: BinaryOp {
+                        position: 8..13,
+                        first: Ingredient {
+                            position: 2..5,
+                            derived: false,
+                            quantities: [],
+                            unit: None,
+                            text: "a",
+                        },
+                        second: Ingredient {
+                            position: 5..8,
+                            derived: false,
+                            quantities: [],
+                            unit: None,
+                            text: "b",
+                        },
+                        text: "one",
+                    },
+                    second: BinaryOp {
+                        position: 19..24,
+                        first: Ingredient {
+                            position: 13..16,
+                            derived: false,
+                            quantities: [],
+                            unit: None,
+                            text: "c",
+                        },
+                        second: Ingredient {
+                            position: 16..19,
+                            derived: false,
+                            quantities: [],
+                            unit: None,
+                            text: "d",
+                        },
+                        text: "two",
+                    },
+                    text: "three",
+                },
+            },
+        ],
+    },
+    Errors(
+        [],
+    ),
+)

@@ -11,7 +11,7 @@ use crate::{
     api_context::ApiContext,
     app::Route,
     menu_context::{MenuAction, MenuContext},
-    slop::{recipe_svg, recipe_title},
+    slop::{recipe_svgs, recipe_title},
 };
 
 pub enum Msg {
@@ -243,9 +243,10 @@ impl Component for Recipe {
             State::Success(recipe) => {
                 let onclick = ctx.link().callback(|_| Msg::FetchTags);
                 let title = self.title.clone().unwrap_or_default();
-                let card = Html::from_html_unchecked(
-                    recipe_svg(&recipe.source).unwrap_or_default().into(),
-                );
+                let svgs = recipe_svgs(&recipe.source).unwrap_or_default();
+                let cards = svgs
+                    .into_iter()
+                    .map(|svg| Html::from_html_unchecked(svg.into()));
 
                 let count = self.menu_context.count_recipe(&recipe.id);
 
@@ -304,7 +305,7 @@ impl Component for Recipe {
                         </StackItem>
                         <StackItem>
                             <div class="recipe-card">
-                                {card}
+                                {for cards}
                             </div>
                         </StackItem>
                         <StackItem>

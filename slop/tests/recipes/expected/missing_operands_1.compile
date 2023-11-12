@@ -1,0 +1,84 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..37,
+                title: None,
+                preamble: None,
+                comment: None,
+                root: Operator {
+                    position: 30..37,
+                    text: "three",
+                    operands: [
+                        Operator {
+                            position: 22..27,
+                            text: "two",
+                            operands: [
+                                Operator {
+                                    position: 14..19,
+                                    text: "one",
+                                    operands: [
+                                        Operator {
+                                            position: 5..11,
+                                            text: "zero",
+                                            operands: [
+                                                MissingOperand {
+                                                    position: 5..5,
+                                                },
+                                                Ingredient(
+                                                    Ingredient {
+                                                        position: 2..5,
+                                                        derived: false,
+                                                        quantities: None,
+                                                        unit: None,
+                                                        text: "a",
+                                                    },
+                                                ),
+                                            ],
+                                        },
+                                        Ingredient(
+                                            Ingredient {
+                                                position: 11..14,
+                                                derived: false,
+                                                quantities: None,
+                                                unit: None,
+                                                text: "b",
+                                            },
+                                        ),
+                                    ],
+                                },
+                                Ingredient(
+                                    Ingredient {
+                                        position: 19..22,
+                                        derived: false,
+                                        quantities: None,
+                                        unit: None,
+                                        text: "c",
+                                    },
+                                ),
+                            ],
+                        },
+                        Ingredient(
+                            Ingredient {
+                                position: 27..30,
+                                derived: false,
+                                quantities: None,
+                                unit: None,
+                                text: "d",
+                            },
+                        ),
+                    ],
+                },
+            },
+        ],
+    },
+    Errors(
+        [
+            CompilationError(
+                MissingOperand(
+                    5..5,
+                ),
+            ),
+        ],
+    ),
+)

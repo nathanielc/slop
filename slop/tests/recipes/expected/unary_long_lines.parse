@@ -1,0 +1,34 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..271,
+                title: None,
+                preamble: None,
+                comment: None,
+                root: UnaryOp {
+                    position: 185..271,
+                    operand: UnaryOp {
+                        position: 97..185,
+                        operand: UnaryOp {
+                            position: 9..97,
+                            operand: Ingredient {
+                                position: 2..9,
+                                derived: false,
+                                quantities: [],
+                                unit: None,
+                                text: "a",
+                            },
+                            text: "one, this is a long line that has lots of words and it has more than 80 characters",
+                        },
+                        text: "two, this is a long line that has lots of words and it has more than 80 characters",
+                    },
+                    text: "three, this is a long line that has lots of words and it has more than 80 characters",
+                },
+            },
+        ],
+    },
+    Errors(
+        [],
+    ),
+)

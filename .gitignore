@@ -1,6 +1,5 @@
 /target
 /recipes
-/menus
 node_modules/
 /ceramic
 dist/

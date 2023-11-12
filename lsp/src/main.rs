@@ -44,7 +44,7 @@ mod backend {
     use tower_lsp::lsp_types::*;
     use tower_lsp::{Client, LanguageServer};
 
-    use slop::{format, parse};
+    use slop::{compile, format};
 
     #[derive(Debug)]
     struct State {
@@ -218,21 +218,64 @@ mod backend {
     }
 
     fn get_diagnostics(state: &State, _uri: &Url, id: FileId) -> Vec<Diagnostic> {
-        let (source, errors) = parse(state.files.source(id));
+        let source = state.files.source(id);
+        let (_, errors) = compile(source);
         errors
             .into_iter()
             .map(|err| match err {
                 slop::Error::ParseError(slop::ParseError::UnexpectedToken(token, position)) => {
-                    todo!()
+                    let range = byte_span_to_range(&state.files, id, position).unwrap();
+                    Diagnostic {
+                        range: convert_range(range),
+                        severity: Some(DiagnosticSeverity::Error),
+                        code: None,
+                        source: None,
+                        message: format!("unexpected token: {token}"),
+                        related_information: None,
+                        tags: None,
+                    }
                 }
-                slop::Error::ParseError(slop::ParseError::UnexpectedEOF) => todo!(),
+                slop::Error::ParseError(slop::ParseError::UnexpectedEOF) => {
+                    let range =
+                        byte_span_to_range(&state.files, id, source.len() - 1..source.len())
+                            .unwrap();
+                    Diagnostic {
+                        range: convert_range(range),
+                        severity: Some(DiagnosticSeverity::Error),
+                        code: None,
+                        source: None,
+                        message: "unexpected end of file".to_string(),
+                        related_information: None,
+                        tags: None,
+                    }
+                }
                 slop::Error::CompilationError(slop::CompilationError::MissingOperand(position)) => {
-                    todo!()
+                    let range = byte_span_to_range(&state.files, id, position).unwrap();
+                    Diagnostic {
+                        range: convert_range(range),
+                        severity: Some(DiagnosticSeverity::Error),
+                        code: None,
+                        source: None,
+                        message: "missing operand".to_string(),
+                        related_information: None,
+                        tags: None,
+                    }
                 }
                 slop::Error::CompilationError(slop::CompilationError::UnusedOperands(
                     count,
                     position,
-                )) => todo!(),
+                )) => {
+                    let range = byte_span_to_range(&state.files, id, position).unwrap();
+                    Diagnostic {
+                        range: convert_range(range),
+                        severity: Some(DiagnosticSeverity::Error),
+                        code: None,
+                        source: None,
+                        message: format!("found {count} unused operands"),
+                        related_information: None,
+                        tags: None,
+                    }
+                }
             })
             .collect()
     }
@@ -250,83 +293,3 @@ mod backend {
         }
     }
 }
-
-//                Ok(_) => Vec::new(),
-//                Err(err) => match err {
-//                    ParseError::InvalidToken { location } => {
-//                        let span = location..(location + 1);
-//                        let range = byte_span_to_range(&state.files, id, span).unwrap();
-//                        vec![Diagnostic {
-//                            range: convert_range(range),
-//                            severity: Some(DiagnosticSeverity::Error),
-//                            code: None,
-//                            source: None,
-//                            message: format!("{}", &err),
-//                            related_information: None,
-//                            tags: None,
-//                        }]
-//                    }
-//                    ParseError::UnrecognizedEOF { location, .. } => {
-//                        let span = location..(location + 1);
-//                        let range = byte_span_to_range(&state.files, id, span);
-//                        if let Ok(range) = range {
-//                            vec![Diagnostic {
-//                                range: convert_range(range),
-//                                severity: Some(DiagnosticSeverity::Error),
-//                                code: None,
-//                                source: None,
-//                                message: format!("{}", &err),
-//                                related_information: None,
-//                                tags: None,
-//                            }]
-//                        } else {
-//                            vec![]
-//                        }
-//                    }
-//                    ParseError::UnrecognizedToken { ref token, .. } => {
-//                        let span = token.0..token.2;
-//                        let range = byte_span_to_range(&state.files, id, span).unwrap();
-//                        vec![Diagnostic {
-//                            range: convert_range(range),
-//                            severity: Some(DiagnosticSeverity::Error),
-//                            code: None,
-//                            source: None,
-//                            message: format!("{}", &err),
-//                            related_information: None,
-//                            tags: None,
-//                        }]
-//                    }
-//                    ParseError::ExtraToken { ref token } => {
-//                        let span = token.0..token.2;
-//                        let range = byte_span_to_range(&state.files, id, span).unwrap();
-//                        vec![Diagnostic {
-//                            range: convert_range(range),
-//                            severity: Some(DiagnosticSeverity::Error),
-//                            code: None,
-//                            source: None,
-//                            message: format!("{}", &err),
-//                            related_information: None,
-//                            tags: None,
-//                        }]
-//                    }
-//                    ParseError::User { error } => {
-//                        vec![Diagnostic {
-//                            range: Range {
-//                                start: Position {
-//                                    line: 1,
-//                                    character: 1,
-//                                },
-//                                end: Position {
-//                                    line: 1,
-//                                    character: 1,
-//                                },
-//                            },
-//                            severity: Some(DiagnosticSeverity::Error),
-//                            code: None,
-//                            source: None,
-//                            message: error.to_string(),
-//                            related_information: None,
-//                            tags: None,
-//                        }]
-//                    }
-//                },

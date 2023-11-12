@@ -1,0 +1,148 @@
+<svg height="442" width="540" xmlns="http://www.w3.org/2000/svg">
+<style>
+text {
+    font-family: monospace;
+    font-size: 16px;
+}
+rect {
+    stroke: black;
+    stroke-width: 1;
+    fill: green;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+}
+</style>
+<text font-size="18px" font-style="bold" x="5" y="27">
+Grandma Bassett's Carrot Pudding
+</text>
+<g>
+<g>
+<g>
+<text x="0" y="32">
+<tspan dy="20" x="5">
+1 cup grated 
+</tspan>
+<tspan dy="20" x="5">
+carrots 
+</tspan>
+</text>
+<rect height="50" width="200" x="0" y="32"/>
+</g>
+<g>
+<text x="0" y="82">
+<tspan dy="20" x="5">
+1 cup grated 
+</tspan>
+<tspan dy="20" x="5">
+potatoes or apples 
+</tspan>
+</text>
+<rect height="50" width="200" x="0" y="82"/>
+</g>
+<g>
+<g>
+<text x="0" y="132">
+<tspan dy="20" x="5">
+1/4 cup butter 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="132"/>
+</g>
+<text x="200" y="132">
+<tspan dy="20" x="205">
+melt 
+</tspan>
+</text>
+<rect height="30" width="260" x="0" y="132"/>
+</g>
+<g>
+<text x="0" y="162">
+<tspan dy="20" x="5">
+3/4 cup sugar 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="162"/>
+</g>
+<g>
+<text x="0" y="192">
+<tspan dy="20" x="5">
+1 1/2 cup flour 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="192"/>
+</g>
+<g>
+<text x="0" y="222">
+<tspan dy="20" x="5">
+1 cup nuts 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="222"/>
+</g>
+<g>
+<text x="0" y="252">
+<tspan dy="20" x="5">
+1/2 tsp nutmeg 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="252"/>
+</g>
+<g>
+<text x="0" y="282">
+<tspan dy="20" x="5">
+1/2 tsp cinnamon 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="282"/>
+</g>
+<g>
+<text x="0" y="312">
+<tspan dy="20" x="5">
+1 tsp salt 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="312"/>
+</g>
+<g>
+<text x="0" y="342">
+<tspan dy="20" x="5">
+1 tsp baking soda 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="342"/>
+</g>
+<g>
+<text x="0" y="372">
+<tspan dy="20" x="5">
+1 cup raisins 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="372"/>
+</g>
+<text x="260" y="192">
+<tspan dy="20" x="265">
+combine in 
+</tspan>
+<tspan dy="20" x="265">
+pot 
+</tspan>
+</text>
+<rect height="370" width="380" x="0" y="32"/>
+</g>
+<text x="380" y="182">
+<tspan dy="20" x="385">
+steam for 
+</tspan>
+<tspan dy="20" x="385">
+2.5h in 
+</tspan>
+<tspan dy="20" x="385">
+double boiler 
+</tspan>
+</text>
+<rect height="370" width="530" x="0" y="32"/>
+</g>
+<text x="5" y="427">
+Can substitute 2 cups of carrots and the potatoes or apples eliminated
+</text>
+</svg>

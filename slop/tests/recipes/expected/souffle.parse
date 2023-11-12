@@ -1,0 +1,250 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..704,
+                title: Some(
+                    "Souffle pancake with one egg",
+                ),
+                preamble: None,
+                comment: Some(
+                    "Makes 2 pancakes",
+                ),
+                root: UnaryOp {
+                    position: 642..685,
+                    operand: UnaryOp {
+                        position: 623..642,
+                        operand: UnaryOp {
+                            position: 617..623,
+                            operand: UnaryOp {
+                                position: 583..617,
+                                operand: BinaryOp {
+                                    position: 565..583,
+                                    first: BinaryOp {
+                                        position: 352..379,
+                                        first: UnaryOp {
+                                            position: 165..212,
+                                            operand: BinaryOp {
+                                                position: 152..165,
+                                                first: UnaryOp {
+                                                    position: 98..133,
+                                                    operand: BinaryOp {
+                                                        position: 89..98,
+                                                        first: Ingredient {
+                                                            position: 33..60,
+                                                            derived: false,
+                                                            quantities: [
+                                                                Number(
+                                                                    "3",
+                                                                ),
+                                                            ],
+                                                            unit: Some(
+                                                                "or 4 drops",
+                                                            ),
+                                                            text: "lemon juice",
+                                                        },
+                                                        second: UnaryOp {
+                                                            position: 68..89,
+                                                            operand: Ingredient {
+                                                                position: 60..68,
+                                                                derived: false,
+                                                                quantities: [
+                                                                    Number(
+                                                                        "1",
+                                                                    ),
+                                                                ],
+                                                                unit: None,
+                                                                text: "egg",
+                                                            },
+                                                            text: "separate keep white",
+                                                        },
+                                                        text: "stir in",
+                                                    },
+                                                    text: "beat at medium speed, until foamy",
+                                                },
+                                                second: Ingredient {
+                                                    position: 133..152,
+                                                    derived: false,
+                                                    quantities: [
+                                                        Number(
+                                                            "1",
+                                                        ),
+                                                        Fraction(
+                                                            "1/2",
+                                                        ),
+                                                    ],
+                                                    unit: Some(
+                                                        "tbsp",
+                                                    ),
+                                                    text: "sugar",
+                                                },
+                                                text: "sprinkle in",
+                                            },
+                                            text: "beat at medium speed 3m until firm peaks form",
+                                        },
+                                        second: BinaryOp {
+                                            position: 326..352,
+                                            first: BinaryOp {
+                                                position: 289..298,
+                                                first: BinaryOp {
+                                                    position: 255..271,
+                                                    first: BinaryOp {
+                                                        position: 238..241,
+                                                        first: Ingredient {
+                                                            position: 212..223,
+                                                            derived: true,
+                                                            quantities: [],
+                                                            unit: None,
+                                                            text: "egg yolk",
+                                                        },
+                                                        second: Ingredient {
+                                                            position: 223..238,
+                                                            derived: false,
+                                                            quantities: [
+                                                                Number(
+                                                                    "2",
+                                                                ),
+                                                            ],
+                                                            unit: Some(
+                                                                "tbsp",
+                                                            ),
+                                                            text: "flour",
+                                                        },
+                                                        text: "+",
+                                                    },
+                                                    second: Ingredient {
+                                                        position: 241..255,
+                                                        derived: false,
+                                                        quantities: [
+                                                            Number(
+                                                                "1",
+                                                            ),
+                                                        ],
+                                                        unit: Some(
+                                                            "tbsp",
+                                                        ),
+                                                        text: "milk",
+                                                    },
+                                                    text: "mix to combine",
+                                                },
+                                                second: Ingredient {
+                                                    position: 271..289,
+                                                    derived: false,
+                                                    quantities: [
+                                                        Fraction(
+                                                            "1/2",
+                                                        ),
+                                                    ],
+                                                    unit: Some(
+                                                        "tsp",
+                                                    ),
+                                                    text: "vanilla",
+                                                },
+                                                text: "stir in",
+                                            },
+                                            second: Ingredient {
+                                                position: 298..326,
+                                                derived: true,
+                                                quantities: [
+                                                    Fraction(
+                                                        "1/3",
+                                                    ),
+                                                ],
+                                                unit: Some(
+                                                    "of",
+                                                ),
+                                                text: "egg white mixture",
+                                            },
+                                            text: "mix with circular motion",
+                                        },
+                                        text: "fold in with flat spatula",
+                                    },
+                                    second: BinaryOp {
+                                        position: 544..565,
+                                        first: UnaryOp {
+                                            position: 500..530,
+                                            operand: BinaryOp {
+                                                position: 479..500,
+                                                first: BinaryOp {
+                                                    position: 433..465,
+                                                    first: UnaryOp {
+                                                        position: 391..407,
+                                                        operand: Ingredient {
+                                                            position: 379..391,
+                                                            derived: false,
+                                                            quantities: [
+                                                                Number(
+                                                                    "1",
+                                                                ),
+                                                            ],
+                                                            unit: Some(
+                                                                "tsp",
+                                                            ),
+                                                            text: "oil",
+                                                        },
+                                                        text: "heat in pan 1m",
+                                                    },
+                                                    second: Ingredient {
+                                                        position: 407..433,
+                                                        derived: true,
+                                                        quantities: [
+                                                            Fraction(
+                                                                "2/3",
+                                                            ),
+                                                        ],
+                                                        unit: Some(
+                                                            "of",
+                                                        ),
+                                                        text: "pancake mixture",
+                                                    },
+                                                    text: "scoop into pan as two pancakes",
+                                                },
+                                                second: Ingredient {
+                                                    position: 465..479,
+                                                    derived: false,
+                                                    quantities: [
+                                                        Number(
+                                                            "2",
+                                                        ),
+                                                    ],
+                                                    unit: Some(
+                                                        "tsp",
+                                                    ),
+                                                    text: "water",
+                                                },
+                                                text: "add to sides of pan",
+                                            },
+                                            text: "cover cook 2m on medium heat",
+                                        },
+                                        second: Ingredient {
+                                            position: 530..544,
+                                            derived: false,
+                                            quantities: [
+                                                Number(
+                                                    "1",
+                                                ),
+                                            ],
+                                            unit: Some(
+                                                "tsp",
+                                            ),
+                                            text: "water",
+                                        },
+                                        text: "add to sides of pan",
+                                    },
+                                    text: "place on top",
+                                },
+                                text: "cover cook 5m on medium low heat",
+                            },
+                            text: "flip",
+                        },
+                        text: "cover cook 5m",
+                    },
+                    text: "serve with fruit and syrup/powdered sugar",
+                },
+            },
+        ],
+    },
+    Errors(
+        [],
+    ),
+)

@@ -1,0 +1,62 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..37,
+                title: None,
+                preamble: None,
+                comment: None,
+                root: BinaryOp {
+                    position: 30..37,
+                    first: BinaryOp {
+                        position: 22..27,
+                        first: BinaryOp {
+                            position: 14..19,
+                            first: BinaryOp {
+                                position: 5..11,
+                                first: MissingOperand {
+                                    position: 5..5,
+                                },
+                                second: Ingredient {
+                                    position: 2..5,
+                                    derived: false,
+                                    quantities: [],
+                                    unit: None,
+                                    text: "a",
+                                },
+                                text: "zero",
+                            },
+                            second: Ingredient {
+                                position: 11..14,
+                                derived: false,
+                                quantities: [],
+                                unit: None,
+                                text: "b",
+                            },
+                            text: "one",
+                        },
+                        second: Ingredient {
+                            position: 19..22,
+                            derived: false,
+                            quantities: [],
+                            unit: None,
+                            text: "c",
+                        },
+                        text: "two",
+                    },
+                    second: Ingredient {
+                        position: 27..30,
+                        derived: false,
+                        quantities: [],
+                        unit: None,
+                        text: "d",
+                    },
+                    text: "three",
+                },
+            },
+        ],
+    },
+    Errors(
+        [],
+    ),
+)

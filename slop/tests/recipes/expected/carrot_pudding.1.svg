@@ -1,0 +1,193 @@
+<svg height="252" width="1290" xmlns="http://www.w3.org/2000/svg">
+<style>
+text {
+    font-family: monospace;
+    font-size: 16px;
+}
+rect {
+    stroke: black;
+    stroke-width: 1;
+    fill: green;
+    fill-opacity: 0;
+    stroke-opacity: 1;
+}
+</style>
+<text font-size="18px" font-style="bold" x="5" y="27">
+Cornstarch Pudding
+</text>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<g>
+<text x="0" y="32">
+<tspan dy="20" x="5">
+1/3 cup cornstarch 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="32"/>
+</g>
+<g>
+<text x="0" y="62">
+<tspan dy="20" x="5">
+1/2 tsp salt 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="62"/>
+</g>
+<g>
+<text x="0" y="92">
+<tspan dy="20" x="5">
+3/4 cup sugar 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="92"/>
+</g>
+<text x="200" y="62">
+<tspan dy="20" x="205">
+mix 
+</tspan>
+</text>
+<rect height="90" width="250" x="0" y="32"/>
+</g>
+<g>
+<text x="0" y="122">
+<tspan dy="20" x="5">
+1 cups milk 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="122"/>
+</g>
+<text x="250" y="67">
+<tspan dy="20" x="255">
+blend until 
+</tspan>
+<tspan dy="20" x="255">
+smooth 
+</tspan>
+</text>
+<rect height="120" width="380" x="0" y="32"/>
+</g>
+<g>
+<g>
+<text x="0" y="152">
+<tspan dy="20" x="5">
+3 cups milk 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="152"/>
+</g>
+<text x="200" y="152">
+<tspan dy="20" x="205">
+scald 
+</tspan>
+</text>
+<rect height="30" width="270" x="0" y="152"/>
+</g>
+<text x="380" y="92">
+<tspan dy="20" x="385">
+combine 
+</tspan>
+</text>
+<rect height="150" width="470" x="0" y="32"/>
+</g>
+<text x="470" y="42">
+<tspan dy="20" x="475">
+stir 
+</tspan>
+<tspan dy="20" x="475">
+constantly 
+</tspan>
+<tspan dy="20" x="475">
+over direct 
+</tspan>
+<tspan dy="20" x="475">
+heat until it 
+</tspan>
+<tspan dy="20" x="475">
+boils and 
+</tspan>
+<tspan dy="20" x="475">
+thickens 
+</tspan>
+</text>
+<rect height="150" width="620" x="0" y="32"/>
+</g>
+<text x="620" y="82">
+<tspan dy="20" x="625">
+place over 
+</tspan>
+<tspan dy="20" x="625">
+boiling water 
+</tspan>
+</text>
+<rect height="150" width="770" x="0" y="32"/>
+</g>
+<text x="770" y="52">
+<tspan dy="20" x="775">
+cover and 
+</tspan>
+<tspan dy="20" x="775">
+cook 10m 
+</tspan>
+<tspan dy="20" x="775">
+longer 
+</tspan>
+<tspan dy="20" x="775">
+stirring 
+</tspan>
+<tspan dy="20" x="775">
+occasionally 
+</tspan>
+</text>
+<rect height="150" width="910" x="0" y="32"/>
+</g>
+<text x="910" y="82">
+<tspan dy="20" x="915">
+remove from 
+</tspan>
+<tspan dy="20" x="915">
+heat 
+</tspan>
+</text>
+<rect height="150" width="1040" x="0" y="32"/>
+</g>
+<g>
+<text x="0" y="182">
+<tspan dy="20" x="5">
+1/4 cup butter 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="182"/>
+</g>
+<g>
+<text x="0" y="212">
+<tspan dy="20" x="5">
+1 tsp vanilla 
+</tspan>
+</text>
+<rect height="30" width="200" x="0" y="212"/>
+</g>
+<text x="1040" y="122">
+<tspan dy="20" x="1045">
+stir in 
+</tspan>
+</text>
+<rect height="210" width="1130" x="0" y="32"/>
+</g>
+<text x="1130" y="112">
+<tspan dy="20" x="1135">
+cover to cool 
+</tspan>
+<tspan dy="20" x="1135">
+5m 
+</tspan>
+</text>
+<rect height="210" width="1280" x="0" y="32"/>
+</g>
+</svg>

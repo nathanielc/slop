@@ -1,0 +1,35 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..0,
+                title: None,
+                preamble: None,
+                comment: None,
+                root: BinaryOp {
+                    position: 2..4,
+                    first: MissingOperand {
+                        position: 2..2,
+                    },
+                    second: MissingOperand {
+                        position: 2..2,
+                    },
+                    text: "",
+                },
+            },
+        ],
+    },
+    Errors(
+        [
+            ParseError(
+                UnexpectedToken(
+                    ">",
+                    4..4,
+                ),
+            ),
+            ParseError(
+                UnexpectedEOF,
+            ),
+        ],
+    ),
+)

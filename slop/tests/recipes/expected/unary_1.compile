@@ -1,0 +1,42 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..22,
+                title: None,
+                preamble: None,
+                comment: None,
+                root: Operator {
+                    position: 15..22,
+                    text: "three",
+                    operands: [
+                        Operator {
+                            position: 10..15,
+                            text: "two",
+                            operands: [
+                                Operator {
+                                    position: 5..10,
+                                    text: "one",
+                                    operands: [
+                                        Ingredient(
+                                            Ingredient {
+                                                position: 2..5,
+                                                derived: false,
+                                                quantities: None,
+                                                unit: None,
+                                                text: "a",
+                                            },
+                                        ),
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            },
+        ],
+    },
+    Errors(
+        [],
+    ),
+)

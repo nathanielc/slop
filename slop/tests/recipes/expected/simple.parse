@@ -1,0 +1,104 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..176,
+                title: None,
+                preamble: None,
+                comment: None,
+                root: BinaryOp {
+                    position: 153..176,
+                    first: BinaryOp {
+                        position: 124..130,
+                        first: BinaryOp {
+                            position: 90..109,
+                            first: UnaryOp {
+                                position: 66..73,
+                                operand: BinaryOp {
+                                    position: 50..66,
+                                    first: UnaryOp {
+                                        position: 17..23,
+                                        operand: Ingredient {
+                                            position: 2..17,
+                                            derived: false,
+                                            quantities: [
+                                                Number(
+                                                    "6",
+                                                ),
+                                            ],
+                                            unit: Some(
+                                                "cups",
+                                            ),
+                                            text: "water",
+                                        },
+                                        text: "boil",
+                                    },
+                                    second: Ingredient {
+                                        position: 23..50,
+                                        derived: false,
+                                        quantities: [
+                                            Number(
+                                                "2",
+                                            ),
+                                        ],
+                                        unit: Some(
+                                            "cups",
+                                        ),
+                                        text: "macarroni noodles",
+                                    },
+                                    text: "boil till soft",
+                                },
+                                text: "drain",
+                            },
+                            second: Ingredient {
+                                position: 73..90,
+                                derived: false,
+                                quantities: [
+                                    Fraction(
+                                        "1/4",
+                                    ),
+                                ],
+                                unit: Some(
+                                    "cup",
+                                ),
+                                text: "butter",
+                            },
+                            text: "stir until melted",
+                        },
+                        second: Ingredient {
+                            position: 109..124,
+                            derived: false,
+                            quantities: [
+                                Fraction(
+                                    "1/3",
+                                ),
+                            ],
+                            unit: Some(
+                                "cup",
+                            ),
+                            text: "milk",
+                        },
+                        text: "stir",
+                    },
+                    second: Ingredient {
+                        position: 130..153,
+                        derived: false,
+                        quantities: [
+                            Number(
+                                "1",
+                            ),
+                        ],
+                        unit: Some(
+                            "pouch",
+                        ),
+                        text: "dried cheese",
+                    },
+                    text: "stir until well mixed",
+                },
+            },
+        ],
+    },
+    Errors(
+        [],
+    ),
+)

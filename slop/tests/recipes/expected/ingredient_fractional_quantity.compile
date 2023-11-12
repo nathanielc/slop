@@ -1,0 +1,31 @@
+(
+    SourceFile {
+        recipes: [
+            Recipe {
+                position: 0..20,
+                title: None,
+                preamble: None,
+                comment: None,
+                root: Ingredient(
+                    Ingredient {
+                        position: 2..20,
+                        derived: false,
+                        quantities: Some(
+                            (
+                                "1 1/3",
+                                1.3333333333333333,
+                            ),
+                        ),
+                        unit: Some(
+                            "cups",
+                        ),
+                        text: "milk",
+                    },
+                ),
+            },
+        ],
+    },
+    Errors(
+        [],
+    ),
+)

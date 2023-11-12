@@ -35,7 +35,7 @@ fn find_ingredients(op: &Operand) -> Vec<(String, Amounts)> {
             vec![(ing.text.to_owned(), amounts)]
         }
         Operand::Operator { operands, .. } => operands.iter().flat_map(find_ingredients).collect(),
-        Operand::MissingOperand { position } => todo!(),
-        Operand::UnusedOperands { position, operands } => todo!(),
+        Operand::MissingOperand { .. } => vec![],
+        Operand::UnusedOperands { .. } => vec![],
     }
 }
