@@ -29,3 +29,7 @@
 .my-recipes tbody tr:nth-child(odd) {
   background-color: #e0e0e0;
 }
+
+.recipe-card {
+    overflow-x: auto;
+}
