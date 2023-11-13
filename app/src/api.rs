@@ -1,7 +1,7 @@
 use gloo::utils::format::JsValueSerdeExt;
-use log::debug;
 use serde::{Deserialize, Serialize};
 use std::{
+    cell::RefCell,
     error::Error,
     fmt::{self, Debug, Display, Formatter},
 };
@@ -259,17 +259,23 @@ pub struct Author {
 #[derive(Clone, Debug, PartialEq)]
 pub struct ApiHandle {
     api: Api,
+    whoami: RefCell<Option<Author>>,
 }
 
 impl ApiHandle {
     pub fn new(address: String) -> Self {
         Self {
             api: Api::new(JsValue::from(address)),
+            whoami: RefCell::new(None),
         }
+    }
+    pub fn whoami(&self) -> impl std::ops::Deref<Target = Option<Author>> + '_ {
+        self.whoami.borrow()
     }
     async fn ensure_authenticated(&self) -> Result<(), FetchError> {
         if !self.is_authenticated().await? {
-            self.authenticate().await?;
+            let author = self.authenticate().await?;
+            *self.whoami.borrow_mut() = Some(author);
         }
         Ok(())
     }
@@ -278,9 +284,10 @@ impl ApiHandle {
         let result: bool = res.into_serde()?;
         Ok(result)
     }
-    pub async fn authenticate(&self) -> Result<(), FetchError> {
-        let _res = self.api.authenticate().await?;
-        Ok(())
+    pub async fn authenticate(&self) -> Result<Author, FetchError> {
+        let res = self.api.authenticate().await?;
+        let result: Author = res.into_serde()?;
+        Ok(result)
     }
     pub async fn fetch_my_menu(&self) -> Result<Menu, FetchError> {
         self.ensure_authenticated().await?;
@@ -293,7 +300,6 @@ impl ApiHandle {
         Ok(value.into_serde()?)
     }
     pub async fn fetch_book_entries(&self, tag: String) -> Result<BookEntries, FetchError> {
-        debug!("fetch_book_entries {}", tag);
         self.ensure_authenticated().await?;
         let value = self
             .api
@@ -302,12 +308,10 @@ impl ApiHandle {
         value.try_into()
     }
     pub async fn fetch_recipe(&self, id: String) -> Result<Recipe, FetchError> {
-        self.ensure_authenticated().await?;
         let value = self.api.fetch_recipe(JsValue::from(id)).await?;
         value.try_into()
     }
     pub async fn fetch_all_recipes(&self, page: &Page) -> Result<Recipes, FetchError> {
-        self.ensure_authenticated().await?;
         let value = self
             .api
             .fetch_all_recipes(JsValue::from_serde(page)?)
@@ -330,12 +334,12 @@ impl ApiHandle {
         Ok(())
     }
 
-    pub async fn create_recipe(&self, source: String) -> Result<(), FetchError> {
+    pub async fn create_recipe(&self, source: String) -> Result<String, FetchError> {
         self.ensure_authenticated().await?;
         let create = RecipeCreate { source };
         let js_create = JsValue::from_serde(&create)?;
-        let _res = self.api.create_recipe(js_create).await?;
-        Ok(())
+        let id = self.api.create_recipe(js_create).await?;
+        Ok(id.into_serde()?)
     }
 
     pub async fn update_recipe(&self, id: &str, update: &RecipeUpdate) -> Result<(), FetchError> {
