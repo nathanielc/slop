@@ -1,4 +1,3 @@
-use log::debug;
 use patternfly_yew::prelude::{
     Backdrop, Backdropper, Button, ButtonVariant, Content, DescriptionGroup, DescriptionList, Flex,
     FlexItem, Spinner, Stack, StackItem, Tooltip,
@@ -303,7 +302,6 @@ impl Component for Recipe {
                 };
 
                 let edit = if let Some(ref me) = *self.api_context.api().whoami() {
-                    debug!("edit? {me:?} {:?}", recipe.author);
                     if me == &recipe.author {
                         let onclick = ctx.link().callback(|_| Msg::Edit);
                         Some(html! {
