@@ -4,23 +4,26 @@ use patternfly_yew::prelude::{
 };
 use web_sys::HtmlInputElement;
 use yew::{html, Component, Context, Html, NodeRef};
+use yew_nested_router::prelude::RouterContext;
 
-use crate::{api::FetchState, api_context::ApiContext, slop::recipe_title};
+use crate::{api::FetchState, api_context::ApiContext, app::Route, slop::recipe_title};
 
 pub enum Msg {
-    SetFetchState(FetchState<()>),
+    SetFetchState(FetchState<String>),
     CreateRecipe,
     Update,
-    ContextUpdate(ApiContext),
+    ApiUpdate(ApiContext),
+    RouterUpdate(RouterContext<Route>),
 }
 
 pub struct NewRecipe {
-    fetch_state: FetchState<()>,
+    fetch_state: FetchState<String>,
     node_ref: NodeRef,
     api_context: ApiContext,
+    router: RouterContext<Route>,
 
-    source: String,
-    title: String,
+    source: Option<String>,
+    title: Option<String>,
 }
 
 impl Component for NewRecipe {
@@ -30,13 +33,18 @@ impl Component for NewRecipe {
     fn create(ctx: &Context<Self>) -> Self {
         let (api_context, _) = ctx
             .link()
-            .context::<ApiContext>(ctx.link().callback(Msg::ContextUpdate))
+            .context::<ApiContext>(ctx.link().callback(Msg::ApiUpdate))
+            .expect("context should exist");
+        let (router, _) = ctx
+            .link()
+            .context::<RouterContext<Route>>(ctx.link().callback(Msg::RouterUpdate))
             .expect("context should exist");
         Self {
             fetch_state: FetchState::NotFetching,
             node_ref: NodeRef::default(),
-            source: "".to_string(),
-            title: "".to_string(),
+            router,
+            source: None,
+            title: None,
             api_context,
         }
     }
@@ -46,6 +54,9 @@ impl Component for NewRecipe {
         match msg {
             Msg::SetFetchState(fetch_state) => {
                 self.fetch_state = fetch_state;
+                if let FetchState::Success(id) = &self.fetch_state {
+                    self.router.push(Route::Recipe { id: id.clone() });
+                }
                 true
             }
             Msg::CreateRecipe => {
@@ -67,17 +78,19 @@ impl Component for NewRecipe {
                 let textarea = self.node_ref.cast::<HtmlInputElement>();
                 if let Some(textarea) = textarea {
                     let src = textarea.value();
-                    if let Some(title) = recipe_title(src.as_str()) {
-                        self.title = title;
-                    }
-                    self.source = src;
+                    self.title = recipe_title(&src);
+                    self.source = Some(src);
                     true
                 } else {
                     false
                 }
             }
-            Msg::ContextUpdate(api_context) => {
+            Msg::ApiUpdate(api_context) => {
                 self.api_context = api_context;
+                false
+            }
+            Msg::RouterUpdate(router) => {
+                self.router = router;
                 false
             }
         }

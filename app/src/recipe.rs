@@ -1,3 +1,4 @@
+use log::debug;
 use patternfly_yew::prelude::{
     Backdrop, Backdropper, Button, ButtonVariant, Content, DescriptionGroup, DescriptionList, Flex,
     FlexItem, Spinner, Stack, StackItem, Tooltip,
@@ -30,6 +31,7 @@ pub enum Msg {
     AddToMenu,
     RemoveFromMenu,
     SaveMenu,
+    Edit,
 }
 
 enum State {
@@ -230,6 +232,12 @@ impl Component for Recipe {
                     .send_message(Msg::SetMenuSaveState(FetchState::Fetching));
                 false
             }
+            Msg::Edit => {
+                self.router.push(Route::EditRecipe {
+                    id: self.id.clone(),
+                });
+                true
+            }
         }
     }
 
@@ -294,6 +302,26 @@ impl Component for Recipe {
                     }
                 };
 
+                let edit = if let Some(ref me) = *self.api_context.api().whoami() {
+                    debug!("edit? {me:?} {:?}", recipe.author);
+                    if me == &recipe.author {
+                        let onclick = ctx.link().callback(|_| Msg::Edit);
+                        Some(html! {
+                            <Tooltip text={"Edit this recipe."}>
+                                <Button
+                                    label="Edit"
+                                    variant={ButtonVariant::Secondary}
+                                    {onclick}
+                                />
+                            </Tooltip>
+                        })
+                    } else {
+                        None
+                    }
+                } else {
+                    None
+                };
+
                 html! {
                     <Stack>
                         <StackItem>
@@ -326,6 +354,9 @@ impl Component for Recipe {
                                     </FlexItem>
                                     <FlexItem>
                                         {remove_from_menu}
+                                    </FlexItem>
+                                    <FlexItem>
+                                        {edit}
                                     </FlexItem>
                                 </Flex>
                             </div>

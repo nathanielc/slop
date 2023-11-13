@@ -65026,6 +65026,9 @@ var Api = class {
     const authMethod = await EthereumWebAuth.getAuthMethod(ethProvider, accountId);
     this.session = await this.loadSession(authMethod);
     this.composedb.setDID(this.session.did);
+    return {
+      id: this.composedb.id
+    };
   }
   async fetch_my_menu() {
     console.log("fetch_my_menu");

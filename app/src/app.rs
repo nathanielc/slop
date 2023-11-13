@@ -6,7 +6,7 @@ use yew::prelude::*;
 use yew_nested_router::prelude::*;
 
 use crate::{
-    api_context::ApiProvider, book::Book, discover::Discover, menu::Menu,
+    api_context::ApiProvider, book::Book, discover::Discover, edit_recipe::EditRecipe, menu::Menu,
     menu_context::MenuProvider, my_recipes::MyRecipes, new_recipe::NewRecipe, recipe::Recipe,
     settings::Settings,
 };
@@ -17,6 +17,9 @@ pub enum Route {
     Menu,
     NewRecipe,
     Recipe {
+        id: String,
+    },
+    EditRecipe {
         id: String,
     },
     Discover,
@@ -48,6 +51,7 @@ fn switch(target: Route) -> Html {
         Route::Menu => html!(<AppPage><Menu /></AppPage>),
         Route::NewRecipe => html!(<AppPage><NewRecipe /></AppPage>),
         Route::Recipe { id } => html!(<AppPage><Recipe id={id}/></AppPage>),
+        Route::EditRecipe { id } => html!(<AppPage><EditRecipe id={id}/></AppPage>),
         Route::Discover => html!(<AppPage><Discover/></AppPage>),
         Route::MyRecipes => html!(<AppPage><MyRecipes/></AppPage>),
         Route::Book => html!(<AppPage><Book/></AppPage>),

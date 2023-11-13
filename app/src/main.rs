@@ -4,6 +4,7 @@ mod api_context;
 mod app;
 mod book;
 mod discover;
+mod edit_recipe;
 mod menu;
 mod menu_context;
 mod my_recipes;
