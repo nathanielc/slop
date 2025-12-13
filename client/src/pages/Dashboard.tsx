@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { RecipeCard, RecipeCardProps } from "@/components/RecipeCard";
 import { StatsCard } from "@/components/StatsCard";
-import { ChefHat, Globe, Tag, TrendingUp } from "lucide-react";
+import { ChefHat, Globe, Tag } from "lucide-react";
 
 interface DashboardProps {
   username: string;
@@ -47,7 +47,7 @@ export function Dashboard({ username, onRecipeClick }: DashboardProps) {
         <p className="text-muted-foreground mt-1">Here's what's cooking in your kitchen</p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-3">
         <StatsCard
           title="Total Recipes"
           value={24}
@@ -65,12 +65,6 @@ export function Dashboard({ username, onRecipeClick }: DashboardProps) {
           value={8}
           icon={Tag}
           description="For organization"
-        />
-        <StatsCard
-          title="Views This Week"
-          value={156}
-          icon={TrendingUp}
-          description="Up 12% from last week"
         />
       </div>
 
