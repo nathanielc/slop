@@ -7,7 +7,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Check, Plus, Tag } from "lucide-react";
+import { Check, Plus, BookMarked } from "lucide-react";
 
 export interface TagSelectorProps {
   availableTags: string[];
@@ -45,9 +45,9 @@ export function TagSelector({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="outline" className="gap-2" data-testid="button-tag-selector">
-          <Tag className="h-4 w-4" />
-          {selectedTags.length > 0 ? `${selectedTags.length} tags` : "Select tags"}
+        <Button variant="outline" className="gap-2" data-testid="button-chapter-selector">
+          <BookMarked className="h-4 w-4" />
+          {selectedTags.length > 0 ? `${selectedTags.length} chapters` : "Select chapters"}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-64 p-2" align="start">
@@ -60,7 +60,7 @@ export function TagSelector({
                   key={tag}
                   onClick={() => toggleTag(tag)}
                   className="w-full flex items-center justify-between px-2 py-1.5 text-sm rounded-md hover-elevate active-elevate-2"
-                  data-testid={`tag-option-${tag}`}
+                  data-testid={`chapter-option-${tag}`}
                 >
                   <span>{tag}</span>
                   {isSelected && <Check className="h-4 w-4 text-primary" />}
@@ -73,19 +73,19 @@ export function TagSelector({
               <div className="border-t pt-2">
                 <div className="flex gap-1">
                   <Input
-                    placeholder="New tag..."
+                    placeholder="New chapter..."
                     value={newTagValue}
                     onChange={(e) => setNewTagValue(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleCreateTag()}
                     className="h-8 text-sm"
-                    data-testid="input-create-tag"
+                    data-testid="input-create-chapter"
                   />
                   <Button
                     size="icon"
                     variant="ghost"
                     onClick={handleCreateTag}
                     className="h-8 w-8 shrink-0"
-                    data-testid="button-create-tag"
+                    data-testid="button-create-chapter"
                   >
                     <Plus className="h-4 w-4" />
                   </Button>

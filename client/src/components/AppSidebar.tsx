@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Home, ChefHat, Globe, BookOpen, Plus, Tag, Settings } from "lucide-react";
+import { Home, ChefHat, Globe, BookOpen, Plus, BookMarked, Settings } from "lucide-react";
 
 interface NavItem {
   title: string;
@@ -120,7 +120,7 @@ export function AppSidebar({ username, initials, tags, onNewRecipe }: AppSidebar
                       href={`/chapter/${encodeURIComponent(tag.name)}`}
                       data-testid={`nav-chapter-${tag.name.toLowerCase().replace(/\s+/g, "-")}`}
                     >
-                      <Tag className="h-4 w-4" />
+                      <BookMarked className="h-4 w-4" />
                       <span>{tag.name}</span>
                       <Badge variant="outline" className="ml-auto text-xs">
                         {tag.count}
@@ -131,7 +131,7 @@ export function AppSidebar({ username, initials, tags, onNewRecipe }: AppSidebar
               ))}
               {tags.length === 0 && (
                 <p className="px-4 py-2 text-sm text-muted-foreground">
-                  No chapters yet. Tag recipes to create chapters.
+                  No chapters yet. Assign recipes to chapters to organize your book.
                 </p>
               )}
             </SidebarMenu>

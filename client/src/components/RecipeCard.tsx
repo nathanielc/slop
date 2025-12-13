@@ -57,14 +57,14 @@ export function RecipeCard({
         </p>
         {tags.length > 0 && (
           <div className="flex flex-wrap gap-1">
-            {tags.slice(0, 4).map((tag) => (
-              <Badge key={tag} variant="outline" className="rounded-full text-xs">
-                {tag}
+            {tags.slice(0, 4).map((chapter) => (
+              <Badge key={chapter} variant="outline" className="rounded-full text-xs">
+                {chapter}
               </Badge>
             ))}
             {tags.length > 4 && (
               <Badge variant="outline" className="rounded-full text-xs">
-                +{tags.length - 4}
+                +{tags.length - 4} more
               </Badge>
             )}
           </div>

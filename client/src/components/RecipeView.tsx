@@ -118,9 +118,9 @@ export function RecipeView({
           </div>
           {tags.length > 0 && (
             <div className="flex flex-wrap gap-2">
-              {tags.map((tag) => (
-                <Badge key={tag} variant="outline" className="rounded-full">
-                  {tag}
+              {tags.map((chapter) => (
+                <Badge key={chapter} variant="outline" className="rounded-full">
+                  {chapter}
                 </Badge>
               ))}
             </div>

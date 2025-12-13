@@ -110,7 +110,7 @@ export function RecipeEditor({
         </div>
 
         <div className="space-y-2">
-          <Label>Tags</Label>
+          <Label>Chapters</Label>
           <div className="flex flex-wrap gap-2 mb-2">
             {tags.map((tag) => (
               <Badge key={tag} variant="secondary" className="gap-1">
@@ -118,7 +118,7 @@ export function RecipeEditor({
                 <button
                   onClick={() => handleRemoveTag(tag)}
                   className="ml-1 rounded-full hover-elevate"
-                  data-testid={`button-remove-tag-${tag}`}
+                  data-testid={`button-remove-chapter-${tag}`}
                 >
                   <X className="h-3 w-3" />
                 </button>
@@ -127,19 +127,19 @@ export function RecipeEditor({
           </div>
           <div className="flex gap-2">
             <Input
-              placeholder="Add a tag..."
+              placeholder="Add to chapter..."
               value={newTag}
               onChange={(e) => setNewTag(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), handleAddTag())}
               className="max-w-[200px]"
-              data-testid="input-new-tag"
+              data-testid="input-new-chapter"
             />
             <Button
               type="button"
               variant="outline"
               size="icon"
               onClick={handleAddTag}
-              data-testid="button-add-tag"
+              data-testid="button-add-chapter"
             >
               <Plus className="h-4 w-4" />
             </Button>

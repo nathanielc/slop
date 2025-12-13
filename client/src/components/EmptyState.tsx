@@ -27,7 +27,7 @@ const config: Record<
   "empty-book": {
     icon: BookOpen,
     title: "This chapter is empty",
-    description: "Add recipes to this chapter by tagging them.",
+    description: "Assign recipes to this chapter to see them here.",
     action: "Browse Recipes",
   },
   "no-results": {
