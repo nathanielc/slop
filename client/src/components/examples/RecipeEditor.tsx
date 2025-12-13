@@ -3,8 +3,9 @@ import { RecipeEditor } from "../RecipeEditor";
 export default function RecipeEditorExample() {
   return (
     <RecipeEditor
-      initialTitle="Grandma's Apple Pie"
-      initialContent={`## Ingredients
+      initialContent={`# Grandma's Apple Pie
+
+## Ingredients
 - 6 cups sliced apples
 - 3/4 cup sugar
 - 2 tbsp flour

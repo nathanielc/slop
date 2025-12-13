@@ -9,7 +9,6 @@ import { Badge } from "@/components/ui/badge";
 import { Save, Trash2, X, Plus, Globe, Lock } from "lucide-react";
 
 export interface RecipeEditorProps {
-  initialTitle?: string;
   initialContent?: string;
   initialTags?: string[];
   initialIsPublic?: boolean;
@@ -19,8 +18,13 @@ export interface RecipeEditorProps {
   isNew?: boolean;
 }
 
+function parseTitle(content: string): string {
+  const lines = content.split('\n');
+  const titleMatch = lines[0]?.match(/^#\s*(.+)/) || lines[0]?.match(/^(.+)/);
+  return titleMatch?.[1]?.trim() || "Untitled Recipe";
+}
+
 export function RecipeEditor({
-  initialTitle = "",
   initialContent = "",
   initialTags = [],
   initialIsPublic = false,
@@ -29,11 +33,12 @@ export function RecipeEditor({
   onCancel,
   isNew = false,
 }: RecipeEditorProps) {
-  const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);
   const [tags, setTags] = useState<string[]>(initialTags);
   const [isPublic, setIsPublic] = useState(initialIsPublic);
   const [newTag, setNewTag] = useState("");
+
+  const title = parseTitle(content);
 
   const handleAddTag = () => {
     const trimmed = newTag.trim();
@@ -54,9 +59,12 @@ export function RecipeEditor({
   return (
     <Card className="w-full">
       <CardHeader className="flex flex-row items-center justify-between gap-4">
-        <CardTitle className="font-serif text-2xl">
-          {isNew ? "New Recipe" : "Edit Recipe"}
-        </CardTitle>
+        <div className="space-y-1">
+          <p className="text-sm text-muted-foreground">{isNew ? "New Recipe" : "Edit Recipe"}</p>
+          <CardTitle className="font-serif text-2xl" data-testid="text-parsed-title">
+            {title}
+          </CardTitle>
+        </div>
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-2">
             {isPublic ? (
@@ -78,19 +86,7 @@ export function RecipeEditor({
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="space-y-2">
-          <Label htmlFor="recipe-title">Title</Label>
-          <Input
-            id="recipe-title"
-            placeholder="Recipe title..."
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="font-serif text-lg"
-            data-testid="input-recipe-title"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="recipe-content">Recipe</Label>
+          <Label htmlFor="recipe-content">Recipe (first line becomes the title)</Label>
           <Textarea
             id="recipe-content"
             placeholder="Enter your recipe here...

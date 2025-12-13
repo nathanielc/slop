@@ -59,8 +59,7 @@ export function RecipeDetail({ recipeId, username, onBack }: RecipeDetailProps) 
           Back to recipe
         </Button>
         <RecipeEditor
-          initialTitle={recipe.title}
-          initialContent={recipe.content}
+          initialContent={`# ${recipe.title}\n\n${recipe.content}`}
           initialTags={recipe.tags}
           initialIsPublic={recipe.isPublic}
           onSave={(data) => {
