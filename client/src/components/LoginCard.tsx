@@ -14,7 +14,7 @@ export function LoginCard({ onLogin }: LoginCardProps) {
           <div className="mx-auto rounded-full bg-primary/10 p-4 w-fit">
             <ChefHat className="h-12 w-12 text-primary" />
           </div>
-          <CardTitle className="font-serif text-3xl">RecipeBook</CardTitle>
+          <CardTitle className="font-serif text-3xl">Trough</CardTitle>
           <CardDescription className="text-base">
             Your personal recipe collection. Create, organize, and share your favorite recipes.
           </CardDescription>

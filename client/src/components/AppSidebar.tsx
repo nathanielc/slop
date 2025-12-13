@@ -107,7 +107,7 @@ export function AppSidebar({ username, initials, profileImageUrl, tags, onNewRec
           <SidebarGroupLabel>
             <div className="flex items-center gap-2">
               <BookOpen className="h-4 w-4" />
-              <span>My Recipe Book</span>
+              <span>My Chapters</span>
             </div>
           </SidebarGroupLabel>
           <SidebarGroupContent>

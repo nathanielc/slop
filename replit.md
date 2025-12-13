@@ -1,8 +1,8 @@
-# RecipeBook - Personal Recipe Management Platform
+# Trough - Personal Recipe Management Platform
 
 ## Overview
 
-RecipeBook is a full-stack web application for creating, organizing, and sharing recipes. Users can build their personal recipe collections, organize them into chapters (like cookbook sections), and optionally share recipes publicly. The app features a clean, content-first design inspired by Notion and NYT Cooking, with support for generating print-ready SVG visualizations of recipes.
+Trough is a full-stack web application for creating, organizing, and sharing recipes. Users can build their personal recipe collections, organize them into chapters (like cookbook sections), and optionally share recipes publicly. The app features a clean, content-first design inspired by Notion and NYT Cooking, with support for generating print-ready SVG visualizations of recipes.
 
 ## User Preferences
 
