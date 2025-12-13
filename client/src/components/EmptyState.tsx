@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { BookOpen, ChefHat, Globe, Search } from "lucide-react";
+import { TroughIcon } from "@/components/TroughIcon";
+import { BookOpen, Globe, Search } from "lucide-react";
+import type { ComponentType } from "react";
 
 export type EmptyStateType = "no-recipes" | "no-public" | "empty-book" | "no-results";
 
@@ -10,12 +12,12 @@ export interface EmptyStateProps {
 
 const config: Record<
   EmptyStateType,
-  { icon: typeof ChefHat; title: string; description: string; action?: string }
+  { icon: ComponentType<{ className?: string }>; title: string; description: string; action?: string }
 > = {
   "no-recipes": {
-    icon: ChefHat,
+    icon: TroughIcon,
     title: "No recipes yet",
-    description: "Start building your recipe collection by creating your first recipe.",
+    description: "Start building your recipe collection by adding your first recipe to the trough.",
     action: "Create Recipe",
   },
   "no-public": {

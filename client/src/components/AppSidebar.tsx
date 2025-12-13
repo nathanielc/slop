@@ -13,12 +13,14 @@ import {
 } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Home, ChefHat, Globe, BookOpen, Plus, BookMarked, Settings } from "lucide-react";
+import { Home, Globe, BookOpen, Plus, BookMarked, Settings } from "lucide-react";
+import { TroughIcon } from "@/components/TroughIcon";
+import type { ComponentType } from "react";
 
 interface NavItem {
   title: string;
   url: string;
-  icon: typeof Home;
+  icon: ComponentType<{ className?: string }>;
   badge?: number;
 }
 
@@ -37,7 +39,7 @@ export interface AppSidebarProps {
 
 const mainNavItems: NavItem[] = [
   { title: "Dashboard", url: "/", icon: Home },
-  { title: "My Recipes", url: "/recipes", icon: ChefHat },
+  { title: "My Recipes", url: "/recipes", icon: TroughIcon },
   { title: "Public Recipes", url: "/public", icon: Globe },
 ];
 

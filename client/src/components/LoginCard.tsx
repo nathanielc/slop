@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ChefHat } from "lucide-react";
+import { TroughIcon } from "@/components/TroughIcon";
 
 export interface LoginCardProps {
   onLogin?: () => void;
@@ -12,7 +12,7 @@ export function LoginCard({ onLogin }: LoginCardProps) {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center space-y-4">
           <div className="mx-auto rounded-full bg-primary/10 p-4 w-fit">
-            <ChefHat className="h-12 w-12 text-primary" />
+            <TroughIcon className="h-12 w-12 text-primary" />
           </div>
           <CardTitle className="font-serif text-3xl">Trough</CardTitle>
           <CardDescription className="text-base">

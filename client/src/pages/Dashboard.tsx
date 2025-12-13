@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { RecipeCard } from "@/components/RecipeCard";
 import { StatsCard } from "@/components/StatsCard";
-import { ChefHat, Globe } from "lucide-react";
+import { TroughIcon } from "@/components/TroughIcon";
+import { Globe } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import type { Recipe } from "@shared/schema";
 
@@ -46,8 +47,8 @@ export function Dashboard({ username, onRecipeClick }: DashboardProps) {
         <StatsCard
           title="Total Recipes"
           value={stats?.totalRecipes ?? 0}
-          icon={ChefHat}
-          description="In your recipe book"
+          icon={TroughIcon}
+          description="In your trough"
         />
         <StatsCard
           title="Public Recipes"
