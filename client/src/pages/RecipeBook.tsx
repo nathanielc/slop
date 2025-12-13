@@ -8,8 +8,8 @@ interface RecipeBookProps {
   tagName: string;
   username: string;
   onRecipeClick?: (id: string) => void;
-  onEditTag?: () => void;
-  onDeleteTag?: () => void;
+  onEditChapter?: () => void;
+  onDeleteChapter?: () => void;
   onBrowseRecipes?: () => void;
 }
 
@@ -17,8 +17,8 @@ export function RecipeBook({
   tagName,
   username,
   onRecipeClick,
-  onEditTag,
-  onDeleteTag,
+  onEditChapter,
+  onDeleteChapter,
   onBrowseRecipes,
 }: RecipeBookProps) {
   const initials = username.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase();
@@ -91,10 +91,10 @@ export function RecipeBook({
           </Badge>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" size="icon" onClick={onEditTag} data-testid="button-edit-tag">
+          <Button variant="outline" size="icon" onClick={onEditChapter} data-testid="button-edit-chapter">
             <Pencil className="h-4 w-4" />
           </Button>
-          <Button variant="outline" size="icon" onClick={onDeleteTag} data-testid="button-delete-tag">
+          <Button variant="outline" size="icon" onClick={onDeleteChapter} data-testid="button-delete-chapter">
             <Trash2 className="h-4 w-4" />
           </Button>
         </div>

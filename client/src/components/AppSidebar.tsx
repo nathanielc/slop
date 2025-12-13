@@ -105,7 +105,7 @@ export function AppSidebar({ username, initials, tags, onNewRecipe }: AppSidebar
           <SidebarGroupLabel>
             <div className="flex items-center gap-2">
               <BookOpen className="h-4 w-4" />
-              <span>Recipe Books</span>
+              <span>My Recipe Book</span>
             </div>
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -114,11 +114,11 @@ export function AppSidebar({ username, initials, tags, onNewRecipe }: AppSidebar
                 <SidebarMenuItem key={tag.name}>
                   <SidebarMenuButton
                     asChild
-                    isActive={location === `/book/${encodeURIComponent(tag.name)}`}
+                    isActive={location === `/chapter/${encodeURIComponent(tag.name)}`}
                   >
                     <Link
-                      href={`/book/${encodeURIComponent(tag.name)}`}
-                      data-testid={`nav-book-${tag.name.toLowerCase().replace(/\s+/g, "-")}`}
+                      href={`/chapter/${encodeURIComponent(tag.name)}`}
+                      data-testid={`nav-chapter-${tag.name.toLowerCase().replace(/\s+/g, "-")}`}
                     >
                       <Tag className="h-4 w-4" />
                       <span>{tag.name}</span>
@@ -131,7 +131,7 @@ export function AppSidebar({ username, initials, tags, onNewRecipe }: AppSidebar
               ))}
               {tags.length === 0 && (
                 <p className="px-4 py-2 text-sm text-muted-foreground">
-                  No tags yet. Create tags to organize your recipes.
+                  No chapters yet. Tag recipes to create chapters.
                 </p>
               )}
             </SidebarMenu>

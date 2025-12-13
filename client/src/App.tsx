@@ -86,14 +86,14 @@ function AppContent() {
                   onRecipeClick={(id) => setLocation(`/recipe/${id}`)}
                 />
               </Route>
-              <Route path="/book/:tagName">
+              <Route path="/chapter/:tagName">
                 {(params) => (
                   <RecipeBook
                     tagName={decodeURIComponent(params.tagName)}
                     username={mockUser.username}
                     onRecipeClick={(id) => setLocation(`/recipe/${id}`)}
-                    onEditTag={() => console.log("Edit tag")}
-                    onDeleteTag={() => console.log("Delete tag")}
+                    onEditChapter={() => console.log("Edit chapter")}
+                    onDeleteChapter={() => console.log("Delete chapter")}
                     onBrowseRecipes={() => setLocation("/recipes")}
                   />
                 )}
