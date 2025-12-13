@@ -1,10 +1,13 @@
-import { useState } from "react";
-import { RecipeCard, RecipeCardProps } from "@/components/RecipeCard";
+import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { RecipeCard } from "@/components/RecipeCard";
 import { RecipeFilter, VisibilityFilter, SortOption } from "@/components/RecipeFilter";
 import { SearchBar } from "@/components/SearchBar";
 import { EmptyState } from "@/components/EmptyState";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import type { Recipe } from "@shared/schema";
 
 interface MyRecipesProps {
   username: string;
@@ -13,71 +16,28 @@ interface MyRecipesProps {
 }
 
 export function MyRecipes({ username, onRecipeClick, onNewRecipe }: MyRecipesProps) {
+  const { toast } = useToast();
   const [search, setSearch] = useState("");
   const [visibility, setVisibility] = useState<VisibilityFilter>("all");
   const [sort, setSort] = useState<SortOption>("newest");
 
   const initials = username.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase();
 
-  // todo: remove mock functionality
-  const mockRecipes: RecipeCardProps[] = [
-    {
-      id: "1",
-      title: "Classic Chocolate Chip Cookies",
-      authorName: "You",
-      authorInitials: initials,
-      isPublic: true,
-      tags: ["Desserts", "Baking", "Quick"],
-      preview: "2 cups flour, 1 cup butter, 1 cup sugar, 2 eggs, 1 tsp vanilla...",
-    },
-    {
-      id: "2",
-      title: "Spaghetti Carbonara",
-      authorName: "You",
-      authorInitials: initials,
-      isPublic: true,
-      tags: ["Italian", "Pasta", "Quick Meals"],
-      preview: "400g spaghetti, 200g guanciale, 4 egg yolks, Pecorino Romano...",
-    },
-    {
-      id: "3",
-      title: "Grandma's Apple Pie",
-      authorName: "You",
-      authorInitials: initials,
-      isPublic: false,
-      tags: ["Desserts", "Family", "Baking"],
-      preview: "6 cups sliced apples, 3/4 cup sugar, 2 tbsp flour, cinnamon...",
-    },
-    {
-      id: "4",
-      title: "Thai Green Curry",
-      authorName: "You",
-      authorInitials: initials,
-      isPublic: true,
-      tags: ["Thai", "Curry", "Spicy"],
-      preview: "Green curry paste, coconut milk, chicken, bamboo shoots, basil...",
-    },
-    {
-      id: "5",
-      title: "Homemade Pizza Dough",
-      authorName: "You",
-      authorInitials: initials,
-      isPublic: false,
-      tags: ["Italian", "Basics"],
-      preview: "3 cups flour, 1 packet yeast, 1 cup warm water, 2 tbsp olive oil...",
-    },
-    {
-      id: "6",
-      title: "Chicken Tikka Masala",
-      authorName: "You",
-      authorInitials: initials,
-      isPublic: true,
-      tags: ["Indian", "Curry", "Comfort Food"],
-      preview: "Chicken thighs, yogurt marinade, tomato sauce, garam masala...",
-    },
-  ];
+  const { data: recipes = [], isLoading, error } = useQuery<Recipe[]>({
+    queryKey: ["/api/recipes"],
+  });
 
-  const filteredRecipes = mockRecipes
+  useEffect(() => {
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to load recipes. Please try again.",
+        variant: "destructive",
+      });
+    }
+  }, [error, toast]);
+
+  const filteredRecipes = recipes
     .filter((r) => {
       if (visibility === "public" && !r.isPublic) return false;
       if (visibility === "private" && r.isPublic) return false;
@@ -86,8 +46,10 @@ export function MyRecipes({ username, onRecipeClick, onNewRecipe }: MyRecipesPro
     })
     .sort((a, b) => {
       if (sort === "title") return a.title.localeCompare(b.title);
-      if (sort === "oldest") return 1;
-      return -1;
+      if (sort === "oldest") {
+        return new Date(a.createdAt!).getTime() - new Date(b.createdAt!).getTime();
+      }
+      return new Date(b.updatedAt!).getTime() - new Date(a.updatedAt!).getTime();
     });
 
   return (
@@ -114,7 +76,9 @@ export function MyRecipes({ username, onRecipeClick, onNewRecipe }: MyRecipesPro
         />
       </div>
 
-      {filteredRecipes.length === 0 ? (
+      {isLoading ? (
+        <div className="text-muted-foreground">Loading recipes...</div>
+      ) : filteredRecipes.length === 0 ? (
         <EmptyState
           type={search ? "no-results" : "no-recipes"}
           onAction={onNewRecipe}
@@ -124,7 +88,13 @@ export function MyRecipes({ username, onRecipeClick, onNewRecipe }: MyRecipesPro
           {filteredRecipes.map((recipe) => (
             <RecipeCard
               key={recipe.id}
-              {...recipe}
+              id={recipe.id}
+              title={recipe.title}
+              authorName="You"
+              authorInitials={initials}
+              isPublic={recipe.isPublic}
+              tags={[]}
+              preview={recipe.content.substring(0, 100) + "..."}
               onClick={() => onRecipeClick?.(recipe.id)}
             />
           ))}

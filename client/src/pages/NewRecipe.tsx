@@ -1,27 +1,53 @@
+import { useMutation } from "@tanstack/react-query";
+import { useLocation } from "wouter";
 import { RecipeEditor } from "@/components/RecipeEditor";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 
 interface NewRecipeProps {
   onBack?: () => void;
-  onSave?: (data: { title: string; content: string; tags: string[]; isPublic: boolean }) => void;
 }
 
-export function NewRecipe({ onBack, onSave }: NewRecipeProps) {
+export function NewRecipe({ onBack }: NewRecipeProps) {
+  const [, setLocation] = useLocation();
+  const { toast } = useToast();
+
+  const createMutation = useMutation({
+    mutationFn: async (data: { title: string; content: string; tags: string[]; isPublic: boolean }) => {
+      const response = await apiRequest("POST", "/api/recipes", {
+        title: data.title,
+        content: data.content,
+        isPublic: data.isPublic,
+        chapters: data.tags,
+      });
+      return response.json();
+    },
+    onSuccess: (recipe) => {
+      queryClient.invalidateQueries({ queryKey: ["/api/recipes"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/recipes/recent"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/stats"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/chapters"] });
+      toast({
+        title: "Recipe created",
+        description: "Your recipe has been saved successfully.",
+      });
+      setLocation(`/recipe/${recipe.id}`);
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to create recipe. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
   return (
-    <div className="space-y-4">
-      <Button variant="ghost" onClick={onBack} data-testid="button-back">
-        <ArrowLeft className="h-4 w-4 mr-2" />
-        Back
-      </Button>
+    <div className="max-w-3xl mx-auto">
       <RecipeEditor
         isNew
-        onSave={(data) => {
-          console.log("New recipe created:", data);
-          onSave?.(data);
-          onBack?.();
-        }}
         onCancel={onBack}
+        onSave={(data) => createMutation.mutate(data)}
       />
     </div>
   );

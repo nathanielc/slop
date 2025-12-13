@@ -1,7 +1,6 @@
-import { useState } from "react";
 import { Switch, Route, useLocation } from "wouter";
 import { queryClient } from "./lib/queryClient";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider, useQuery } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
@@ -16,27 +15,58 @@ import { RecipeBook } from "@/pages/RecipeBook";
 import { RecipeDetail } from "@/pages/RecipeDetail";
 import { NewRecipe } from "@/pages/NewRecipe";
 import NotFound from "@/pages/not-found";
+import { useAuth } from "@/hooks/useAuth";
+import type { User } from "@shared/schema";
+
+function getInitials(user: User): string {
+  if (user.firstName && user.lastName) {
+    return `${user.firstName[0]}${user.lastName[0]}`.toUpperCase();
+  }
+  if (user.firstName) {
+    return user.firstName.substring(0, 2).toUpperCase();
+  }
+  if (user.email) {
+    return user.email.substring(0, 2).toUpperCase();
+  }
+  return "U";
+}
+
+function getDisplayName(user: User): string {
+  if (user.firstName && user.lastName) {
+    return `${user.firstName} ${user.lastName}`;
+  }
+  if (user.firstName) {
+    return user.firstName;
+  }
+  if (user.email) {
+    return user.email.split("@")[0];
+  }
+  return "User";
+}
 
 function AppContent() {
   const [, setLocation] = useLocation();
+  const { user, isLoading, isAuthenticated } = useAuth();
 
-  // todo: remove mock functionality
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const mockUser = {
-    username: "Jane Smith",
-    initials: "JS",
-  };
+  const { data: chapters = [] } = useQuery<{ name: string; count: number }[]>({
+    queryKey: ["/api/chapters"],
+    enabled: isAuthenticated,
+  });
 
-  const mockTags = [
-    { name: "Desserts", count: 12 },
-    { name: "Quick Meals", count: 8 },
-    { name: "Italian", count: 5 },
-    { name: "Healthy", count: 3 },
-  ];
-
-  if (!isLoggedIn) {
-    return <LoginCard onLogin={() => setIsLoggedIn(true)} />;
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="animate-pulse text-muted-foreground">Loading...</div>
+      </div>
+    );
   }
+
+  if (!isAuthenticated || !user) {
+    return <LoginCard onLogin={() => window.location.href = "/api/login"} />;
+  }
+
+  const displayName = getDisplayName(user);
+  const initials = getInitials(user);
 
   const sidebarStyle = {
     "--sidebar-width": "16rem",
@@ -47,9 +77,10 @@ function AppContent() {
     <SidebarProvider style={sidebarStyle as React.CSSProperties}>
       <div className="flex h-screen w-full">
         <AppSidebar
-          username={mockUser.username}
-          initials={mockUser.initials}
-          tags={mockTags}
+          username={displayName}
+          initials={initials}
+          profileImageUrl={user.profileImageUrl || undefined}
+          tags={chapters}
           onNewRecipe={() => setLocation("/new")}
         />
         <div className="flex flex-col flex-1 min-w-0">
@@ -58,11 +89,12 @@ function AppContent() {
             <div className="flex items-center gap-2">
               <ThemeToggle />
               <UserMenu
-                username={mockUser.username}
-                initials={mockUser.initials}
+                username={displayName}
+                initials={initials}
+                profileImageUrl={user.profileImageUrl || undefined}
                 onProfile={() => console.log("Profile")}
                 onSettings={() => setLocation("/settings")}
-                onLogout={() => setIsLoggedIn(false)}
+                onLogout={() => window.location.href = "/api/logout"}
               />
             </div>
           </header>
@@ -70,13 +102,13 @@ function AppContent() {
             <Switch>
               <Route path="/">
                 <Dashboard
-                  username={mockUser.username}
+                  username={displayName}
                   onRecipeClick={(id) => setLocation(`/recipe/${id}`)}
                 />
               </Route>
               <Route path="/recipes">
                 <MyRecipes
-                  username={mockUser.username}
+                  username={displayName}
                   onRecipeClick={(id) => setLocation(`/recipe/${id}`)}
                   onNewRecipe={() => setLocation("/new")}
                 />
@@ -90,7 +122,7 @@ function AppContent() {
                 {(params) => (
                   <RecipeBook
                     tagName={decodeURIComponent(params.tagName)}
-                    username={mockUser.username}
+                    username={displayName}
                     onRecipeClick={(id) => setLocation(`/recipe/${id}`)}
                     onEditChapter={() => console.log("Edit chapter")}
                     onDeleteChapter={() => console.log("Delete chapter")}
@@ -102,7 +134,7 @@ function AppContent() {
                 {(params) => (
                   <RecipeDetail
                     recipeId={params.id}
-                    username={mockUser.username}
+                    username={displayName}
                     onBack={() => window.history.back()}
                   />
                 )}
@@ -110,7 +142,6 @@ function AppContent() {
               <Route path="/new">
                 <NewRecipe
                   onBack={() => window.history.back()}
-                  onSave={(data) => console.log("Recipe saved:", data)}
                 />
               </Route>
               <Route component={NotFound} />

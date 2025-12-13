@@ -1,7 +1,10 @@
-import { useState } from "react";
-import { RecipeCard, RecipeCardProps } from "@/components/RecipeCard";
+import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { RecipeCard } from "@/components/RecipeCard";
 import { StatsCard } from "@/components/StatsCard";
 import { ChefHat, Globe } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import type { Recipe } from "@shared/schema";
 
 interface DashboardProps {
   username: string;
@@ -9,54 +12,46 @@ interface DashboardProps {
 }
 
 export function Dashboard({ username, onRecipeClick }: DashboardProps) {
-  // todo: remove mock functionality
-  const mockRecipes: RecipeCardProps[] = [
-    {
-      id: "1",
-      title: "Classic Chocolate Chip Cookies",
-      authorName: "You",
-      authorInitials: username.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase(),
-      isPublic: true,
-      tags: ["Desserts", "Baking"],
-      preview: "2 cups flour, 1 cup butter, 1 cup sugar, 2 eggs...",
-    },
-    {
-      id: "2",
-      title: "Spaghetti Carbonara",
-      authorName: "You",
-      authorInitials: username.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase(),
-      isPublic: true,
-      tags: ["Italian", "Pasta"],
-      preview: "400g spaghetti, 200g guanciale, 4 egg yolks...",
-    },
-    {
-      id: "3",
-      title: "Grandma's Apple Pie",
-      authorName: "You",
-      authorInitials: username.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase(),
-      isPublic: false,
-      tags: ["Desserts", "Family"],
-      preview: "6 cups sliced apples, 3/4 cup sugar, 2 tbsp flour...",
-    },
-  ];
+  const { toast } = useToast();
+  const initials = username.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase();
+
+  const { data: stats, error: statsError } = useQuery<{ totalRecipes: number; publicRecipes: number }>({
+    queryKey: ["/api/stats"],
+  });
+
+  const { data: recentRecipes = [], isLoading, error: recipesError } = useQuery<Recipe[]>({
+    queryKey: ["/api/recipes/recent"],
+  });
+
+  useEffect(() => {
+    if (statsError || recipesError) {
+      toast({
+        title: "Error",
+        description: "Failed to load dashboard data. Please try again.",
+        variant: "destructive",
+      });
+    }
+  }, [statsError, recipesError, toast]);
 
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-4xl font-bold">Welcome back, {username.split(" ")[0]}</h1>
+        <h1 className="text-4xl font-bold" data-testid="text-welcome">
+          Welcome back, {username.split(" ")[0]}
+        </h1>
         <p className="text-muted-foreground mt-1">Here's what's cooking in your kitchen</p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
         <StatsCard
           title="Total Recipes"
-          value={24}
+          value={stats?.totalRecipes ?? 0}
           icon={ChefHat}
-          description="3 added this week"
+          description="In your recipe book"
         />
         <StatsCard
           title="Public Recipes"
-          value={18}
+          value={stats?.publicRecipes ?? 0}
           icon={Globe}
           description="Shared with community"
         />
@@ -64,15 +59,27 @@ export function Dashboard({ username, onRecipeClick }: DashboardProps) {
 
       <div className="space-y-4">
         <h2 className="text-xl font-semibold">Recent Recipes</h2>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {mockRecipes.map((recipe) => (
-            <RecipeCard
-              key={recipe.id}
-              {...recipe}
-              onClick={() => onRecipeClick?.(recipe.id)}
-            />
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="text-muted-foreground">Loading recipes...</div>
+        ) : recentRecipes.length === 0 ? (
+          <p className="text-muted-foreground">No recipes yet. Create your first recipe to get started!</p>
+        ) : (
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {recentRecipes.map((recipe) => (
+              <RecipeCard
+                key={recipe.id}
+                id={recipe.id}
+                title={recipe.title}
+                authorName="You"
+                authorInitials={initials}
+                isPublic={recipe.isPublic}
+                tags={[]}
+                preview={recipe.content.substring(0, 100) + "..."}
+                onClick={() => onRecipeClick?.(recipe.id)}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

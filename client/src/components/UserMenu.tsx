@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -12,6 +12,7 @@ import { User, Settings, LogOut } from "lucide-react";
 export interface UserMenuProps {
   username: string;
   initials: string;
+  profileImageUrl?: string;
   onProfile?: () => void;
   onSettings?: () => void;
   onLogout?: () => void;
@@ -20,6 +21,7 @@ export interface UserMenuProps {
 export function UserMenu({
   username,
   initials,
+  profileImageUrl,
   onProfile,
   onSettings,
   onLogout,
@@ -29,6 +31,7 @@ export function UserMenu({
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="gap-2 px-2" data-testid="button-user-menu">
           <Avatar className="h-8 w-8">
+            {profileImageUrl && <AvatarImage src={profileImageUrl} alt={username} className="object-cover" />}
             <AvatarFallback>{initials}</AvatarFallback>
           </Avatar>
           <span className="hidden sm:inline text-sm font-medium">{username}</span>

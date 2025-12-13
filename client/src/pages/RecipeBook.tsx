@@ -1,8 +1,12 @@
-import { RecipeCard, RecipeCardProps } from "@/components/RecipeCard";
+import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { RecipeCard } from "@/components/RecipeCard";
 import { EmptyState } from "@/components/EmptyState";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Pencil, Trash2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import type { Recipe } from "@shared/schema";
 
 interface RecipeBookProps {
   tagName: string;
@@ -21,65 +25,22 @@ export function RecipeBook({
   onDeleteChapter,
   onBrowseRecipes,
 }: RecipeBookProps) {
+  const { toast } = useToast();
   const initials = username.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase();
 
-  // todo: remove mock functionality
-  const tagRecipes: Record<string, RecipeCardProps[]> = {
-    Desserts: [
-      {
-        id: "1",
-        title: "Classic Chocolate Chip Cookies",
-        authorName: "You",
-        authorInitials: initials,
-        isPublic: true,
-        tags: ["Desserts", "Baking"],
-        preview: "2 cups flour, 1 cup butter, 1 cup sugar...",
-      },
-      {
-        id: "3",
-        title: "Grandma's Apple Pie",
-        authorName: "You",
-        authorInitials: initials,
-        isPublic: false,
-        tags: ["Desserts", "Family"],
-        preview: "6 cups sliced apples, 3/4 cup sugar...",
-      },
-    ],
-    "Quick Meals": [
-      {
-        id: "2",
-        title: "Spaghetti Carbonara",
-        authorName: "You",
-        authorInitials: initials,
-        isPublic: true,
-        tags: ["Italian", "Quick Meals"],
-        preview: "400g spaghetti, 200g guanciale...",
-      },
-    ],
-    Italian: [
-      {
-        id: "2",
-        title: "Spaghetti Carbonara",
-        authorName: "You",
-        authorInitials: initials,
-        isPublic: true,
-        tags: ["Italian", "Pasta"],
-        preview: "400g spaghetti, 200g guanciale...",
-      },
-      {
-        id: "5",
-        title: "Homemade Pizza Dough",
-        authorName: "You",
-        authorInitials: initials,
-        isPublic: false,
-        tags: ["Italian", "Basics"],
-        preview: "3 cups flour, 1 packet yeast...",
-      },
-    ],
-    Healthy: [],
-  };
+  const { data: recipes = [], isLoading, error } = useQuery<Recipe[]>({
+    queryKey: [`/api/chapters/${encodeURIComponent(tagName)}/recipes`],
+  });
 
-  const recipes = tagRecipes[tagName] || [];
+  useEffect(() => {
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to load chapter recipes. Please try again.",
+        variant: "destructive",
+      });
+    }
+  }, [error, toast]);
 
   return (
     <div className="space-y-6">
@@ -100,14 +61,22 @@ export function RecipeBook({
         </div>
       </div>
 
-      {recipes.length === 0 ? (
+      {isLoading ? (
+        <div className="text-muted-foreground">Loading recipes...</div>
+      ) : recipes.length === 0 ? (
         <EmptyState type="empty-book" onAction={onBrowseRecipes} />
       ) : (
         <div className="grid gap-4 md:grid-cols-2">
           {recipes.map((recipe) => (
             <RecipeCard
               key={recipe.id}
-              {...recipe}
+              id={recipe.id}
+              title={recipe.title}
+              authorName="You"
+              authorInitials={initials}
+              isPublic={recipe.isPublic}
+              tags={[]}
+              preview={recipe.content.substring(0, 100) + "..."}
               onClick={() => onRecipeClick?.(recipe.id)}
             />
           ))}

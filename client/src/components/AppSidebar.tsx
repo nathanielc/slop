@@ -11,7 +11,7 @@ import {
   SidebarHeader,
   SidebarFooter,
 } from "@/components/ui/sidebar";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Home, ChefHat, Globe, BookOpen, Plus, BookMarked, Settings } from "lucide-react";
 
@@ -30,6 +30,7 @@ interface TagItem {
 export interface AppSidebarProps {
   username: string;
   initials: string;
+  profileImageUrl?: string;
   tags: TagItem[];
   onNewRecipe?: () => void;
 }
@@ -40,7 +41,7 @@ const mainNavItems: NavItem[] = [
   { title: "Public Recipes", url: "/public", icon: Globe },
 ];
 
-export function AppSidebar({ username, initials, tags, onNewRecipe }: AppSidebarProps) {
+export function AppSidebar({ username, initials, profileImageUrl, tags, onNewRecipe }: AppSidebarProps) {
   const [location] = useLocation();
 
   return (
@@ -48,6 +49,7 @@ export function AppSidebar({ username, initials, tags, onNewRecipe }: AppSidebar
       <SidebarHeader className="p-4">
         <div className="flex items-center gap-3">
           <Avatar className="h-10 w-10">
+            {profileImageUrl && <AvatarImage src={profileImageUrl} alt={username} className="object-cover" />}
             <AvatarFallback>{initials}</AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">

@@ -1,74 +1,62 @@
-import { useState } from "react";
-import { RecipeCard, RecipeCardProps } from "@/components/RecipeCard";
+import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { RecipeCard } from "@/components/RecipeCard";
 import { SearchBar } from "@/components/SearchBar";
 import { EmptyState } from "@/components/EmptyState";
+import { useToast } from "@/hooks/use-toast";
+import type { Recipe, User } from "@shared/schema";
 
 interface PublicRecipesProps {
   onRecipeClick?: (id: string) => void;
 }
 
+type RecipeWithUser = Recipe & { user: User };
+
+function getInitials(user: User): string {
+  if (user.firstName && user.lastName) {
+    return `${user.firstName[0]}${user.lastName[0]}`.toUpperCase();
+  }
+  if (user.firstName) {
+    return user.firstName.substring(0, 2).toUpperCase();
+  }
+  if (user.email) {
+    return user.email.substring(0, 2).toUpperCase();
+  }
+  return "U";
+}
+
+function getDisplayName(user: User): string {
+  if (user.firstName && user.lastName) {
+    return `${user.firstName} ${user.lastName}`;
+  }
+  if (user.firstName) {
+    return user.firstName;
+  }
+  if (user.email) {
+    return user.email.split("@")[0];
+  }
+  return "Anonymous";
+}
+
 export function PublicRecipes({ onRecipeClick }: PublicRecipesProps) {
+  const { toast } = useToast();
   const [search, setSearch] = useState("");
 
-  // todo: remove mock functionality
-  const mockRecipes: RecipeCardProps[] = [
-    {
-      id: "p1",
-      title: "Perfect Pancakes",
-      authorName: "Chef Mario",
-      authorInitials: "CM",
-      isPublic: true,
-      tags: ["Breakfast", "Quick", "Family"],
-      preview: "2 cups flour, 2 eggs, 1.5 cups milk, butter, maple syrup...",
-    },
-    {
-      id: "p2",
-      title: "Creamy Mushroom Risotto",
-      authorName: "Anna K.",
-      authorInitials: "AK",
-      isPublic: true,
-      tags: ["Italian", "Vegetarian", "Comfort Food"],
-      preview: "Arborio rice, mushrooms, white wine, parmesan, vegetable stock...",
-    },
-    {
-      id: "p3",
-      title: "Beef Tacos",
-      authorName: "Carlos M.",
-      authorInitials: "CM",
-      isPublic: true,
-      tags: ["Mexican", "Quick Meals"],
-      preview: "Ground beef, taco seasoning, corn tortillas, salsa, cheese...",
-    },
-    {
-      id: "p4",
-      title: "Classic French Omelette",
-      authorName: "Pierre D.",
-      authorInitials: "PD",
-      isPublic: true,
-      tags: ["French", "Breakfast", "Quick"],
-      preview: "3 eggs, butter, fresh herbs, salt, pepper, technique is key...",
-    },
-    {
-      id: "p5",
-      title: "Homemade Ramen",
-      authorName: "Yuki T.",
-      authorInitials: "YT",
-      isPublic: true,
-      tags: ["Japanese", "Soup", "Comfort Food"],
-      preview: "Rich pork broth, ramen noodles, soft-boiled egg, chashu pork...",
-    },
-    {
-      id: "p6",
-      title: "Mediterranean Salad",
-      authorName: "Elena P.",
-      authorInitials: "EP",
-      isPublic: true,
-      tags: ["Healthy", "Vegetarian", "Quick"],
-      preview: "Tomatoes, cucumber, olives, feta cheese, olive oil, oregano...",
-    },
-  ];
+  const { data: recipes = [], isLoading, error } = useQuery<RecipeWithUser[]>({
+    queryKey: ["/api/recipes/public"],
+  });
 
-  const filteredRecipes = mockRecipes.filter((r) => {
+  useEffect(() => {
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to load public recipes. Please try again.",
+        variant: "destructive",
+      });
+    }
+  }, [error, toast]);
+
+  const filteredRecipes = recipes.filter((r) => {
     if (search && !r.title.toLowerCase().includes(search.toLowerCase())) return false;
     return true;
   });
@@ -87,14 +75,22 @@ export function PublicRecipes({ onRecipeClick }: PublicRecipesProps) {
         placeholder="Search public recipes..."
       />
 
-      {filteredRecipes.length === 0 ? (
+      {isLoading ? (
+        <div className="text-muted-foreground">Loading recipes...</div>
+      ) : filteredRecipes.length === 0 ? (
         <EmptyState type={search ? "no-results" : "no-public"} />
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {filteredRecipes.map((recipe) => (
             <RecipeCard
               key={recipe.id}
-              {...recipe}
+              id={recipe.id}
+              title={recipe.title}
+              authorName={getDisplayName(recipe.user)}
+              authorInitials={getInitials(recipe.user)}
+              isPublic={true}
+              tags={[]}
+              preview={recipe.content.substring(0, 100) + "..."}
               onClick={() => onRecipeClick?.(recipe.id)}
             />
           ))}
