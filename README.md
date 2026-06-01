@@ -89,12 +89,52 @@ First ensure your `daemon.config.json` has these `indexing` settings:
 
 Then run these command to instruct the Ceramic daemon to synchronize the Slop data.
 
-    $ wget https://raw.githubusercontent.com/nathanielc/slop/master/app/schema/composite.json
+    $ wget https://git.sr.ht/~nathanielc/slop/plain/app/schema/composite.json
     $ composedb composite:deploy composite.json # Make sure you have configured your Admin DID for this command to work
 
 
 Now you should be able to immediately use the web application to create recipes, build menus and organize your recipe book.
 It may take some time for the global recipes to synchronize to your server before you can explore recipes from others.
+
+## Contributing
+
+Patches are welcome. Submit them via email to **~nathanielc/slop-devel@lists.sr.ht**.
+
+For instructions on configuring `git send-email`, see [here](https://git-send-email.io/).
+
+Here's a quick start:
+
+1. Set your global SMTP settings:
+
+   ```
+   $ git config --global sendemail.smtpHost smtp.example.com
+   $ git config --global sendemail.smtpUser your@email.com
+   $ git config --global sendemail.smtpPass yourpassword
+   ```
+
+2. Set the mailing list address for this repo:
+
+   ```
+   $ git config sendemail.to ~nathanielc/slop-devel@lists.sr.ht
+  ```
+
+   Both of these settings only need to be done once.
+
+3. Send your patch:
+
+   ```
+   $ git send-email -1
+   ```
+
+   `git send-email` will generate the patch from your latest commit automatically. Please include a clear cover letter describing the change. Submit one patch per series.
+
+## Bug Reports & Tickets
+
+Found a bug or have a feature request? Search for existing tickets first:
+
+[https://todo.sr.ht/~nathanielc/slop](https://todo.sr.ht/~nathanielc/slop)
+
+If you don't find a matching ticket, submit a new one using the same link.
 
 ## Example
 
@@ -120,8 +160,6 @@ The following is an example of a relatively envolved recipie that makes use of t
         =serve with fruit and syrup/powdered sugar
     #* Makes 2 pancakes
     >
-
-
 
 ![Souffle Pancake Recipe Card](./souffle_pancake.svg)
 
